@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>完善项目经理信息</title>
+		<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/login.css" />
+		<link rel="stylesheet" href="css/perfectInfo.css" />
+		<link rel="stylesheet" href="lib/js/layui/css/layui.css" />
+		<!--<script type="text/javascript" src="bootstrap-3.3.7-dist/js/jquery-3.2.1.min.js"></script>-->
+		<script type="text/javascript" src="lib/js/jquery.js" ></script>
+		<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+
+		<!--[if lte IE 9]>
+		<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.3/jquery.xdomainrequest.min.js'></script>
+		<![endif]-->
+		<style>
+			.placeholder { color: #aaa; }
+			#input-type-password { border: 5px solid lime; }
+		</style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="perfectInfoBox firstParty">
+				<div class="perfectTitle">
+					<p>项目经理信息完善</p>
+					<hr>
+				</div>
+				<div class="infoBox">
+						<div class="infoBoxItem">
+							<form class="layui-form" action="">
+							  <div class="layui-form-item">
+							    <label class="layui-form-label">公司名称</label>
+							    <div class="layui-input-block">
+							      <input type="text" name="company" lay-verify="required" placeholder="请输入公司名称" autocomplete="off" class="layui-input">
+							    </div>
+							  </div>
+							  <div class="layui-form-item licenseUpload">
+							    <label class="layui-form-label">公司营业执照</label>
+							    <div class="layui-upload">
+								  <div class="layui-upload-list">
+								    <img class="layui-upload-img" id="licensePreview">
+								    <span id="demoText">（支持png,jpg格式，大小不超过2M）</span>
+								  </div>
+								  <button type="button" class="layui-btn" id="licenseImg"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+								</div>  
+							  </div>
+							  <div class="layui-form-item">
+							    <label class="layui-form-label">公司地址</label>
+							    <div class="layui-input-block">
+							      <input type="text" name="address" lay-verify="required" placeholder="请输入公司具体地址" autocomplete="off" class="layui-input">
+							    </div>
+							  </div>
+							  <div class="layui-form-item">
+							    <label class="layui-form-label">项目名称</label>
+							    <div class="layui-input-block">
+							      <input type="text" name="projectName" lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input">
+							    </div>
+							  </div>
+							  <div class="layui-form-item">
+							    <label class="layui-form-label">项目经理姓名</label>
+							    <div class="layui-input-block">
+							      <input type="text" name="u_name" lay-verify="required" placeholder="请输入项目经理姓名" autocomplete="off" class="layui-input">
+							    </div>
+							  </div>
+							  <div class="layui-form-item">
+							    <label class="layui-form-label">项目经理联系电话</label>
+							    <div class="layui-input-block">
+							      <input type="text" name="u_phoneNum" lay-verify="required" placeholder="请输入项目经理联系电话" autocomplete="off" class="layui-input">
+							    </div>
+							  </div>
+							  <div class="layui-form-item">
+							    <label class="layui-form-label">项目经理邮箱</label>
+							    <div class="layui-input-block">
+							      <input type="text" name="u_email" lay-verify="required" placeholder="请输入项目经理邮箱" autocomplete="off" class="layui-input">
+							    </div>
+							  </div>
+							  <div class="layui-form-item">
+							    <label class="layui-form-label">北工设计微信服务号</label>
+							    <div class="layui-input-block" id="qrcode">
+							    </div>
+							  </div>
+							<div class="layui-form-item" style="display: none;">
+							    <div class="layui-input-block">
+							      <button class="layui-btn" id="btnSubmitPM" lay-submit="" lay-filter="formSubmitPM">立即提交</button>
+							    </div>
+							  </div>
+
+							</form>
+						</div>
+
+
+				</div>
+				<div class="perfectSubmit" style="text-align: center;">
+					<img src="img/btn_submit.png" id="btnSubmit"/>
+				</div>
+			</div>
+			
+			<div class="footer">
+				Copyright © 2012-2018 北京工业设计院Version 3.0.0. <a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow">蜀ICP备13043785号-1</a>
+			</div>
+		</div>
+		
+	</body>
+		<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
+		<script type="text/javascript" src="lib/js/jquery.placeholder.js" ></script>
+		<script type="text/javascript" src="js/perfectInfoPM.js" ></script>
+		<script type="text/javascript" src="lib/js/qrcode.js" ></script>
+
+		<script>
+			$("body").parent().css("overflow-y","hidden");
+			$('input, textarea').placeholder({ customClass: 'my-placeholder' });
+			
+		</script>
+</html>

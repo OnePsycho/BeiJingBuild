@@ -1,0 +1,128 @@
+html,body{
+	width: 100%;
+	height: 100%;
+	font-family: "arial rounded mt bold";
+}
+.container-fluid{
+	position: relative;
+	width: 100%;
+	height: 100%;
+	min-width: 1366px;
+	background: url(../img/bg.jpg) no-repeat;
+}
+.footer{
+	width: 100%;
+	height: 50px;
+	position: absolute;
+	bottom: 10px;
+	left: 0;
+	text-align: center;
+}
+.loginBox{
+	width: 450px;
+	background: rgba(193,193,193,.6);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%); 
+	border-radius: 4%;
+	padding-bottom: 30px;
+}
+.login-logo{
+	width: 100%;
+	height: 100px;
+	text-align: center;
+	line-height: 100px;
+	font-size: 30px;
+	color: white;
+	font-weight: bolder;
+}
+.login-container{
+	width: 80%;
+	background: rgba(242, 242, 242, 0.36);
+	border-radius: 2%;
+	margin-left: 10%;
+	padding-bottom: 30px;
+}
+.hasAccount{
+	width: 100%;
+	text-align: center;
+	margin-top: 10px;
+}
+.hasAccount a{
+	color: rgb(139,22,11);
+	text-decoration: underline;
+	font-size: 16px;
+}
+.login-container .nav-pills{
+	width: 100%;
+}
+.nav-tabs{
+	border: 0;
+}
+.nav-tabs li{
+	width: 50%;
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 10px;
+}
+.nav-tabs li a{
+	color: rgb(255,255,255);
+	border: 0;
+}
+.nav-tabs .active{
+	color: white;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover,
+.nav>li>a:focus, .nav>li>a:hover{
+	background: rgba(0,0,0,0);
+	color: rgb(139,22,11);
+	border: 0;
+}
+.tab-pane{
+	padding: 15px;
+}
+.tab-pane input{
+	width: 100%;
+	height: 50px;
+	margin-top: 15px;
+	border: 0;
+	background-color: rgba(0,0,0,.3);
+	border-radius: 7px;
+	padding-left: 10px;
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	outline: none;
+}
+.tab-pane input::after{
+	outline: none;
+}
+.forget-password{
+	text-align: right;
+	padding-right: 15px;
+	margin-top: 10px;
+}
+.loginBtn{
+	width: 80%;
+	height: 50px;
+	background: rgb(139,22,11);
+	color: white;
+	margin-top: 20px;
+	margin-left: 10%;
+	font-size: 16px;
+	border-radius: 50px;
+}
+input::-webkit-input-placeholder{
+	color:rgba(255,255,255,.6) !important;
+}
+input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+	color:rgba(255,255,255,.6) !important;
+}
+input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+	color:rgba(255,255,255,.6) !important;
+}
+input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+	color:rgba(255,255,255,.6) !important;
+}

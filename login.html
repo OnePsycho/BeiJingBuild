@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>登录</title>
+		<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/login.css" />
+		<link rel="stylesheet" href="lib/js/layui/css/layui.css" />
+		<!--<script type="text/javascript" src="bootstrap-3.3.7-dist/js/jquery-3.2.1.min.js"></script>-->
+		<script type="text/javascript" src="lib/js/jquery.js" ></script>
+		<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+
+		<!--[if lte IE 9]>
+		<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.3/jquery.xdomainrequest.min.js'></script>
+		<![endif]-->
+		<style>
+			.placeholder { color: #aaa; }
+			#input-type-password { border: 5px solid lime; }
+		</style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="loginBox">
+				<div class="login-logo">
+					LOGO
+				</div>
+				<div class="login-container">
+					<ul id="myTab" class="nav nav-tabs">
+						<li class="active"><a href="#account" data-toggle="tab">账号密码登录</a></li>
+						<li><a href="#phone" data-toggle="tab">手机号登录</a></li>
+					</ul>
+					 
+					<div id="myTabContent" class="tab-content">
+						<div class="tab-pane fade in active" id="account">
+							<input type="text" placeholder="请输入手机号/邮箱" id="username" autocomplete="off" />
+							<input type="password" placeholder="请输入密码" id="password" autocomplete="off" />
+							<div class="forget-password">
+								<span><a href="#">忘记密码？</a></span>
+							</div>
+							<button class="loginBtn" id="loginBtn">登录</button>
+						</div>
+						<div class="tab-pane fade" id="phone">
+							<input type="text" placeholder="请输入手机号" id="phoneNum" autocomplete="off" />
+							<input type="password" placeholder="请输入密码" id="phonePsw" autocomplete="off" />
+							<div class="forget-password">
+								<span><a href="#">忘记密码？</a></span>
+							</div>
+							<button class="loginBtn">登录</button>
+						</div>
+					  
+					</div>
+
+				</div>
+				<div class="hasAccount">
+					<span><a href="register.html">还没有账号，去注册</a></span>
+				</div>
+			</div>
+			<div class="footer">
+				Copyright © 2012-2018 北京工业设计院Version 3.0.0. <a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow">蜀ICP备13043785号-1</a>
+			</div>
+		</div>
+	</body>
+		<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
+		<script type="text/javascript" src="js/login.js" ></script>
+		<script type="text/javascript" src="lib/js/jquery.placeholder.js" ></script>
+		<script>
+			$('input, textarea').placeholder({ customClass: 'my-placeholder' });
+		</script>
+</html>

@@ -1,0 +1,137 @@
+.sidenav {
+	background: rgba(213,213,213,.7);
+	display: block;
+	font-size: 16px;
+	font-weight: 400;
+	height: 90%;
+	width: 100%;
+	color: #0F0F0F;
+	z-index: 100;
+	border-radius: 0px 0px 10px 10px;
+	overflow-y: scroll;
+
+}
+
+.sidenav.show {
+	transform: translate(0, 0);
+}
+
+.sidenav-header small {
+	display: block;
+	font-size: 14.4px;
+	line-height: 16px;
+}
+
+.sidenav-menu {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.sidenav-menu li {
+	display: block;
+	position: relative;
+	padding-top: 3px;
+	margin: 10px;
+	background: #FFFFFF;
+	border-radius: 6px;
+	box-shadow: 1px 0px 10px #888888;
+}
+.sidenav-menu li a:hover{
+	border-radius: 6px;
+}
+
+.sidenav-menu a {
+	background: transparent;
+	color: #7a7a7a;
+	display: block;
+	line-height: 24px;
+	font-size: 14px;
+	padding: 12px 32px;
+	text-decoration: none;
+}
+
+.sidenav-menu a:hover {
+	background: #fff;
+}
+
+.sidenav-menu a.active {
+	color: #8C8C8C;
+}
+
+.sidenav-menu a.active .sidenav-link-icon,
+.sidenav-menu a.active .sidenav-dropdown-icon {
+	color: #8C8C8C;
+}
+
+.sidenav-link-icon {
+	color: #757575;
+	display: block;
+	height: 24px;
+	left: 20px;
+	position: absolute;
+	text-align: center;
+	top: 16px;
+	width: 24px;
+}
+
+.sidenav-link-title {
+	display: block;
+	padding: 0 16px 0 20px;
+	font-weight: bold;
+	color: #000;
+}
+
+.sidenav-dropdown {
+	display: none;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.sidenav-dropdown a {
+	background: #fff;
+	padding-left: 72px;
+}
+
+.sidenav-dropdown a:hover {
+	background: #e6e5e5;
+}
+
+.sidenav-dropdown li:first-child a {
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.sidenav-dropdown li{
+	padding: 1px 0px;
+	border-bottom: 0.3px solid rgba(191, 191, 191, 0.72);
+}
+
+.sidenav-dropdown-icon {
+	color: #757575;
+	display: none;
+	height: 16px;
+	right: 16px;
+	position: absolute;
+	text-align: center;
+	top: 16px;
+	width: 16px;
+}
+
+.sidenav-dropdown-icon.show {
+	display: block;
+}
+
+.sidenav-overlay {
+	background: rgba(255, 255, 255, 0.8);
+	display: none;
+	height: 100%;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 99;
+}
+
+.sidenav-no-scroll {
+	overflow: hidden !important;
+}

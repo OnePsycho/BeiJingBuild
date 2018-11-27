@@ -1,0 +1,146 @@
+.perfectInfoBox{
+	width: 70%;
+	background: white;
+	margin-top: 60px;
+	margin-left: 15%;
+	padding: 30px 50px 150px 50px;
+	overflow-y: auto;
+	max-height: 80%;
+	border-radius: 5px;
+	box-shadow: 0px 1px 3px 3px #e6e6e6;
+}
+.perfectTitle{
+	font-size: 16px;
+	font-weight: bolder;
+}
+.perfectTitle hr{
+	width: 100px;
+	height: 3px;
+	background-color: rgb(139,22,11);
+	margin-bottom: 20px;
+}
+.infoBox{
+	width: 100%;
+	min-height: 800px;
+}
+.infoBox-left{
+	width: 45%;
+	float: left;
+	padding-right: 10%;
+}
+.infoBox-right{
+	width: 45%;
+	float: left;
+	padding-right: 10%;
+}
+.layui-form-label{
+	float: none !important;
+	width: 200px !important;
+}
+.layui-input-block{
+	margin-left: 20px !important;
+}
+
+ input::-webkit-input-placeholder {
+	color: #8C8C8C !important;
+	font-size: 14px;
+}
+.datePicker .layui-input{
+	width: 48%;
+	float: left;
+}
+.datePicker .layui-input:last-child{
+	margin-left: 4%;
+}
+.perfectSubmit img{
+	margin: 20px 0;
+	cursor: pointer;
+}
+
+.layui-colla-item,.layui-colla-item:first-child{
+	margin: 10px;
+	background: #FFFFFF !important;
+	border: 1px solid #e6e6e6 !important;
+	margin-left: 20px;
+	/*border-radius: 5px;*/
+}
+.layui-colla-title{
+	background: #FFFFFF !important;
+	color: #808080 !important;
+}
+.layui-collapse{
+	border: 0 !important;
+}
+.case-item {
+	margin-top: 5px;
+}
+.case-item .item-title{
+	font-weight: bolder;
+	color: #000;
+}
+.perfectSubmit{
+	width: 100%;
+	height: 60px;
+	margin-top: 50px;
+}
+.layui-form-item{
+	position: relative;
+}
+.btnAddCase{
+	position: absolute;
+	right: 25px;
+	top: 3px;
+	padding: 2px 10px;
+	color: white;
+	background: rgb(139,22,11);
+	border-radius: 5px;
+	cursor: pointer;
+}
+.addCaseBox{
+	padding: 10px 30px 10px 20px;
+}
+
+.firstParty{
+	width: 30%;
+	margin-left: 35%;
+}
+
+.firstParty .infoBox{
+	min-height: 650px;
+}
+.firstParty .layui-form-checked[lay-skin=primary] i{
+	background-color: rgb(139,22,11);
+	border-color: rgb(139,22,11);
+}
+
+.licenseUpload button{
+	float: left;
+	margin-left: 20px;
+	background-color: rgb(139,22,11);
+}
+.licenseUpload img{
+	width: 80px;
+	height: 100px;
+	float: left;
+	margin-left: 20px;
+	border: 2px slategray solid;
+	display: none;
+}
+.licenseUpload span{
+	margin-left: 20px;
+	line-height: 40px;
+}
+#qrcode{
+	display: block;
+	margin-left: 50%;
+	margin-top: 20px;
+	transform: translateX(-70px);
+}
+.qrCodeText{
+	margin-top: 15px;
+	font-weight: bold;
+	display: none;
+}
+.layui-input-block img{
+	margin-left: 70px;
+}

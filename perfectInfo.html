@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>完善个人信息</title>
+		<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/login.css" />
+		<link rel="stylesheet" href="css/perfectInfo.css" />
+		<link rel="stylesheet" href="lib/js/layui/css/layui.css" />
+		<link rel="stylesheet" href="lib/formSelect/formSelects-v4.css" />
+		<!--<script type="text/javascript" src="bootstrap-3.3.7-dist/js/jquery-3.2.1.min.js"></script>-->
+		<script type="text/javascript" src="lib/js/jquery.js" ></script>
+		<script type="text/javascript" src="lib/js/layui/layui.all.js" ></script>
+		<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script type="text/javascript" src="lib/js/qrcode.js" ></script>
+
+		
+
+		<!--[if lte IE 9]>
+		<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.3/jquery.xdomainrequest.min.js'></script>
+		<![endif]-->
+		<style>
+			.placeholder { color: #aaa; }
+			#input-type-password { border: 5px solid lime; }
+		</style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="perfectInfoBox">
+				<div class="perfectTitle">
+					<p>个人信息完善</p>
+					<hr>
+				</div>
+				<div class="infoBox">
+					<div class="infoBox-left">
+						<div class="infoBoxItem">
+							<form class="layui-form" action="" lay-filter="formLeft"> 
+							  <div class="layui-form-item">
+							    <label class="layui-form-label">用户名</label>
+							    <div class="layui-input-block">
+							      <input type="text" name="u_name" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+							    </div>
+							  </div>
+							  <div class="layui-form-item">
+							    <label class="layui-form-label">手机号码</label>
+							    <div class="layui-input-block">
+							      <input type="text" name="u_phoneNum" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+							    </div>
+							  </div>
+							  <div class="layui-form-item">
+							    <label class="layui-form-label">出生日期</label>
+							    <div class="layui-input-block datePicker">
+								  <input type="text" class="layui-input" lay-verify="required" name="year"  placeholder="选择年份" id="year">
+								  <input type="text" class="layui-input" lay-verify="required" name="month" placeholder="选择月份" id="month">
+							    </div>
+							  </div>
+							  <div class="layui-form-item">
+							    <label class="layui-form-label">从业年限</label>
+							    <div class="layui-input-block">
+							      <input type="text" name="workTime" lay-verify="required" placeholder="请输入从业年限" autocomplete="off" class="layui-input">
+							    </div>
+							  </div>
+							  <div class="layui-form-item">
+							    <label class="layui-form-label">项目经验</label>
+							    <span class="btnAddCase" id="btnAddCase">新增</span>
+									<div class="layui-collapse" lay-accordion>
+									  <div class="layui-colla-item">
+									    <h2 class="layui-colla-title">基于O2O模式的移动电商平台</h2>
+									    <div class="layui-colla-content">
+									    	<div class="case-item">
+									    		<span class="item-title">项目类型:</span>
+									    		<span>嘻嘻嘻嘻嘻嘻寻寻奥术大师大所 </span>
+									    	</div>
+									    	<div class="case-item">
+									    		<span class="item-title">业主名称:</span>
+									    		<span>王德发</span>
+									    	</div>
+									    	<div class="case-item">
+									    		<span class="item-title">业主级别:</span>
+									    		<span>级别</span>
+									    	</div>
+									    	<div class="case-item">
+									    		<span class="item-title">资产规模:</span>
+									    		<span>50000</span>
+									    	</div>
+									    	<div class="case-item">
+									    		<span class="item-title">业主成功案例:</span>
+									    		<span>50000</span>
+									    	</div>
+									    	<div class="case-item">
+									    		<span class="item-title">项目落成时间:</span>
+									    		<span>50000</span>
+									    	</div>
+									    	<div class="case-item">
+									    		<span class="item-title">项目所在地:</span>
+									    		<span>50000</span>
+									    	</div>
+									    	<div class="case-item">
+									    		<span class="item-title">项目规模:</span>
+									    		<span>50000</span>
+									    	</div>
+									    	<div class="case-item">
+									    		<span class="item-title">担当角色:</span>
+									    		<span>50000</span>
+									    	</div>
+									    	<div class="case-item">
+									    		<span class="item-title">参与时间:</span>
+									    		<span>50000</span>
+									    	</div>
+									    </div>
+									  </div>
+									</div>
+							  </div>
+								<div class="layui-form-item" style="display: none;">
+							    <div class="layui-input-block">
+							      <button class="layui-btn" id="btnSubmitLeft" lay-submit="" lay-filter="formLeft">立即提交</button>
+							    </div>
+							  </div>
+							</form>
+						</div>
+					</div>
+					<div class="infoBox-right">
+						<div class="infoBoxItem">
+							<form class="layui-form" lay-filter="formRight" action="">
+							  <div class="layui-form-item">
+							    <label class="layui-form-label">真实姓氏</label>
+							    <div class="layui-input-block">
+							      <input type="text" name="realName" lay-verify="required" placeholder="请输入真实姓氏" autocomplete="off" class="layui-input">
+							    </div>
+							  </div>
+							  <div class="layui-form-item">
+							    <label class="layui-form-label">邮箱地址</label>
+							    <div class="layui-input-block">
+							      <input type="text" name="u_email" lay-verify="required" placeholder="请输入邮箱地址" autocomplete="off" class="layui-input">
+							    </div>
+							  </div>
+							  <div class="layui-form-item">
+							    <label class="layui-form-label">毕业院校</label>
+							    <div class="layui-input-block">
+							      <input type="text" name="graduateInstitutions" lay-verify="required" placeholder="请输入毕业院校" autocomplete="off" class="layui-input">
+							    </div>
+							  </div>
+							    <div class="layui-form-item">
+								    <label class="layui-form-label">性别</label>
+								    <div class="layui-input-block">
+								      <select name="sex" lay-verify="required">
+								        <option value=""></option>
+								        <option value="true">男</option>
+								        <option value="false">女</option>
+								      </select>
+								    </div>
+							  </div>
+							    <div class="layui-form-item">
+								    <label class="layui-form-label">擅长领域</label>
+								    <div class="layui-input-block">
+								          <select name="personnelIds" xm-select="select15">
+										        <option value="">请选择, 此处是联动多选</option>
+										    </select>
+								    </div>
+							  </div>
+							   <div class="layui-form-item" style="text-align: center;">
+							 		 <div id="qrcode" ></div>
+							 		 <p class="qrCodeText">北工设计微信服务号</p>
+							 		 
+								</div>
+								<div class="layui-form-item" style="display: none;">
+							    <div class="layui-input-block">
+							      <button class="layui-btn" id="btnSubmitRight" lay-submit="" lay-filter="formRight">立即提交</button>
+							    </div>
+							  </div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="perfectSubmit" style="text-align: center;">
+					<img src="img/btn_submit.png" id="btnSubmit"/>
+					<p><a href="login.html">返回登录</a></p>
+				</div>
+			</div>
+			
+			<div class="footer">
+				Copyright © 2012-2018 北京工业设计院Version 3.0.0. <a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow">蜀ICP备13043785号-1</a>
+			</div>
+		</div>
+		
+		<!--新增项目经验弹窗-->
+		<div class="addCaseBox">
+			<form class="layui-form" action="">
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">项目名称</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="name" required  lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			    <div class="layui-form-item">
+				    <label class="layui-form-label">项目类别</label>
+				    <div class="layui-input-block">
+				      <select name="platformId" lay-verify="required">
+				        <option value=""></option>
+				        <option value="1">男</option>
+				        <option value="2">女</option>
+				      </select>
+				    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">业主名称</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="ownerName" lay-verify="required" placeholder="请输入业主名称" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">业主级别</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="platformId " lay-verify="required" placeholder="请输入业主级别" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">资产规模</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="assetScale" lay-verify="required" placeholder="请输入资产规模" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">业主成功案例</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="ownerCases" lay-verify="required" placeholder="请输入成功案例" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">项目完成时间</label>
+			    <div class="layui-input-block">
+			     <input type="text" class="layui-input" name="finishDate" lay-verify="required" placeholder="请选择项目完成时间" id="finishDate">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">项目所在地</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="city"  lay-verify="required" placeholder="请输入项目所在地" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">项目规模</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="scale" lay-verify="required" placeholder="请输入项目规模" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">担当角色</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="role" lay-verify="required" placeholder="请输入担当角色" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">参与时间</label>
+			    <div class="layui-input-block joinDatePicker">
+			       <input type="text" class="layui-input" name="joinDate" lay-verify="required" placeholder="请选择起止时间" id="joinDate">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <div class="layui-input-block">
+			      <button class="layui-btn" lay-submit="" lay-filter="projectInfo" style="background: rgb(139,22,11);">立即提交</button>
+			      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			    </div>
+			  </div>
+			</form>
+		</div>
+	</body>
+		<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
+		<script type="text/javascript" src="lib/js/jquery.placeholder.js" ></script>
+		<script type="text/javascript" src="js/perfectInfo.js" ></script>
+		<script type="text/javascript" src="lib/formSelect/formSelects-v4.js" ></script>
+
+		<script>
+			$("body").parent().css("overflow-y","hidden");
+			$('input, textarea').placeholder({ customClass: 'my-placeholder' });
+			
+			layui.use('laydate', function(){
+			  var laydate = layui.laydate;
+			  //执行一个laydate实例
+			  laydate.render({
+			    elem: '#year',
+			    type:'year',
+			    format: 'yyyy'
+			  });
+			  laydate.render({
+			    elem: '#month',
+			    type:'month',
+			    format: 'MM'
+			  });
+			  laydate.render({
+			    elem: '#joinDate',
+			    range:',',
+			  });
+			  laydate.render({
+			    elem: '#finishDate'
+			  });
+			});
+			
+			layui.use('element', function(){
+			  var element = layui.element;
+			});
+		</script>
+		<script>
+		var formSelects = layui.formSelects;
+		$.ajax({
+			type:"get",
+			url:'http://39.104.239.208:9111/client/api/personnelType/findPage',
+			async:true,
+			success:function(res){
+				formSelects.data('select15', 'local', {
+					arr:res.content,
+		            linkage: true,
+		            linkageWidth: 130
+       			 });
+			}
+		});
+		
+		formSelects.config('select15', {
+			keyName: 'name',            //自定义返回数据中name的key, 默认 name
+		    keyVal: 'id',            //自定义返回数据中value的key, 默认 value
+		    keySel: 'name',         //自定义返回数据中selected的key, 默认 selected
+		    keyChildren: 'personnelTypes',    //联动多选自定义children
+            success: function(id, url, val, result){
+                console.log(result);
+            },
+            error: function(id, url, val, err){
+                console.log("err回调: " + url);
+            }
+        });
+         
+         formSelects.on('select15', function(id, vals, val, isAdd, isDisabled){
+		    //id:           点击select的id
+		    //vals:         当前select已选中的值
+		    //val:          当前select点击的值
+		    //isAdd:        当前操作选中or取消
+		    //isDisabled:   当前选项是否是disabled
+		     
+		     console.log(vals);
+		}, true);
+
+		</script>
+
+</html>

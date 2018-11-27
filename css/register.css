@@ -1,0 +1,116 @@
+
+.input-group{
+	float: left;
+	width: 100%;
+	margin-top: 10px;
+}
+.input-group .form-control:focus{
+	border: 0;
+	box-shadow: none;
+}
+.input-group-addon{
+	display: block;
+	float: left;
+	padding: 18px 25px;
+	background: rgba(0,0,0,0.3);
+	border: 0;
+	color: white;
+}
+.input-phoneNum input{
+	margin-top: 0px;
+	float: left;
+	width: 84% !important;
+}
+.input-phoneNum .phoneTitle{
+	padding: 5px 10px;
+	border-right: 2px rgba(255,255,255,.3) solid;
+}
+.input-group input::-moz-placeholder{
+	color: white;
+}
+.phoneTitle{
+	margin: -32px;
+}
+.input-phone-code .input-group-addon{
+	
+}
+.input-phone-code .input-group-addon{
+	padding: 18px 65px;
+}
+.input-phone-code .phoneTitle{
+	padding: 5px 10px;
+	border-left: 2px rgba(255,255,255,.2) solid;
+}
+.input-phone-code input{
+	width: 60% !important;
+	margin-top: 0px;
+}
+.btn-getCode{
+	cursor: pointer;
+}
+.role-select p{
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	padding: 20px;
+	color: rgb(139,22,11);
+}
+.loginBox .role-item{
+	width: 80%;
+	height: 50px;
+	background: rgba(0,0,0,.3);
+	margin-left: 10%;
+	margin-top: 25px;
+	border-radius: 7px;
+	text-align: center;
+	line-height: 50px;
+	color: white;
+	font-size: 16px;
+	font-weight: bolder;
+	cursor: pointer;
+}
+.loginBox .role-item:hover{
+	background: rgba(139,22,11,.8);
+}
+.role-active{
+	background: rgba(139,22,11,.8) !important;
+}
+.password-strong , .email-password-strong{
+	padding-top: 5px;
+	display: none;
+	
+}
+.password-strong span,.email-password-strong span{
+	float: left;
+	color: rgb(139,22,11);
+	margin-right: 10px;
+	font-weight: bold;
+}
+.password-strong-item,.email-password-strong-item{
+	width: 50px;
+	height: 10px;
+	background: rgb(128,128,128);
+	border-radius: 50px;
+	float: left;
+	margin-top: 5px;
+	margin-left: 5px;
+}
+.sucBox{
+	text-align: center;
+}
+.sucBox img{
+	margin: 20px 0px;
+}
+.sucBox p{
+	color: #000000;
+	font-weight: bold;
+	margin: 20px 0px;
+}
+.sucBox p span{
+	color: rgb(139,22,11);
+}
+.sucBox button{
+	width: 60%;
+	margin-left: 0px;
+	margin-top: 40px;
+}
