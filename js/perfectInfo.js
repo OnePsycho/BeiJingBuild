@@ -2,7 +2,14 @@ var submitDatas; //最终提交的个人信息
 var leftData;
 var rightData;
 var projectInfo;
+var projectDatas;
+var personnelIds=[];
+var requestUrl;
 var member = JSON.parse(sessionStorage.getItem('member'));
+
+var schemeJson = [{name:"方案",id:999,personnelTypes:[]}]
+var drawingJson = [{name:"施工图",id:1000,personnelTypes:[]}]
+
 
 $('#btnAddCase').on('click', function() {
 	layer.open({
@@ -42,11 +49,31 @@ layui.use('form', function() {
 
 	//账号回显
 	form.val("formLeft", {
-		"u_phoneNum": member.phoneNum
+		"u_phoneNum": member.phoneNum,
 	})
 	form.val("formRight", {
 		"u_email": member.email
 	})
+	
+	if(member.memberExt){
+		form.val("formLeft", {
+		"u_phoneNum": member.memberExt.u_phoneNum,
+		"u_name":member.memberExt.u_name,
+		"workTime":member.memberExt.workTime,
+		"year":member.memberExt.birthday.split('-')[0],
+		"month":member.memberExt.birthday.split('-')[1]
+	})
+		form.val("formRight", {
+		"u_email": member.memberExt.u_email,
+		"realName":member.memberExt.realName,
+		"graduateInstitutions":member.memberExt.graduateInstitutions,
+		"sex":member.memberExt.sex?"true":"false",
+//		"personnelIds":member.memberExt.personnelIds[0]
+	})
+		requestUrl = "/client/api/memberExt/update?_method=put";
+	}else{
+		requestUrl = "/client/api/memberExt/add";
+	}
 });
 
 //表单提交事件合并
@@ -57,7 +84,8 @@ $('#btnSubmit').on('click', function() {
 	if(leftData && rightData) {
 		$.ajax({
 			type: "POST",
-			url: apiUrl + "/client/api/memberExt/add",
+			url: apiUrl + requestUrl,
+			traditional: true,
 			data: {
 				memberId: member.id,
 				birthday: submitInfo.year + "-" + submitInfo.month,
@@ -67,16 +95,19 @@ $('#btnSubmit').on('click', function() {
 				u_name: submitInfo.u_name,
 				u_phoneNum: submitInfo.u_phoneNum,
 				sex: submitInfo.sex,
-				workTime: submitInfo.workTime
+				workTime: submitInfo.workTime,
+				personnelIds:personnelIds
 			},
 			success: function(res) {
 				if(member.status != "normal") {
-					layer.msg("提交成功！请等待管理员审核通过！", {
-						icon: 1
-					});
-					setTimeout(function() {
-						window.location.href = 'login.html';
-					}, 1000);
+					layer.open({
+						  content: '提交成功！请等待管理员审核通过！',
+						  icon:1,
+						  yes: function(index, layero){
+							window.location.href = 'login.html';
+						    layer.close(index); //如果设定了yes回调，需进行手工关闭
+						  }
+					});  
 				} else if(member.status == "normal") {
 					layer.msg("提交成功！", {
 						icon: 1
@@ -85,7 +116,6 @@ $('#btnSubmit').on('click', function() {
 						window.location.href = 'index.html';
 					}, 1000);
 				}
-
 			},
 			error: function() {
 				layer.msg("提交失败！", {
@@ -138,12 +168,177 @@ function uploadProjectInfo(memberId) {
 			endDate: projectInfo.joinDate.split(',')[1].trim()
 		},
 		success: function(res) {
-			console.log(res);
+			layer.open({
+			  content: '添加成功！',
+			  icon:1,
+			  yes: function(index, layero){
+			    layer.closeAll(); //如果设定了yes回调，需进行手工关闭
+			    getProjectInfos(member.id);
+			    setTimeout(function(){
+			   	 window.location.reload();
+			    },500);
+				}
+		});  
 		},
 		error: function() {
 			layer.msg("提交失败！", {
 				icon: 5
 			});
+		}
+	});
+}
+
+//擅长领域联动
+var formSelects = layui.formSelects;
+	$.ajax({
+		type:"get",
+		url:apiUrl+'/client/api/personnelType/findPage',
+		async:true,
+		success:function(res){
+			for(var i=0;i<res.content.length;i++){
+				if(res.content[i].type=="scheme"){
+					schemeJson[0].personnelTypes = schemeJson[0].personnelTypes.concat(res.content[i]);
+				}else{
+					drawingJson[0].personnelTypes = drawingJson[0].personnelTypes.concat(res.content[i]);
+				}
+			}
+			formSelects.data('select_person', 'local', {
+				arr:schemeJson.concat(drawingJson),
+	            linkage: true,
+	            linkageWidth: 130
+   			 });
+		}
+	});
+	
+	$.ajax({
+		type:"get",
+		url:apiUrl+'/client/api/platformType/findPage',
+		async:true,
+		success:function(res){
+			formSelects.data('select_platform', 'local', {
+				arr:res.content,
+	            linkage: true,
+	            linkageWidth: 130
+   			 });
+		}
+	});
+	
+	formSelects.config('select_person', {
+		keyName: 'name',            //自定义返回数据中name的key, 默认 name
+	    keyVal: 'id',            //自定义返回数据中value的key, 默认 value
+	    keySel: 'name',         //自定义返回数据中selected的key, 默认 selected
+	    keyChildren: 'personnelTypes',    //联动多选自定义children
+        success: function(id, url, val, result){
+            console.log(result);
+        },
+        error: function(id, url, val, err){
+            console.log("err回调: " + url);
+        }
+    });
+    
+	formSelects.config('select_platform', {
+		keyName: 'name',            //自定义返回数据中name的key, 默认 name
+	    keyVal: 'id',            //自定义返回数据中value的key, 默认 value
+	    keySel: 'name',         //自定义返回数据中selected的key, 默认 selected
+	    keyChildren: 'platformTypes',    //联动多选自定义children
+        success: function(id, url, val, result){
+            console.log(result);
+        },
+        error: function(id, url, val, err){
+            console.log("err回调: " + url);
+        }
+    });
+     
+     formSelects.on('select_person', function(id, vals, val, isAdd, isDisabled){
+     	personnelIds = [];
+     	console.log(vals);
+     	for(var i=0;i<vals.length;i++){
+			 personnelIds.push(vals[i].value.split('/')[vals[i].value.split('/').length-1]);
+		}
+	}, true);
+//	
+//	var nameArr = [];
+//	var personnelName = member.memberExt.personnelTypes;
+//	for(var i=0;i<personnelName.length;i++){
+//		nameArr.push(findTreePerson(personnelName[i].id));
+//	}
+	
+	formSelects.value('select_person', [{name: "11/22/33",value: "4/5/6"}])
+
+//修改项目经验数据源
+var projectDatas = new Vue({
+	el: '#projectDatas',
+	data: {
+		projectData: member.projectInfos
+	}
+})
+
+$('.layui-colla-title').mouseover(function(){
+	$(this).find('.case-delete').eq(0).css('display','block');
+}).mouseout(function(){
+	$(this).find('.case-delete').eq(0).css('display','none');
+})
+
+
+//查找用户的项目经验
+function getProjectInfos(memberId){
+	$.ajax({
+		type:"get",
+		url:apiUrl+"/client/api/projectInfo/findByMemberId",
+		async:true,
+		data:{
+			memberId:member.id
+		},
+		success:function(res){
+			projectDatas.projectData = res;
+			member.projectInfos = res;
+			console.log(member);
+			sessionStorage.setItem('member',JSON.stringify(member));
+		}
+	});
+}
+
+//删除项目
+function deleteProject(id){
+	layer.confirm('您确认删除该条项目吗？', {
+		  btn: ['确认','取消'] //按钮
+		}, function(){
+			 $.ajax({
+				type:"post",
+				url:apiUrl+"/client/api/projectInfo/deleteById",
+				async:true,
+				data:{
+					id:id,
+					_method:"delete"
+				},
+				success:function(res){
+					layer.open({
+					  content: '删除成功！',
+					  icon:1,
+					  yes: function(index, layero){
+					    layer.close(index); //如果设定了yes回调，需进行手工关闭
+					    getProjectInfos(member.id);
+					  }
+				});  
+				},
+				error:function(){
+					layer.msg("删除失败",{icon:5})
+				}
+			});
+		}, function(){
+		  
+		});
+}
+
+//查找擅长领域初始值
+function findTreePerson(id){
+	$.ajax({
+		type:"get",
+		url:apiUrl+"/client/api/platformType/findTree?id="+id,
+		async:true,
+		success:function(res){
+			console.log(res);
+			return res.split('/');
 		}
 	});
 }

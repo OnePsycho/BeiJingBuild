@@ -11,14 +11,22 @@
 	<link rel="stylesheet" href="css/sidenav.css" />
 	<link rel="stylesheet" href="css/animate.css" />
 	<link rel="stylesheet" href="css/paging.css" />
-	<link rel="stylesheet" href="css/index.css" />
 	<link rel="stylesheet" href="css/pretty.css" />
-	<script type="text/javascript" src="bootstrap-3.3.7-dist/js/jquery-3.2.1.min.js"></script>
+	<link rel="stylesheet" href="lib/js/layui/css/layui.css" />
+	<link rel="stylesheet" href="css/index.css" />
+	<link rel="stylesheet" href="css/person.css" />
+	<!--<script type="text/javascript" src="bootstrap-3.3.7-dist/js/jquery-3.2.1.min.js"></script>-->
+	<script type="text/javascript" src="lib/js/jquery.js" ></script>
+	<script type="text/javascript" src="js/common.js" ></script>
 	<script type="text/javascript" src="bootstrap-3.3.7-dist/js/sidenav.js"></script>
 	<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/paging.js"></script>
 	<script type="text/javascript" src="lib/js/jquery-tab.js"></script>
+	<script type="text/javascript" src="lib/js/vue.min.js" ></script>
+		<!--[if lte IE 9]>
+	<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.3/jquery.xdomainrequest.min.js'></script>
+	<![endif]-->
 	
 </head>
 <body>
@@ -28,7 +36,21 @@
 				<div class="row">
 					<!--Header部分-->
 					<div class="col-sm-12 bj-header">
-
+						<div class="header-tools">
+							<ul class="layui-nav">
+							  <li class="layui-nav-item">
+							    <a href=""><img src="img/icon_headImg.png" class="layui-nav-img" id="header_img"><span id="header_username"></span></a>
+							    <dl class="layui-nav-child">
+							      <dd><a href="javascript:;">个人中心</a></dd>
+							      <dd><a href="login.html">退出登录</a></dd>
+							    </dl>
+							  </li>
+								<li class="layui-nav-item">
+								<a href=""><img src="img/icon_news.png" class="layui-nav-img">消息通知</a>
+							  </li>
+							
+							</ul>
+						</div>
 					</div>
 					<div class="row bj-main">
 						<!--左侧栏-->
@@ -42,14 +64,14 @@
 									<a href="#">施工图</a>
 								</li>
 							</ul>
-							<nav class="sidenav" data-sidenav data-sidenav-toggle="#sidenav-toggle">
+							<nav class="sidenav" data-sidenav data-sidenav-toggle="#sidenav-toggle" id="personnelList" v-clock>
 								<ul class="sidenav-menu">
-									<li>
+									<li v-for="(item,index) of personnelList">
 										<a href="javascript:;" data-sidenav-dropdown-toggle class="active">
 											<span class="sidenav-link-icon">
 												<img src="img/building1.png" class="icons" />
 											</span>
-											<span class="sidenav-link-title">居住建筑</span>
+											<span class="sidenav-link-title">{{item.name}}</span>
 											<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
 												<i class="glyphicon glyphicon-menu-up"></i>
 											</span>
@@ -59,134 +81,25 @@
 										</a>
 										<div class="slidenav-content" data-sidenav-dropdown>
 											<div class="slidenav-classify-a">
-												<div class="pretty circle danger">
-												  <input type="radio" name="radio19"> 
-												  <label><i class="default"></i> 高层住宅</label>
-												</div>
-												<div class="pretty circle danger">
-												  <input type="radio" name="radio19"> 
-												  <label><i class="default"></i> 高层住宅</label>
-												</div>
-											
-											</div>
-											<div class="slidenav-classify-b">
-												 <div class="tab-group">
-													<section id="tab4" title="三维...">
-													<div class="rooms">
-													  <div class="room-item">
-														  <img src="img/house.png" />
-														  <p>房间一</p>
-													  </div><div class="room-item">
-														  <img src="img/house.png" />
-														  <p>房间一</p>
-													  </div><div class="room-item">
-														  <img src="img/house.png" />
-														  <p>房间一</p>
-													  </div><div class="room-item">
-														  <img src="img/house.png" />
-														  <p>房间一</p>
-													  </div><div class="room-item">
-														  <img src="img/house.png" />
-														  <p>房间一</p>
-													  </div>
-													</div>
-													</section>
-													<section id="tab5" title="立面...">
-													  <div class="rooms">
-													  <div class="room-item">
-													  	<img src="img/house.png" />
-													  	<p>房间一</p>
-													  </div>
-													  </div>
-													</section>
-													<section id="tab6" title="平面...">
-													  <div class="rooms">
-													 <div class="room-item">
-													  	<img src="img/house.png" />
-													  	<p>房间一</p>
-													  </div>
-													  </div>
-													</section>
-													<section id="tab8" title="平面...">
-													  <div class="rooms">
-													 <div class="room-item">
-													  	<img src="img/house.png" />
-													  	<p>房间一</p>
-													  </div>
-													  </div>
-													</section>
-												  </div>
+												<div class="pretty circle danger"  v-for="(personnelTypes,index) of item.personnelTypes" @click="personnelTypeHandle(personnelTypes.id)">
+												  <input type="radio" name="radio1"> 
+												  <label><i class="default"></i> {{personnelTypes.name}}</label>
+												</div>											
 											</div>
 										</div>
-										
-									</li>
-									<li>
-										<a href="javascript:;" data-sidenav-dropdown-toggle class="active">
-											<span class="sidenav-link-icon">
-												<img src="img/building3.png" class="icons" />
-											</span>
-											<span class="sidenav-link-title">公共建筑</span>
-											<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
-												<i class="glyphicon glyphicon-menu-down"></i>
-											</span>
-											<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
-												<i class="glyphicon glyphicon-menu-up"></i>
-											</span>
-										</a>
-
-										<ul class="sidenav-dropdown" data-sidenav-dropdown>
-											<li>
-												<a href="javascript:;">高层建筑</a>
-											</li>
-											<li>
-												<a href="javascript:;">低层住宅</a>
-											</li>
-											<li>
-												<a href="javascript:;">多层住宅</a>
-											</li>
-										</ul>
-									</li>
-									<li>
-										<a href="javascript:;" data-sidenav-dropdown-toggle class="active">
-											<span class="sidenav-link-icon">
-												<img src="img/building3.png" class="icons" />
-											</span>
-											<span class="sidenav-link-title">工业建筑</span>
-											<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
-												<i class="glyphicon glyphicon-menu-down"></i>
-											</span>
-											<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
-												<i class="glyphicon glyphicon-menu-up"></i>
-											</span>
-										</a>
-
-										<ul class="sidenav-dropdown" data-sidenav-dropdown>
-											<li>
-												<a href="javascript:;">高层建筑</a>
-											</li>
-											<li>
-												<a href="javascript:;">低层住宅</a>
-											</li>
-											<li>
-												<a href="javascript:;">多层住宅</a>
-											</li>
-										</ul>
 									</li>
 								</ul>
 								<div class="menu-buttons">
-									<!-- <button class="menu-button">查看我的项目</button> -->
-									<!-- <button class="menu-button">我要提问</button> -->
-									<!-- <button class="menu-button">往期问题回顾</button> -->
-									
-									<img src="img/btn_bg1.png" class="menu-button"/>
-									<img src="img/btn_bg2.png" class="menu-button"/>
-									<img src="img/btn_bg3.png" class="menu-button"/>
+									<img src="img/btn_bg1.png" class="menu-button" id="btnAsk"/>
+									<img src="img/btn_my_questions.png" class="menu-button" id="btnMyQuestions"/>
+									<img src="img/btn_bg3.png" class="menu-button" id="btnLatestQuestions"/>
 								</div>
 							</nav>
 						</div>
 						<!--主内容区域-->
 						<div class="col-sm-7 bj-main-box">
-							<div class="bj-content">
+							<!--问题展示区域-->
+							<div class="bj-content questionsShow" style="display: none;">
 								<div class="row">
 									<div class="bj-hall-item">
 										<div class="hall-item-countDown">
@@ -311,6 +224,101 @@
 								</div>
 								<div class="box" id="box"></div>
 							</div>
+							
+							<!--人才展示区域-->
+							<div class="bj-content personShow" style="display: none;">
+								<div class="personShow-item">
+									<div class="person-img">
+										<img src="img/icon_person.png" />
+									</div>
+									<div class="person-info">
+										<div class="person-info-item">
+											<span class="person-usename">张三</span>
+											<span class="person-workTime">从业年限：8 年</span>
+										</div>
+										<div class="person-info-item">
+											<img src="img/icon_flag.png" />
+											<span class="person-flag">靠谱</span>
+											<span class="person-flag">效率高</span>
+											<span class="person-flag">认真负责</span>
+											<span class="person-flag">专业</span>
+										</div>
+										<div class="person-info-item">
+											<img src="img/icon_personnelType.png" />
+											<span class="person-personnelType">擅长领域：
+												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
+												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
+												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
+											</span>
+										</div>
+									</div>
+									<div class="person-btn-invite layui-circle"></div>
+									<div class="person-btn-invite-in layui-circle">邀请</div>
+								</div>
+								<div class="personShow-item">
+									<div class="person-img">
+										<img src="img/icon_person.png" />
+									</div>
+									<div class="person-info">
+										<div class="person-info-item">
+											<span class="person-usename">张三</span>
+											<span class="person-workTime">从业年限：8 年</span>
+										</div>
+										<div class="person-info-item">
+											<img src="img/icon_flag.png" />
+											<span class="person-flag">靠谱</span>
+											<span class="person-flag">效率高</span>
+											<span class="person-flag">认真负责</span>
+											<span class="person-flag">专业</span>
+										</div>
+										<div class="person-info-item">
+											<img src="img/icon_personnelType.png" />
+											<span class="person-personnelType">擅长领域：
+												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
+												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
+												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
+											</span>
+										</div>
+									</div>
+									<div class="person-btn-invite layui-circle"></div>
+									<div class="person-btn-invite-in layui-circle">邀请</div>
+								</div>
+								<div class="personShow-item">
+									<div class="person-img">
+										<img src="img/icon_person.png" />
+									</div>
+									<div class="person-info">
+										<div class="person-info-item">
+											<span class="person-usename">张三</span>
+											<span class="person-workTime">从业年限：8 年</span>
+										</div>
+										<div class="person-info-item">
+											<img src="img/icon_flag.png" />
+											<span class="person-flag">靠谱</span>
+											<span class="person-flag">效率高</span>
+											<span class="person-flag">认真负责</span>
+											<span class="person-flag">专业</span>
+										</div>
+										<div class="person-info-item">
+											<img src="img/icon_personnelType.png" />
+											<span class="person-personnelType">擅长领域：
+												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
+												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
+												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
+											</span>
+										</div>
+									</div>
+									<div class="person-btn-invite layui-circle"></div>
+									<div class="person-btn-invite-in layui-circle">邀请</div>
+								</div>
+							<div class="box pageBox" id="box-person"></div>
+							
+							</div>
+						
+							<div class="bj-content iframeShow">
+								<iframe src="myQuestions.html" frameborder="0" id="contentIframe"></iframe>
+
+							</div>
 						</div>
 						<!--右侧栏-->
 						<div class="col-sm-2 bj-aside bj-aside-right">
@@ -325,6 +333,82 @@
 							</ul>
 							<nav class="sidenav" data-sidenav data-sidenav-toggle="#sidenav-toggle">
 								<ul class="sidenav-menu">
+								<li>
+									<a href="javascript:;" data-sidenav-dropdown-toggle class="active">
+										<span class="sidenav-link-icon">
+											<img src="img/building1.png" class="icons" />
+										</span>
+										<span class="sidenav-link-title">居住建筑</span>
+									<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
+										<i class="glyphicon glyphicon-menu-up"></i>
+									</span>
+									<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
+										<i class="glyphicon glyphicon-menu-down"></i>
+									</span>
+												</a>
+												<div class="slidenav-content" data-sidenav-dropdown>
+													<div class="slidenav-classify-a">
+														<div class="pretty circle danger">
+														  <input type="radio" name="radio19"> 
+														  <label><i class="default"></i> 高层住宅</label>
+														</div>
+														<div class="pretty circle danger">
+														  <input type="radio" name="radio19"> 
+														  <label><i class="default"></i> 高层住宅</label>
+														</div>
+											
+											</div>
+											<div class="slidenav-classify-b">
+												 <div class="tab-group">
+													<section id="tab4" title="三维...">
+													<div class="rooms">
+													  <div class="room-item">
+														  <img src="img/house.png" />
+														  <p>房间一</p>
+													  </div><div class="room-item">
+														  <img src="img/house.png" />
+														  <p>房间一</p>
+													  </div><div class="room-item">
+														  <img src="img/house.png" />
+														  <p>房间一</p>
+													  </div><div class="room-item">
+														  <img src="img/house.png" />
+														  <p>房间一</p>
+													  </div><div class="room-item">
+														  <img src="img/house.png" />
+														  <p>房间一</p>
+													  </div>
+													</div>
+													</section>
+													<section id="tab5" title="立面...">
+													  <div class="rooms">
+													  <div class="room-item">
+													  	<img src="img/house.png" />
+													  	<p>房间一</p>
+													  </div>
+													  </div>
+													</section>
+													<section id="tab6" title="平面...">
+													  <div class="rooms">
+													 <div class="room-item">
+													  	<img src="img/house.png" />
+													  	<p>房间一</p>
+													  </div>
+													  </div>
+													</section>
+													<section id="tab8" title="平面...">
+													  <div class="rooms">
+													 <div class="room-item">
+													  	<img src="img/house.png" />
+													  	<p>房间一</p>
+													  </div>
+													  </div>
+													</section>
+												  </div>
+											</div>
+										</div>
+										
+									</li>
 									<li>
 										<a href="javascript:;" data-sidenav-dropdown-toggle class="active">
 											<span class="sidenav-link-icon">
@@ -332,125 +416,74 @@
 											</span>
 											<span class="sidenav-link-title">居住建筑</span>
 											<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
-												<i class="glyphicon glyphicon-menu-down"></i>
-											</span>
-											<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
 												<i class="glyphicon glyphicon-menu-up"></i>
 											</span>
-										</a>
-										<ul class="sidenav-dropdown" data-sidenav-dropdown>
-											<li>
-												<a href="javascript:;" data-sidenav-dropdown-toggle class="active">
-													<span class="sidenav-link-title sidenav-link-title2">高层住宅</span>
-													<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
-														<i class="glyphicon glyphicon-menu-down"></i>
-													</span>
-													<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
-														<i class="glyphicon glyphicon-menu-up"></i>
-													</span>
-												</a>
-
-												<ul class="sidenav-dropdown" data-sidenav-dropdown>
-													<li>
-														<div class="third">平面</div>
-														<div class="third-select">
-															<div class="row">
-																<div class="col-md-4 third-select-item third-select-item-title">三维</div>
-																<div class="col-md-4 third-select-item">房间1</div>
-																<div class="col-md-4 third-select-item">房间2</div>
-																<div class="col-md-4 third-select-item">房间3</div>
-																<div class="col-md-4 third-select-item">房间4</div>
-															</div>
-														</div>
-													</li>
-												</ul>
-											</li>
-											<li>
-												<a href="javascript:;" data-sidenav-dropdown-toggle class="active">
-													<span class="sidenav-link-title sidenav-link-title2">低层住宅</span>
-													<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
-														<i class="glyphicon glyphicon-menu-down"></i>
-													</span>
-													<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
-														<i class="glyphicon glyphicon-menu-up"></i>
-													</span>
-												</a>
-
-												<ul class="sidenav-dropdown" data-sidenav-dropdown>
-													<li>
-														<a href="javascript:;">三级</a>
-													</li>
-												</ul>
-											</li>
-											<li>
-												<a href="javascript:;" data-sidenav-dropdown-toggle class="active">
-													<span class="sidenav-link-title sidenav-link-title2">多层住宅</span>
-													<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
-														<i class="glyphicon glyphicon-menu-down"></i>
-													</span>
-													<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
-														<i class="glyphicon glyphicon-menu-up"></i>
-													</span>
-												</a>
-
-												<ul class="sidenav-dropdown" data-sidenav-dropdown>
-													<li>
-														<a href="javascript:;">三级</a>
-													</li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-									<li>
-										<a href="javascript:;" data-sidenav-dropdown-toggle class="active">
-											<span class="sidenav-link-icon">
-												<img src="img/building3.png" class="icons" />
-											</span>
-											<span class="sidenav-link-title">公共建筑</span>
-											<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
+											<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
 												<i class="glyphicon glyphicon-menu-down"></i>
 											</span>
-											<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
-												<i class="glyphicon glyphicon-menu-up"></i>
-											</span>
 										</a>
-										<ul class="sidenav-dropdown" data-sidenav-dropdown>
-											<li>
-												<a href="javascript:;">高层建筑</a>
-											</li>
-											<li>
-												<a href="javascript:;">低层住宅</a>
-											</li>
-											<li>
-												<a href="javascript:;">多层住宅</a>
-											</li>
-										</ul>
-									</li>
-									<li>
-										<a href="javascript:;" data-sidenav-dropdown-toggle class="active">
-											<span class="sidenav-link-icon">
-												<img src="img/building2.png" class="icons" />
-											</span>
-											<span class="sidenav-link-title">工业建筑</span>
-											<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
-												<i class="glyphicon glyphicon-menu-down"></i>
-											</span>
-											<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
-												<i class="glyphicon glyphicon-menu-up"></i>
-											</span>
-										</a>
-
-										<ul class="sidenav-dropdown" data-sidenav-dropdown>
-											<li>
-												<a href="javascript:;">高层建筑</a>
-											</li>
-											<li>
-												<a href="javascript:;">低层住宅</a>
-											</li>
-											<li>
-												<a href="javascript:;">多层住宅</a>
-											</li>
-										</ul>
+										<div class="slidenav-content" data-sidenav-dropdown>
+											<div class="slidenav-classify-a">
+												<div class="pretty circle danger">
+												  <input type="radio" name="radio19"> 
+												  <label><i class="default"></i> 高层住宅</label>
+												</div>
+												<div class="pretty circle danger">
+												  <input type="radio" name="radio19"> 
+												  <label><i class="default"></i> 高层住宅</label>
+												</div>
+											
+											</div>
+											<div class="slidenav-classify-b">
+												 <div class="tab-group">
+													<section id="tab4" title="三维...">
+													<div class="rooms">
+													  <div class="room-item">
+														  <img src="img/house.png" />
+														  <p>房间一</p>
+													  </div><div class="room-item">
+														  <img src="img/house.png" />
+														  <p>房间一</p>
+													  </div><div class="room-item">
+														  <img src="img/house.png" />
+														  <p>房间一</p>
+													  </div><div class="room-item">
+														  <img src="img/house.png" />
+														  <p>房间一</p>
+													  </div><div class="room-item">
+														  <img src="img/house.png" />
+														  <p>房间一</p>
+													  </div>
+													</div>
+													</section>
+													<section id="tab5" title="立面...">
+													  <div class="rooms">
+													  <div class="room-item">
+													  	<img src="img/house.png" />
+													  	<p>房间一</p>
+													  </div>
+													  </div>
+													</section>
+													<section id="tab6" title="平面...">
+													  <div class="rooms">
+													 <div class="room-item">
+													  	<img src="img/house.png" />
+													  	<p>房间一</p>
+													  </div>
+													  </div>
+													</section>
+													<section id="tab8" title="平面...">
+													  <div class="rooms">
+													 <div class="room-item">
+													  	<img src="img/house.png" />
+													  	<p>房间一</p>
+													  </div>
+													  </div>
+													</section>
+												  </div>
+											</div>
+										</div>
+										
 									</li>
 								</ul>
 							</nav>
@@ -476,21 +509,36 @@
 		</div>
 	</div>
 </body>
-
-<script>
-	$(function () {
-		$('[data-sidenav]').sidenav();
-		$('#box').paging({
-			initPageNo: 1, // 初始页码
-			totalPages: 10, //总页数
-			// totalCount: '共300条', // 条目总数
-			slideSpeed: 600, // 缓动速度。单位毫秒 
-			callback: function (page) { // 回调函数 
-
-			}
-		})
-		  $('.tab-group').tabify();
-	});
-</script>
-
-</html>
+	
+	<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
+	<script>
+		$(function () {
+			$('[data-sidenav]').sidenav();
+			$('#box').paging({
+				initPageNo: 1, // 初始页码
+				totalPages: 10, //总页数
+				// totalCount: '共300条', // 条目总数
+				slideSpeed: 600, // 缓动速度。单位毫秒 
+				callback: function (page) { // 回调函数 
+	
+				}
+			})
+			$('#box-person').paging({
+				initPageNo: 1, // 初始页码
+				totalPages: 10, //总页数
+				// totalCount: '共300条', // 条目总数
+				slideSpeed: 600, // 缓动速度。单位毫秒 
+				callback: function (page) { // 回调函数 
+	
+				}
+			})
+			  $('.tab-group').tabify();
+		});
+		
+		layui.use('element', function(){
+		  var element = layui.element;
+		});
+	
+	</script>
+	
+	</html>

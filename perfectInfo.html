@@ -13,13 +13,11 @@
 		<link rel="stylesheet" href="lib/formSelect/formSelects-v4.css" />
 		<!--<script type="text/javascript" src="bootstrap-3.3.7-dist/js/jquery-3.2.1.min.js"></script>-->
 		<script type="text/javascript" src="lib/js/jquery.js" ></script>
-		<script type="text/javascript" src="lib/js/layui/layui.all.js" ></script>
+		<!--<script type="text/javascript" src="lib/js/layui/layui.all.js" ></script>-->
 		<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 		<script type="text/javascript" src="js/common.js" ></script>
 		<script type="text/javascript" src="lib/js/qrcode.js" ></script>
-
-		
-
+		<script type="text/javascript" src="lib/js/vue.min.js" ></script>
 		<!--[if lte IE 9]>
 		<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.3/jquery.xdomainrequest.min.js'></script>
 		<![endif]-->
@@ -67,49 +65,49 @@
 							  <div class="layui-form-item">
 							    <label class="layui-form-label">项目经验</label>
 							    <span class="btnAddCase" id="btnAddCase">新增</span>
-									<div class="layui-collapse" lay-accordion>
-									  <div class="layui-colla-item">
-									    <h2 class="layui-colla-title">基于O2O模式的移动电商平台</h2>
+									<div class="layui-collapse" lay-accordion  id="projectDatas" lay-filter="demo">
+									  <div class="layui-colla-item" v-for="(item,index) in projectData">
+									    <h2 class="layui-colla-title">{{item.name}}<span class="case-delete" @click="deleteProject(item.id)">删除</span></h2>
 									    <div class="layui-colla-content">
 									    	<div class="case-item">
 									    		<span class="item-title">项目类型:</span>
-									    		<span>嘻嘻嘻嘻嘻嘻寻寻奥术大师大所 </span>
+									    		<span>{{item.platformType.name}}</span>
 									    	</div>
 									    	<div class="case-item">
 									    		<span class="item-title">业主名称:</span>
-									    		<span>王德发</span>
+									    		<span>{{item.ownerName}}</span>
 									    	</div>
 									    	<div class="case-item">
 									    		<span class="item-title">业主级别:</span>
-									    		<span>级别</span>
+									    		<span>{{item.ownerLevel}}</span>
 									    	</div>
 									    	<div class="case-item">
 									    		<span class="item-title">资产规模:</span>
-									    		<span>50000</span>
+									    		<span>{{item.assetScale}}</span>
 									    	</div>
 									    	<div class="case-item">
 									    		<span class="item-title">业主成功案例:</span>
-									    		<span>50000</span>
+									    		<span>{{item.ownerCases}}</span>
 									    	</div>
 									    	<div class="case-item">
 									    		<span class="item-title">项目落成时间:</span>
-									    		<span>50000</span>
+									    		<span>{{item.finishDate}}</span>
 									    	</div>
 									    	<div class="case-item">
 									    		<span class="item-title">项目所在地:</span>
-									    		<span>50000</span>
+									    		<span>{{item.city}}</span>
 									    	</div>
 									    	<div class="case-item">
 									    		<span class="item-title">项目规模:</span>
-									    		<span>50000</span>
+									    		<span>{{item.scale}}</span>
 									    	</div>
 									    	<div class="case-item">
 									    		<span class="item-title">担当角色:</span>
-									    		<span>50000</span>
+									    		<span>{{item.role}}</span>
 									    	</div>
 									    	<div class="case-item">
 									    		<span class="item-title">参与时间:</span>
-									    		<span>50000</span>
+									    		<span>{{item.createTime}}</span>
 									    	</div>
 									    </div>
 									  </div>
@@ -157,9 +155,9 @@
 							    <div class="layui-form-item">
 								    <label class="layui-form-label">擅长领域</label>
 								    <div class="layui-input-block">
-								          <select name="personnelIds" xm-select="select15">
-										        <option value="">请选择, 此处是联动多选</option>
-										    </select>
+								          <select name="personnelIds" xm-select="select_person" lay-verify="required">
+										        <option value="">请选择你所擅长的领域，可多选</option>
+										  </select>
 								    </div>
 							  </div>
 							   <div class="layui-form-item" style="text-align: center;">
@@ -199,11 +197,9 @@
 			    <div class="layui-form-item">
 				    <label class="layui-form-label">项目类别</label>
 				    <div class="layui-input-block">
-				      <select name="platformId" lay-verify="required">
-				        <option value=""></option>
-				        <option value="1">男</option>
-				        <option value="2">女</option>
-				      </select>
+			          <select name="platformId" xm-select="select_platform" lay-verify="required">
+					        <option value="">请选择项目类别</option>
+					  </select>
 				    </div>
 			  </div>
 			  <div class="layui-form-item">
@@ -271,9 +267,8 @@
 	</body>
 		<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
 		<script type="text/javascript" src="lib/js/jquery.placeholder.js" ></script>
-		<script type="text/javascript" src="js/perfectInfo.js" ></script>
 		<script type="text/javascript" src="lib/formSelect/formSelects-v4.js" ></script>
-
+		<script type="text/javascript" src="js/perfectInfo.js" ></script>
 		<script>
 			$("body").parent().css("overflow-y","hidden");
 			$('input, textarea').placeholder({ customClass: 'my-placeholder' });
@@ -303,45 +298,6 @@
 			layui.use('element', function(){
 			  var element = layui.element;
 			});
-		</script>
-		<script>
-		var formSelects = layui.formSelects;
-		$.ajax({
-			type:"get",
-			url:'http://39.104.239.208:9111/client/api/personnelType/findPage',
-			async:true,
-			success:function(res){
-				formSelects.data('select15', 'local', {
-					arr:res.content,
-		            linkage: true,
-		            linkageWidth: 130
-       			 });
-			}
-		});
-		
-		formSelects.config('select15', {
-			keyName: 'name',            //自定义返回数据中name的key, 默认 name
-		    keyVal: 'id',            //自定义返回数据中value的key, 默认 value
-		    keySel: 'name',         //自定义返回数据中selected的key, 默认 selected
-		    keyChildren: 'personnelTypes',    //联动多选自定义children
-            success: function(id, url, val, result){
-                console.log(result);
-            },
-            error: function(id, url, val, err){
-                console.log("err回调: " + url);
-            }
-        });
-         
-         formSelects.on('select15', function(id, vals, val, isAdd, isDisabled){
-		    //id:           点击select的id
-		    //vals:         当前select已选中的值
-		    //val:          当前select点击的值
-		    //isAdd:        当前操作选中or取消
-		    //isDisabled:   当前选项是否是disabled
-		     
-		     console.log(vals);
-		}, true);
-
 		</script>
 
 </html>

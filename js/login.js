@@ -23,29 +23,40 @@ $('#loginBtn').on('click',function(){
 					sessionStorage.setItem('member',JSON.stringify(res.data));
 					if(!res.data.memberExt){
 						layer.msg("登录成功！请完善个人信息！",{icon: 1});
-						switch (res.data.type){
-							case "firstParty":
-								window.location.href = "perfectInfoFirst.html"
-								break;
-							case "projectManager":
-								window.location.href = "perfectInfoPM.html"
-								break;
-							case "freeDesigner":
-								window.location.href = "perfectInfo.html"
-								break;
-							default:
-								break;
-						}
+						perfectAction(res.data.type);
 					}else{
 						layer.msg('登录成功！',{icon: 1});
 						setTimeout(function(){
 						 window.location.href = 'index.html';
 						},1000);				
 					}
-				} else if(res.status == "401") {
+				} else if(res.status == "401"||(res.status=="403"&&!res.data)) {
 					layer.msg("输入的账号或者密码有误！请重新输入！",{icon: 5});
-				} else if(res.status == "403") {
-					layer.msg("账号未通过管理员审核！",{icon: 5});
+				} else if(res.status == "403"&&res.data) {
+					//未通过审核 重新完善信息
+//					layer.msg("账号未通过管理员审核！",{icon: 5});
+					layer.open({
+					  content: '账号未通过管理员审核！请完善个人信息！',
+					  icon:5,
+					  yes: function(index, layero){
+						  perfectAction(res.data.type);
+						  sessionStorage.setItem('member',JSON.stringify(res.data));
+					    layer.close(index); //如果设定了yes回调，需进行手工关闭
+					  }
+					});  
+				}else if(res.status == "1001") {
+					layer.msg("账号正在审核中！",{icon: 5});
+					if(!res.data.memberExt){
+						layer.open({
+						  content: '账号正在审核中！请先完善您的个人信息！',
+						  icon:5,
+						  yes: function(index, layero){
+							  perfectAction(res.data.type);
+							  sessionStorage.setItem('member',JSON.stringify(res.data));
+						    layer.close(index); //如果设定了yes回调，需进行手工关闭
+						  }
+						});  
+					}
 				} else {
 					layer.msg("登录失败！",{icon: 5});
 				}
@@ -67,4 +78,21 @@ function isPhoneNo(username) {
     }else if(emailCheck.test(username)){
     	reUrl = "/client/emailLogin";
     }
+}
+
+
+function perfectAction(type){
+		switch (type){
+					case "firstParty":
+						window.location.href = "perfectInfoFirst.html"
+						break;
+					case "projectManager":
+						window.location.href = "perfectInfoPM.html"
+						break;
+					case "freeDesigner":
+						window.location.href = "perfectInfo.html"
+						break;
+					default:
+						break;
+				}
 }

@@ -4,10 +4,10 @@ select[xm-select]{display: none !important;}
 .xm-select-parent {text-align: left;}
 .xm-select-parent select {display: none;}
 .xm-select-parent .xm-select-title {position: relative;min-height: 36px;}
-.xm-select-parent .xm-input {cursor: pointer;border-radius: 2px;border-width: 1px;border-style: solid;border-color: #E6E6E6;display: block;width: 100%;box-sizing: border-box;background-color: #FFF;height: 36px;line-height: 1.3;padding-left: 10px;outline: 0}
+.xm-select-parent .xm-input {cursor: pointer;border-radius: 2px;border-width: 1px;border-style: solid;border-color: #E6E6E6;display: block;width: 100%;box-sizing: border-box;background-color: #FFF;height: 45px;line-height: 1.3;padding-left: 10px;outline: 0}
 .xm-select-parent .xm-select-sj {display: inline-block;width: 0;height: 0;border-style: dashed;border-color: transparent;overflow: hidden;position: absolute;right: 10px;top: 50%;margin-top: -3px;cursor: pointer;border-width: 6px;border-top-color: #C2C2C2;border-top-style: solid;transition: all .3s;-webkit-transition: all .3s}
 .xm-select-parent .xm-form-selected .xm-select-sj {margin-top: -9px;transform: rotate(180deg)}
-.xm-select-parent .xm-form-select dl {display: none;position: absolute;left: 0;top: 42px;padding: 5px 0;z-index: 999;min-width: 100%;border: 1px solid #d2d2d2;max-height: 300px;overflow-y: auto;background-color: #fff;border-radius: 2px;box-shadow: 0 2px 4px rgba(0, 0, 0, .12);box-sizing: border-box;animation-fill-mode: both;-webkit-animation-name: layui-upbit;animation-name: layui-upbit;-webkit-animation-duration: .3s;animation-duration: .3s;-webkit-animation-fill-mode: both;animation-fill-mode: both}
+.xm-select-parent .xm-form-select dl {display: none;position: absolute;left: 0;top: 42px;padding: 5px 0;z-index: 999;min-width: 100%;border: 1px solid #d2d2d2;max-height: 300px;overflow-y: auto;overflow-x: scroll;background-color: #fff;border-radius: 2px;box-shadow: 0 2px 4px rgba(0, 0, 0, .12);box-sizing: border-box;animation-fill-mode: both;-webkit-animation-name: layui-upbit;animation-name: layui-upbit;-webkit-animation-duration: .3s;animation-duration: .3s;-webkit-animation-fill-mode: both;animation-fill-mode: both}
 @-webkit-keyframes layui-upbit {
 	from {-webkit-transform: translate3d(0, 30px, 0);opacity: .3}
 	to {-webkit-transform: translate3d(0, 0, 0);opacity: 1}
@@ -45,10 +45,10 @@ select[xm-select]{display: none !important;}
 .xm-form-select dl dd.xm-dis-disabled span {color: #C2C2C2}
 .xm-form-select dl dd.xm-dis-disabled .xm-icon-yes {border-color: #C2C2C2}
 .xm-select-parent {position: relative;-moz-user-select: none;-ms-user-select: none;-webkit-user-select: none}
-.xm-select-parent .xm-select {line-height: normal;height: auto;padding: 4px 10px 1px 10px;overflow: hidden;min-height: 36px;left: 0;z-index: 99;position: absolute;background: 0 0;padding-right: 20px}
+.xm-select-parent .xm-select {line-height: normal;height: auto;padding: 4px 10px 1px 10px;overflow: hidden;min-height: 45px;left: 0;z-index: 99;position: absolute;background: 0 0;padding-right: 20px}
 .xm-select-parent .xm-select:hover {border-color: #C0C4CC}
 .xm-select-parent .xm-select .xm-select-label {display: inline-block;margin: 0;vertical-align: middle}
-.xm-select-parent .xm-select-title div.xm-select-label>span {position: relative;padding: 2px 5px;background-color: #009688;border-radius: 2px;color: #FFF;display: inline-block;line-height: 18px;height: 18px;margin: 2px 5px 2px 0;cursor: initial;user-select: none;font-size: 14px;padding-right: 25px;-webkit-user-select: none;}
+.xm-select-parent .xm-select-title div.xm-select-label>span {position: relative;padding: 2px 5px;background-color: rgb(139,22,11);border-radius: 2px;color: #FFF;display: inline-block;line-height: 18px;height: 18px;margin: 2px 5px 2px 0;cursor: initial;user-select: none;font-size: 14px;padding-right: 25px;-webkit-user-select: none;}
 .xm-select-parent .xm-select-title div.xm-select-label>span i {position: absolute; margin-left: 8px; font-size: 12px; cursor: pointer; line-height: 20px;}
 .xm-select-parent .xm-select .xm-select-input {border: none;height: 28px;background-color: transparent;padding: 0;vertical-align: middle;display: inline-block;width: 50px}
 .xm-select-parent .xm-select--suffix input {border: none}
@@ -66,7 +66,7 @@ select[xm-select]{display: none !important;}
 div[xm-hg] .xm-select-label{white-space: nowrap; overflow: hidden; position: absolute; right: 30px; left: 0; padding-left: 10px;}
 
 /* 颜色相关 */
-div[xm-select-skin] .xm-select-title div.xm-select-label>span {border: 1px solid #009688}
+div[xm-select-skin] .xm-select-title div.xm-select-label>span {border: 1px solid rgb(139,22,11)}
 div[xm-select-skin] .xm-select-title div.xm-select-label>span i:hover {opacity: .8;filter: alpha(opacity=80);cursor: pointer}
 div[xm-select-skin=default] .xm-select-title div.xm-select-label>span {background-color: #F0F2F5;color: #909399;border: 1px solid #F0F2F5}
 div[xm-select-skin=default] .xm-select-title div.xm-select-label>span i {color: #C0C4CC}
@@ -101,11 +101,11 @@ div[xm-select-skin=danger].xm-form-selected .xm-select,div[xm-select-skin=danger
 .xm-select-linkage li {padding: 10px 0px;cursor: pointer;}
 .xm-select-linkage li span {padding-left: 20px;padding-right: 30px;display: inline-block;height: 20px;overflow: hidden;text-overflow: ellipsis;}
 .xm-select-linkage li.xm-select-this span {border-left: 5px solid #009688;color: #009688;padding-left: 15px;}
-.xm-select-linkage-group {position: absolute;left: 0;top: 0;right: 0;bottom: 0;overflow-x: hidden;overflow-y: auto;}
-.xm-select-linkage-group li:hover {border-left: 1px solid #009688;}
+.xm-select-linkage-group {position: absolute;left: 0;top: 0;right: 0;bottom: 0;}
+.xm-select-linkage-group li:hover {border-left: 0px solid #009688;}
 .xm-select-linkage-group li:hover span {padding-left: 19px;}
 .xm-select-linkage-group li.xm-select-this:hover span {padding-left: 15px;border-left-width: 4px;}
-.xm-select-linkage-group:nth-child(4n+1){background-color: #EFEFEF; left: 0;}
+.xm-select-linkage-group:nth-child(4n+1){background-color: #fff; left: 0;}
 .xm-select-linkage-group:nth-child(4n+1) li.xm-select-active{background-color: #F5F5F5;}
 .xm-select-linkage-group:nth-child(4n+2){background-color: #F5F5F5; left: 100px;}
 .xm-select-linkage-group:nth-child(4n+3) li.xm-select-active{background-color: #FAFAFA;}

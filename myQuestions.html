@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="lib/js/layui/css/layui.css" />
+		<link rel="stylesheet" href="css/paging.css" />
+		<script type="text/javascript" src="lib/js/jquery.js" ></script>
+		<script type="text/javascript" src="js/paging.js" ></script>
+	</head>
+	<style>
+		body{
+			overflow: hidden;
+		}
+		.quetions-type-tab{
+			width: 100%;
+			height: 30px;
+			padding-left: 50px;
+		}
+		.quetions-type-tab span{
+			font-size: 16px;
+			font-weight: bold;
+			margin-left: 100px;
+			color: gray;
+			cursor: pointer;
+		}
+		.quetions-type-tab .active{
+			color: #000;
+		}
+		.questionsItem{
+			position: relative;
+			width: 98%;
+			height: 140px;
+			background: #FFFFFF;
+			box-shadow: 0px 0px 6px 1px #b1b1b1;
+			border-radius: 6px;
+			padding-left: 20px;
+			padding-top: 10px;
+			margin-top: 30px;
+			margin-left: 1%;
+			box-sizing: border-box;
+		}
+		.questionsItem .icon-status{
+			position: absolute;
+			top: 0;
+			right: 20px;
+		}
+		.questions-name{
+			height: 40px;
+			font-size: 16px;
+			font-weight: bolder;
+			padding: 10px 20px;
+		}
+		.questions-info-reward{
+			margin-left: 20px;
+		}
+		.questions-info-reward,.questions-info-time{
+			float: left;
+		}
+		.questions-info-reward .questions-money{
+			color: rgb(139,22,11);
+		}
+		.questions-info-reward span{
+			color: gray;
+			font-size: 16px;
+			font-weight: bolder;
+		}
+		.questions-info-time{
+			margin-left: 140px;
+			font-weight: 600;
+			font-size: 16px;
+			color: #3C3C3C;
+			letter-spacing: .5px;
+		}
+		.person-btn-invite {
+			position: absolute;
+			right: 110px;
+			top: 20px;
+			width: 90px;
+			height: 90px;
+		}
+		.person-btn-invite-pending{
+			background: rgba(94, 137, 216,0.6);
+		}
+		.person-btn-invite-normal{
+			background: rgba(139, 22, 11, 0.6);
+		}
+		.person-btn-invite-finish{
+			background: rgba(173, 173, 173, 0.6);
+		}
+		.person-btn-invite-in{
+			position: absolute;
+			right: 120px;
+			top: 30px;
+			width: 70px;
+			height: 70px;
+			text-align: center;
+			color: white;
+			line-height: 20px;
+			font-size: 14px;
+			cursor: pointer;
+			padding-top: 15px;
+			box-sizing: border-box;
+		}
+		.person-btn-invite-in-pending{
+			background: rgb(94, 137, 216,1);
+		}
+		.person-btn-invite-in-finish{
+			background: rgba(173, 173, 173, 1);
+		}
+		.person-btn-invite-in-normal{
+			background: rgba(139, 22, 11, 1);
+		}
+		.pageBox{
+			bottom: 20px;
+		}
+		
+	</style>
+	<body>
+			<div class="quetions-type-tab">
+				<span class="active">方案</span>
+				<span>施工图</span>
+			</div>
+			<div class="questionsItem">
+				<div class="questions-name">
+					建筑设计中基于文脉关系分析等有什么作用？
+				</div>
+				<div class="questions-info">
+					<div class="questions-info-reward">
+						<img src="img/money.png" />
+						<span><span class="questions-money">50000</span>  RMB</span>
+					</div>
+					<div class="questions-info-time">
+						<img src="img/time.png" />
+						<span class="questions-time">
+							2018-10-01 13:33:22
+						</span>
+					</div>
+				</div>
+				<div class="person-btn-invite layui-circle  person-btn-invite-normal"></div>
+				<div class="person-btn-invite-in layui-circle person-btn-invite-in-normal">
+					<p>结束</p>
+					<p>答题</p>
+				</div>
+				<img src="img/icon_normal.png" class="icon-status" />
+			</div>
+			<div class="questionsItem">
+				<div class="questions-name">
+					建筑设计中基于文脉关系分析等有什么作用？
+				</div>
+				<div class="questions-info">
+					<div class="questions-info-reward">
+						<img src="img/money.png" />
+						<span><span class="questions-money">50000</span>  RMB</span>
+					</div>
+					<div class="questions-info-time">
+						<img src="img/time.png" />
+						<span class="questions-time">
+							2018-10-01 13:33:22
+						</span>
+					</div>
+				</div>
+				<div class="person-btn-invite layui-circle person-btn-invite-finish"></div>
+				<div class="person-btn-invite-in layui-circle person-btn-invite-in-finish">
+					<p>删除</p>
+					<p>问题</p>
+				</div>
+				<img src="img/icon_finish.png" class="icon-status" />
+			</div>
+			<div class="questionsItem">
+				<div class="questions-name">
+					建筑设计中基于文脉关系分析等有什么作用？
+				</div>
+				<div class="questions-info">
+					<div class="questions-info-reward">
+						<img src="img/money.png" />
+						<span><span class="questions-money">50000</span>  RMB</span>
+					</div>
+					<div class="questions-info-time">
+						<img src="img/time.png" />
+						<span class="questions-time">
+							2018-10-01 13:33:22
+						</span>
+					</div>
+				</div>
+				<div class="person-btn-invite layui-circle person-btn-invite-pending"></div>
+				<div class="person-btn-invite-in layui-circle person-btn-invite-in-pending">
+					<p>修改</p>
+					<p>问题</p>
+				</div>
+				<img src="img/icon_pending.png" class="icon-status" />
+			</div>
+
+
+			
+			<div class="box pageBox" id="box"></div>
+			
+	</body>
+	<script>
+		$('#box').paging({
+				initPageNo: 1, // 初始页码
+				totalPages: 10, //总页数
+				// totalCount: '共300条', // 条目总数
+				slideSpeed: 600, // 缓动速度。单位毫秒 
+				callback: function (page) { // 回调函数 
+	
+				}
+			})
+	</script>
+</html>
