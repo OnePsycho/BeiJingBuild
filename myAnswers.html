@@ -39,11 +39,7 @@
 			margin-top: 30px;
 			margin-left: 1%;
 			box-sizing: border-box;
-		}
-		.questionsItem .icon-status{
-			position: absolute;
-			top: 0;
-			right: 20px;
+			
 		}
 		.questions-name{
 			height: 40px;
@@ -74,41 +70,29 @@
 		}
 		.person-btn-invite {
 			position: absolute;
-			right: 110px;
+			right: 50px;
 			top: 20px;
-			width: 90px;
-			height: 90px;
-			display: none;
-		}
-		.person-btn-invite-pending{
-			background: rgba(94, 137, 216,0.6);
+			width: 100px;
+			height: 100px;
+			background: rgba(173, 173, 173, 0.6);
 		}
 		.person-btn-invite-normal{
 			background: rgba(139, 22, 11, 0.6);
 		}
-		.person-btn-invite-finish{
-			background: rgba(173, 173, 173, 0.6);
-		}
 		.person-btn-invite-in{
 			position: absolute;
-			right: 120px;
+			right: 60px;
 			top: 30px;
-			width: 70px;
-			height: 70px;
+			width: 80px;
+			height: 80px;
+			background: rgba(173, 173, 173, 1);
 			text-align: center;
 			color: white;
 			line-height: 20px;
-			font-size: 14px;
+			font-size: 16px;
 			cursor: pointer;
-			padding-top: 15px;
+			padding-top: 20px;
 			box-sizing: border-box;
-			display: none;
-		}
-		.person-btn-invite-in-pending{
-			background: rgb(94, 137, 216,1);
-		}
-		.person-btn-invite-in-finish{
-			background: rgba(173, 173, 173, 1);
 		}
 		.person-btn-invite-in-normal{
 			background: rgba(139, 22, 11, 1);
@@ -116,7 +100,6 @@
 		.pageBox{
 			bottom: 20px;
 		}
-		
 	</style>
 	<body>
 			<div class="quetions-type-tab">
@@ -139,12 +122,11 @@
 						</span>
 					</div>
 				</div>
-				<div class="person-btn-invite layui-circle  person-btn-invite-normal"></div>
+				<div class="person-btn-invite layui-circle person-btn-invite-normal"></div>
 				<div class="person-btn-invite-in layui-circle person-btn-invite-in-normal">
-					<p>结束</p>
 					<p>答题</p>
+					<p>结束</p>
 				</div>
-				<img src="img/icon_normal.png" class="icon-status" />
 			</div>
 			<div class="questionsItem">
 				<div class="questions-name">
@@ -162,12 +144,11 @@
 						</span>
 					</div>
 				</div>
-				<div class="person-btn-invite layui-circle person-btn-invite-finish"></div>
-				<div class="person-btn-invite-in layui-circle person-btn-invite-in-finish">
-					<p>删除</p>
-					<p>问题</p>
+				<div class="person-btn-invite layui-circle"></div>
+				<div class="person-btn-invite-in layui-circle">
+					<p>答题</p>
+					<p>结束</p>
 				</div>
-				<img src="img/icon_finish.png" class="icon-status" />
 			</div>
 			<div class="questionsItem">
 				<div class="questions-name">
@@ -185,14 +166,34 @@
 						</span>
 					</div>
 				</div>
-				<div class="person-btn-invite layui-circle person-btn-invite-pending"></div>
-				<div class="person-btn-invite-in layui-circle person-btn-invite-in-pending">
-					<p>修改</p>
-					<p>问题</p>
+				<div class="person-btn-invite layui-circle"></div>
+				<div class="person-btn-invite-in layui-circle">
+					<p>答题</p>
+					<p>结束</p>
 				</div>
-				<img src="img/icon_pending.png" class="icon-status" />
 			</div>
-
+			<div class="questionsItem">
+				<div class="questions-name">
+					建筑设计中基于文脉关系分析等有什么作用？
+				</div>
+				<div class="questions-info">
+					<div class="questions-info-reward">
+						<img src="img/money.png" />
+						<span><span class="questions-money">50000</span>  RMB</span>
+					</div>
+					<div class="questions-info-time">
+						<img src="img/time.png" />
+						<span class="questions-time">
+							2018-10-01 13:33:22
+						</span>
+					</div>
+				</div>
+				<div class="person-btn-invite layui-circle"></div>
+				<div class="person-btn-invite-in layui-circle">
+					<p>答题</p>
+					<p>结束</p>
+				</div>
+			</div>
 
 			
 			<div class="box pageBox" id="box"></div>

@@ -1,544 +1,337 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>北京工业设计院</title>
-	<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="css/main.css" />
-	<link rel="stylesheet" href="css/sidenav.css" />
-	<link rel="stylesheet" href="css/animate.css" />
-	<link rel="stylesheet" href="css/paging.css" />
-	<link rel="stylesheet" href="css/pretty.css" />
-	<link rel="stylesheet" href="lib/js/layui/css/layui.css" />
-	<link rel="stylesheet" href="css/index.css" />
-	<link rel="stylesheet" href="css/person.css" />
-	<!--<script type="text/javascript" src="bootstrap-3.3.7-dist/js/jquery-3.2.1.min.js"></script>-->
-	<script type="text/javascript" src="lib/js/jquery.js" ></script>
-	<script type="text/javascript" src="js/common.js" ></script>
-	<script type="text/javascript" src="bootstrap-3.3.7-dist/js/sidenav.js"></script>
-	<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
-	<script type="text/javascript" src="js/paging.js"></script>
-	<script type="text/javascript" src="lib/js/jquery-tab.js"></script>
-	<script type="text/javascript" src="lib/js/vue.min.js" ></script>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>北京工业设计院</title>
+		<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/sidenav.css" />
+		<link rel="stylesheet" href="css/animate.css" />
+		<link rel="stylesheet" href="css/paging.css" />
+		<link rel="stylesheet" href="css/pretty.css" />
+		<link rel="stylesheet" href="lib/js/layui/css/layui.css" />
+		<link rel="stylesheet" href="lib/js/layui/css/modules/layer/default/layer.css" />
+		<link rel="stylesheet" href="css/index.css" />
+		<link rel="stylesheet" href="css/person.css" />
+		<!--<script type="text/javascript" src="bootstrap-3.3.7-dist/js/jquery-3.2.1.min.js"></script>-->
+		<script type="text/javascript" src="lib/js/jquery.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="bootstrap-3.3.7-dist/js/sidenav.js"></script>
+		<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+		<script type="text/javascript" src="js/paging.js"></script>
+		<script type="text/javascript" src="lib/js/jquery-tab.js"></script>
+		<script type="text/javascript" src="lib/js/vue.min.js"></script>
 		<!--[if lte IE 9]>
 	<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.3/jquery.xdomainrequest.min.js'></script>
 	<![endif]-->
-	
-</head>
-<body>
-	<div class="container-fluid">
-		<div class="row bj-container">
-			<div class="col-sm-12">
-				<div class="row">
-					<!--Header部分-->
-					<div class="col-sm-12 bj-header">
-						<div class="header-tools">
-							<ul class="layui-nav">
-							  <li class="layui-nav-item">
-							    <a href=""><img src="img/icon_headImg.png" class="layui-nav-img" id="header_img"><span id="header_username"></span></a>
-							    <dl class="layui-nav-child">
-							      <dd><a href="javascript:;">个人中心</a></dd>
-							      <dd><a href="login.html">退出登录</a></dd>
-							    </dl>
-							  </li>
-								<li class="layui-nav-item">
-								<a href=""><img src="img/icon_news.png" class="layui-nav-img">消息通知</a>
-							  </li>
-							
-							</ul>
+
+	</head>
+
+	<body>
+		
+		<div class="container-fluid">
+			<div class="row bj-container">
+				<div class="col-sm-12">
+					<div class="row">
+						<!--Header部分-->
+						<div class="col-sm-12 bj-header">
+							<div class="header-tools">
+								<ul class="layui-nav">
+									<li class="layui-nav-item">
+										<a href=""><img src="img/icon_headImg.png" class="layui-nav-img" id="header_img"><span id="header_username"></span></a>
+										<dl class="layui-nav-child">
+											<dd>
+												<a href="personalCenter.html">个人中心</a>
+											</dd>
+											<dd>
+												<a href="login.html">退出登录</a>
+											</dd>
+										</dl>
+									</li>
+									<li class="layui-nav-item">
+										<a href="personalCenter.html"><img src="img/icon_news.png" class="layui-nav-img">消息通知</a>
+									</li>
+
+								</ul>
+							</div>
 						</div>
-					</div>
-					<div class="row bj-main">
-						<!--左侧栏-->
-						<div class="col-sm-2 bj-aside bj-aside-left">
-							<div class="bj-aside-title">人才展示</div>
-							<ul class="nav nav-tabs nav-pills-left">
-								<li role="presentation" class="active">
-									<a href="#">方案</a>
-								</li>
-								<li role="presentation" class="else">
-									<a href="#">施工图</a>
-								</li>
-							</ul>
-							<nav class="sidenav" data-sidenav data-sidenav-toggle="#sidenav-toggle" id="personnelList" v-clock>
-								<ul class="sidenav-menu">
-									<li v-for="(item,index) of personnelList">
-										<a href="javascript:;" data-sidenav-dropdown-toggle class="active">
-											<span class="sidenav-link-icon">
-												<img src="img/building1.png" class="icons" />
-											</span>
-											<span class="sidenav-link-title">{{item.name}}</span>
-											<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
-												<i class="glyphicon glyphicon-menu-up"></i>
-											</span>
-											<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
-												<i class="glyphicon glyphicon-menu-down"></i>
-											</span>
-										</a>
-										<div class="slidenav-content" data-sidenav-dropdown>
-											<div class="slidenav-classify-a">
-												<div class="pretty circle danger"  v-for="(personnelTypes,index) of item.personnelTypes" @click="personnelTypeHandle(personnelTypes.id)">
-												  <input type="radio" name="radio1"> 
-												  <label><i class="default"></i> {{personnelTypes.name}}</label>
-												</div>											
-											</div>
-										</div>
+						<div class="row bj-main">
+							<!--左侧栏-->
+							<div class="col-sm-2 bj-aside bj-aside-left">
+								<div class="bj-aside-title">人才展示</div>
+								<ul class="nav nav-tabs nav-pills-left">
+									<li role="presentation" class="active">
+										<a href="#">方案</a>
+									</li>
+									<li role="presentation" class="else">
+										<a href="#">施工图</a>
 									</li>
 								</ul>
-								<div class="menu-buttons">
-									<img src="img/btn_bg1.png" class="menu-button" id="btnAsk"/>
-									<img src="img/btn_my_questions.png" class="menu-button" id="btnMyQuestions"/>
-									<img src="img/btn_bg3.png" class="menu-button" id="btnLatestQuestions"/>
-								</div>
-							</nav>
-						</div>
-						<!--主内容区域-->
-						<div class="col-sm-7 bj-main-box">
-							<!--问题展示区域-->
-							<div class="bj-content questionsShow" style="display: none;">
-								<div class="row">
-									<div class="bj-hall-item">
-										<div class="hall-item-countDown">
-											<span style="color: #000000;">倒计时:</span><span>2</span>天<span>5</span>时<span>30</span>分<span>30</span>秒
-										</div>
-										<div class="hall-item-container">
-											<div class="hall-item-questionBox">
-												<div class="hall-item-question">
-													建筑设计中基于文脉进行设计的城市肌理分析、图底关系分析等有什么作用？
-												</div>
-												<img src="img/btn_bg.png"/>
-											</div>
-											<div class="hall-item-datas">
-												<div class="hall-item-data hall-reward">
-													<img src="img/money.png" />
-													<span>50000</span>
-													<span style="margin-left: 10px;color: gray;">RMB</span>
-												</div><div class="hall-item-data hall-reward">
-													<img src="img/person.png" />
-													<span>5</span>
-													<span style="margin-left: 10px;color: gray;">人</span>
-												</div><div class="hall-item-data hall-reward">
-													<img src="img/time.png" />
-													<span style="color: #3C3C3C;font-weight: 500;text-align: left;">
-														<p>2018-01-05</p>
-														<p>13:33:22</p>
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="bj-hall-item">
-										<div class="hall-item-countDown">
-											<span style="color: #000000;">倒计时:</span><span>2</span>天<span>5</span>时<span>30</span>分<span>30</span>秒
-										</div>
-										<div class="hall-item-container">
-											<div class="hall-item-questionBox">
-												<div class="hall-item-question">
-													建筑设计中基于文脉进行设计的城市肌理分析、图底关系分析等有什么作用？
-												</div>
-												<img src="img/btn_bg.png"/>
-											</div>
-											<div class="hall-item-datas">
-												<div class="hall-item-data hall-reward">
-													<img src="img/money.png" />
-													<span>50000</span>
-													<span style="margin-left: 10px;color: gray;">RMB</span>
-												</div><div class="hall-item-data hall-reward">
-													<img src="img/person.png" />
-													<span>5</span>
-													<span style="margin-left: 10px;color: gray;">人</span>
-												</div><div class="hall-item-data hall-reward">
-													<img src="img/time.png" />
-													<span style="color: #3C3C3C;font-weight: 500;text-align: left;">
-														<p>2018-01-05</p>
-														<p>13:33:22</p>
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="bj-hall-item">
-										<div class="hall-item-countDown">
-											<span style="color: #000000;">倒计时:</span><span>2</span>天<span>5</span>时<span>30</span>分<span>30</span>秒
-										</div>
-										<div class="hall-item-container">
-											<div class="hall-item-questionBox">
-												<div class="hall-item-question">
-													建筑设计中基于文脉进行设计的城市肌理分析、图底关系分析等有什么作用？
-												</div>
-												<img src="img/btn_bg.png"/>
-											</div>
-											<div class="hall-item-datas">
-												<div class="hall-item-data hall-reward">
-													<img src="img/money.png" />
-													<span>50000</span>
-													<span style="margin-left: 10px;color: gray;">RMB</span>
-												</div><div class="hall-item-data hall-reward">
-													<img src="img/person.png" />
-													<span>5</span>
-													<span style="margin-left: 10px;color: gray;">人</span>
-												</div><div class="hall-item-data hall-reward">
-													<img src="img/time.png" />
-													<span style="color: #3C3C3C;font-weight: 500;text-align: left;">
-														<p>2018-01-05</p>
-														<p>13:33:22</p>
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="bj-hall-item">
-										<div class="hall-item-countDown">
-											<span style="color: #000000;">倒计时:</span><span>2</span>天<span>5</span>时<span>30</span>分<span>30</span>秒
-										</div>
-										<div class="hall-item-container">
-											<div class="hall-item-questionBox">
-												<div class="hall-item-question">
-													建筑设计中基于文脉进行设计的城市肌理分析、图底关系分析等有什么作用？
-												</div>
-												<img src="img/btn_bg.png"/>
-											</div>
-											<div class="hall-item-datas">
-												<div class="hall-item-data hall-reward">
-													<img src="img/money.png" />
-													<span>50000</span>
-													<span style="margin-left: 10px;color: gray;">RMB</span>
-												</div><div class="hall-item-data hall-reward">
-													<img src="img/person.png" />
-													<span>5</span>
-													<span style="margin-left: 10px;color: gray;">人</span>
-												</div><div class="hall-item-data hall-reward">
-													<img src="img/time.png" />
-													<span style="color: #3C3C3C;font-weight: 500;text-align: left;">
-														<p>2018-01-05</p>
-														<p>13:33:22</p>
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="box" id="box"></div>
-							</div>
-							
-							<!--人才展示区域-->
-							<div class="bj-content personShow" style="display: none;">
-								<div class="personShow-item">
-									<div class="person-img">
-										<img src="img/icon_person.png" />
-									</div>
-									<div class="person-info">
-										<div class="person-info-item">
-											<span class="person-usename">张三</span>
-											<span class="person-workTime">从业年限：8 年</span>
-										</div>
-										<div class="person-info-item">
-											<img src="img/icon_flag.png" />
-											<span class="person-flag">靠谱</span>
-											<span class="person-flag">效率高</span>
-											<span class="person-flag">认真负责</span>
-											<span class="person-flag">专业</span>
-										</div>
-										<div class="person-info-item">
-											<img src="img/icon_personnelType.png" />
-											<span class="person-personnelType">擅长领域：
-												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
-												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
-												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
+								<nav class="sidenav" data-sidenav data-sidenav-toggle="#sidenav-toggle" id="personnelList" v-clock>
+									<ul class="sidenav-menu">
+										<li v-for="(item,index) of personnelList">
+											<a href="javascript:;" data-sidenav-dropdown-toggle class="active">
+												<span class="sidenav-link-icon">
+												<img src="img/building1.png" class="icons" />
 											</span>
-										</div>
-									</div>
-									<div class="person-btn-invite layui-circle"></div>
-									<div class="person-btn-invite-in layui-circle">邀请</div>
-								</div>
-								<div class="personShow-item">
-									<div class="person-img">
-										<img src="img/icon_person.png" />
-									</div>
-									<div class="person-info">
-										<div class="person-info-item">
-											<span class="person-usename">张三</span>
-											<span class="person-workTime">从业年限：8 年</span>
-										</div>
-										<div class="person-info-item">
-											<img src="img/icon_flag.png" />
-											<span class="person-flag">靠谱</span>
-											<span class="person-flag">效率高</span>
-											<span class="person-flag">认真负责</span>
-											<span class="person-flag">专业</span>
-										</div>
-										<div class="person-info-item">
-											<img src="img/icon_personnelType.png" />
-											<span class="person-personnelType">擅长领域：
-												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
-												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
-												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
+												<span class="sidenav-link-title">{{item.name}}</span>
+												<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
+												<i class="glyphicon glyphicon-menu-up"></i>
 											</span>
-										</div>
-									</div>
-									<div class="person-btn-invite layui-circle"></div>
-									<div class="person-btn-invite-in layui-circle">邀请</div>
-								</div>
-								<div class="personShow-item">
-									<div class="person-img">
-										<img src="img/icon_person.png" />
-									</div>
-									<div class="person-info">
-										<div class="person-info-item">
-											<span class="person-usename">张三</span>
-											<span class="person-workTime">从业年限：8 年</span>
-										</div>
-										<div class="person-info-item">
-											<img src="img/icon_flag.png" />
-											<span class="person-flag">靠谱</span>
-											<span class="person-flag">效率高</span>
-											<span class="person-flag">认真负责</span>
-											<span class="person-flag">专业</span>
-										</div>
-										<div class="person-info-item">
-											<img src="img/icon_personnelType.png" />
-											<span class="person-personnelType">擅长领域：
-												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
-												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
-												<span style="margin-left: 10px;">方案-居住建筑-高层住宅</span>
+												<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
+												<i class="glyphicon glyphicon-menu-down"></i>
 											</span>
-										</div>
-									</div>
-									<div class="person-btn-invite layui-circle"></div>
-									<div class="person-btn-invite-in layui-circle">邀请</div>
-								</div>
-							<div class="box pageBox" id="box-person"></div>
-							
-							</div>
-						
-							<div class="bj-content iframeShow">
-								<iframe src="myQuestions.html" frameborder="0" id="contentIframe"></iframe>
+											</a>
+											<div class="slidenav-content" data-sidenav-dropdown>
+												<div class="slidenav-classify-a">
+													<!--<div class="pretty circle danger"  @click="personnelTypeHandle(item.id)">
+												  <input type="radio" name="radio1"> 
+												  <label><i class="default"></i> 全部</label>
+												</div>	-->
+													<div class="pretty circle danger" v-for="(personnelTypes,index) of item.sortPersonnelTypes" @click="personnelTypeHandle(personnelTypes.id)">
+														<input type="radio" name="radio1">
+														<label><i class="default"></i> {{personnelTypes.name}}</label>
+													</div>
 
+												</div>
+											</div>
+										</li>
+									</ul>
+									<div class="menu-buttons">
+										<img src="img/btn_bg1.png" class="menu-button" id="btnAsk" />
+										<img src="img/btn_my_questions.png" class="menu-button" id="btnMyQuestions" />
+										<img src="img/btn_bg3.png" class="menu-button" id="btnLatestQuestions" />
+									</div>
+								</nav>
 							</div>
-						</div>
-						<!--右侧栏-->
-						<div class="col-sm-2 bj-aside bj-aside-right">
-							<div class="bj-aside-title">问题展示</div>
-							<ul class="nav nav-tabs nav-pills-right">
-								<li role="presentation" class="active">
-									<a href="#">方案</a>
-								</li>
-								<li role="presentation" class="else">
-									<a href="#">施工图</a>
-								</li>
-							</ul>
-							<nav class="sidenav" data-sidenav data-sidenav-toggle="#sidenav-toggle">
-								<ul class="sidenav-menu">
-								<li>
-									<a href="javascript:;" data-sidenav-dropdown-toggle class="active">
-										<span class="sidenav-link-icon">
+							<!--主内容区域-->
+							<div class="col-sm-7 bj-main-box">
+								<!--问题展示区域-->
+								<div class="bj-content questionsShow" id="questionsShow">
+									<div class="row">
+										<div class="bj-hall-item" v-for="(item,index) of questionList">
+											<div class="hall-item-countDown">
+												<span style="color: #000000;">倒计时:</span><span :id='"d"+item.id'></span>天<span :id='"h"+item.id'></span>时<span :id='"m"+item.id'></span>分<span :id='"s"+item.id'></span>秒
+											</div>
+											<div class="hall-item-container">
+												<div class="hall-item-questionBox">
+													<div class="hall-item-question">
+														{{item.title}}
+													</div>
+													<img src="img/btn_bg.png" class="applyBtn" style="display: none;cursor: pointer;" @click="applyAction(item.id)" />
+												</div>
+												<div class="hall-item-datas">
+													<div class="hall-item-data hall-reward">
+														<img src="img/money.png" title="赏金金额" />
+														<span>{{item.reward}}</span>
+														<span style="margin-left: 10px;color: gray;">RMB</span>
+													</div>
+													<div class="hall-item-data hall-reward">
+														<img src="img/person.png" title="参与人数" />
+														<span>{{item.joinNum}}</span>
+														<span style="margin-left: 10px;color: gray;">人</span>
+													</div>
+													<div class="hall-item-data hall-reward">
+														<img src="img/time.png" title="截止时间" />
+														<span style="color: #3C3C3C;font-weight: 500;text-align: left;">
+														<p>{{item.year}}</p>
+														<p>{{item.time}}</p>
+													</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="box" id="box"></div>
+								</div>
+
+								<!--人才展示区域-->
+								<div class="bj-content personShow" id="personShow" style="display: none;">
+									<div class="personShow-item" v-for="(item,index) of freeDesginerList">
+										<div class="person-img">
+											<img :src="item.tempHeadImg" />
+										</div>
+										<div class="person-info">
+											<div class="person-info-item">
+												<span class="person-usename">{{item.tempName}}</span>
+												<span class="person-workTime">从业年限：{{item.memberExt.workTime}} 年</span>
+											</div>
+											<div class="person-info-item">
+												<img src="img/icon_flag.png" />
+												<span class="person-flag" v-for="(flag,index) of item.memberExt.flags">{{flag}}</span>
+
+											</div>
+											<div class="person-info-item">
+												<img src="img/icon_personnelType.png" />
+												<span class="person-personnelType">擅长领域：
+												<span style="margin-left: 10px;" v-for="(personnel,index) of item.personnelTree">{{personnel}}</span>
+												</span>
+											</div>
+										</div>
+										<div class="person-btn-invite layui-circle" style="display: none;"></div>
+										<div class="person-btn-invite-in layui-circle" style="display: none;" @click="inviteFreeDesigner(item.id,item.tempName)">邀请</div>
+									</div>
+
+									<div class="box pageBox" id="box-person"></div>
+
+								</div>
+
+								<div class="bj-content iframeShow" id="iframeShow" style="display: none;">
+									<iframe src="myQuestions.html" frameborder="0" id="contentIframe"></iframe>
+
+								</div>
+							</div>
+							<!--右侧栏-->
+							<div class="col-sm-2 bj-aside bj-aside-right">
+								<div class="bj-aside-title">问题展示</div>
+								<ul class="nav nav-tabs nav-pills-right">
+									<li role="presentation" class="active">
+										<a href="#">方案</a>
+									</li>
+									<li role="presentation" class="else">
+										<a href="#">施工图</a>
+									</li>
+								</ul>
+								<nav class="sidenav" data-sidenav data-sidenav-toggle="#sidenav-toggle" id="platformList" v-cloak>
+									<ul class="sidenav-menu">
+										<li v-for="(item,index) of platformList" v-cloak>
+											<a href="javascript:;" data-sidenav-dropdown-toggle class="active">
+												<span class="sidenav-link-icon">
 											<img src="img/building1.png" class="icons" />
 										</span>
-										<span class="sidenav-link-title">居住建筑</span>
-									<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
-										<i class="glyphicon glyphicon-menu-up"></i>
-									</span>
-									<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
-										<i class="glyphicon glyphicon-menu-down"></i>
-									</span>
-												</a>
-												<div class="slidenav-content" data-sidenav-dropdown>
-													<div class="slidenav-classify-a">
-														<div class="pretty circle danger">
-														  <input type="radio" name="radio19"> 
-														  <label><i class="default"></i> 高层住宅</label>
-														</div>
-														<div class="pretty circle danger">
-														  <input type="radio" name="radio19"> 
-														  <label><i class="default"></i> 高层住宅</label>
-														</div>
-											
-											</div>
-											<div class="slidenav-classify-b">
-												 <div class="tab-group">
-													<section id="tab4" title="三维...">
-													<div class="rooms">
-													  <div class="room-item">
-														  <img src="img/house.png" />
-														  <p>房间一</p>
-													  </div><div class="room-item">
-														  <img src="img/house.png" />
-														  <p>房间一</p>
-													  </div><div class="room-item">
-														  <img src="img/house.png" />
-														  <p>房间一</p>
-													  </div><div class="room-item">
-														  <img src="img/house.png" />
-														  <p>房间一</p>
-													  </div><div class="room-item">
-														  <img src="img/house.png" />
-														  <p>房间一</p>
-													  </div>
-													</div>
-													</section>
-													<section id="tab5" title="立面...">
-													  <div class="rooms">
-													  <div class="room-item">
-													  	<img src="img/house.png" />
-													  	<p>房间一</p>
-													  </div>
-													  </div>
-													</section>
-													<section id="tab6" title="平面...">
-													  <div class="rooms">
-													 <div class="room-item">
-													  	<img src="img/house.png" />
-													  	<p>房间一</p>
-													  </div>
-													  </div>
-													</section>
-													<section id="tab8" title="平面...">
-													  <div class="rooms">
-													 <div class="room-item">
-													  	<img src="img/house.png" />
-													  	<p>房间一</p>
-													  </div>
-													  </div>
-													</section>
-												  </div>
-											</div>
-										</div>
-										
-									</li>
-									<li>
-										<a href="javascript:;" data-sidenav-dropdown-toggle class="active">
-											<span class="sidenav-link-icon">
-												<img src="img/building1.png" class="icons" />
-											</span>
-											<span class="sidenav-link-title">居住建筑</span>
-											<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
+												<span class="sidenav-link-title" v-cloak>{{item.name}}</span>
+												<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
 												<i class="glyphicon glyphicon-menu-up"></i>
-											</span>
-											<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
+										</span>
+												<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
 												<i class="glyphicon glyphicon-menu-down"></i>
-											</span>
-										</a>
-										<div class="slidenav-content" data-sidenav-dropdown>
-											<div class="slidenav-classify-a">
-												<div class="pretty circle danger">
-												  <input type="radio" name="radio19"> 
-												  <label><i class="default"></i> 高层住宅</label>
-												</div>
-												<div class="pretty circle danger">
-												  <input type="radio" name="radio19"> 
-												  <label><i class="default"></i> 高层住宅</label>
-												</div>
-											
-											</div>
-											<div class="slidenav-classify-b">
-												 <div class="tab-group">
-													<section id="tab4" title="三维...">
-													<div class="rooms">
-													  <div class="room-item">
-														  <img src="img/house.png" />
-														  <p>房间一</p>
-													  </div><div class="room-item">
-														  <img src="img/house.png" />
-														  <p>房间一</p>
-													  </div><div class="room-item">
-														  <img src="img/house.png" />
-														  <p>房间一</p>
-													  </div><div class="room-item">
-														  <img src="img/house.png" />
-														  <p>房间一</p>
-													  </div><div class="room-item">
-														  <img src="img/house.png" />
-														  <p>房间一</p>
-													  </div>
+										</span>
+											</a>
+											<div class="slidenav-content" data-sidenav-dropdown v-cloak>
+												<div class="slidenav-classify-a">
+													<div class="pretty circle danger" v-for="(third,index) of item.sortPlatformTypes" v-cloak>
+														<input type="radio" name="radio1" @click="platformTypeHandle(third.id,third.sortPlatformTypes)">
+														<label><i class="default" ></i> {{third.name}}</label>
 													</div>
-													</section>
-													<section id="tab5" title="立面...">
-													  <div class="rooms">
-													  <div class="room-item">
-													  	<img src="img/house.png" />
-													  	<p>房间一</p>
-													  </div>
-													  </div>
-													</section>
-													<section id="tab6" title="平面...">
-													  <div class="rooms">
-													 <div class="room-item">
-													  	<img src="img/house.png" />
-													  	<p>房间一</p>
-													  </div>
-													  </div>
-													</section>
-													<section id="tab8" title="平面...">
-													  <div class="rooms">
-													 <div class="room-item">
-													  	<img src="img/house.png" />
-													  	<p>房间一</p>
-													  </div>
-													  </div>
-													</section>
-												  </div>
+													</div>	
+													
+													<div class="slidenav-classify-b" id="thirdList" style="display:none;">
+														<div class="layui-tab layui-tab-card">
+														  <ul class="layui-tab-title" >
+														    <li v-for="item in thirdList" v-cloak @click="thirdClickHandle(item.id,item.sortPlatformTypes)">{{item.name}}</li>
+														  </ul>
+														  <div class="layui-tab-content">
+														    <div class="layui-tab-item" v-for="item in thirdList">
+														    	<div class="rooms">
+														    		<div class="room-item"  v-for="fourth in fourthList" @click="fourthClickHandle(fourth.id,fourth.sortPlatformTypes)">
+														    			{{fourth.name}}
+														    		</div>
+														    	</div>
+														    </div>
+														  </div>
+														</div>
+													</div>
+													
+													
+													
+													
+													
 											</div>
-										</div>
-										
-									</li>
-								</ul>
-							</nav>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-12 bj-footer">
-							<div class="footer-left">
-							<p>Q　　Q：928062553</p>
-							<p>电　　话：18482133094</p>
-							<p>传　　真：928062553</p>
-							<p>邮　　箱：928062553@qq.com</p>
-							<p>公司地址：四川省成都市高新区天府二街99号</p>
+										</li>
+									</ul>
+								</nav>
 							</div>
-							<div class="footer-right">
-								<p>Copyright © 2018 汇辰环球（成都）信息科技有限公司 </p>
-								<p>版权所有 备案许可证号： 蜀ICP备18001922号 </p>
+						</div>
+						<div class="row">
+							<div class="col-sm-12 bj-footer">
+								<div class="footer-left">
+									<p>Q　　Q：928062553</p>
+									<p>电　　话：18482133094</p>
+									<p>传　　真：928062553</p>
+									<p>邮　　箱：928062553@qq.com</p>
+									<p>公司地址：四川省成都市高新区天府二街99号</p>
+								</div>
+								<div class="footer-right">
+									<p>Copyright © 2018 汇辰环球（成都）信息科技有限公司 </p>
+									<p>版权所有 备案许可证号： 蜀ICP备18001922号 </p>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<!--邀请人才选择框-->
+			<div id="inviteDialog" class="inviteDialog">
+				<form class="layui-form" action="">
+					<div class="layui-form-item">
+						<label class="layui-form-label">被邀请人</label>
+						<div class="layui-input-block">
+							<span id="invitedUser" class="invitedUser">张山</span>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">请选择邀请回答的问题</label>
+						<div class="layui-input-block">
+							<select name="city" lay-verify="required">
+								<option value=""></option>
+								<option value="0">北京</option>
+								<option value="1">上海</option>
+								<option value="2">广州</option>
+								<option value="3">深圳</option>
+								<option value="4">杭州</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item" style="margin-top: 30px;">
+						<div class="layui-input-block">
+							<button class="layui-btn" lay-submit lay-filter="formDemo">确认邀请</button>
+							<button type="reset" class="layui-btn">重置</button>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
-	</div>
-</body>
-	
-	<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
+	</body>
+
+	<script type="text/javascript" src="lib/js/layui/layui.js"></script>
+	<script type="text/javascript" src="lib/js/layui/lay/modules/layer.js"></script>
+	<script type="text/javascript" src="lib/js/leftTime.min.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
 	<script>
-		$(function () {
+		$(function() {
 			$('[data-sidenav]').sidenav();
-			$('#box').paging({
-				initPageNo: 1, // 初始页码
-				totalPages: 10, //总页数
-				// totalCount: '共300条', // 条目总数
-				slideSpeed: 600, // 缓动速度。单位毫秒 
-				callback: function (page) { // 回调函数 
-	
-				}
-			})
+
 			$('#box-person').paging({
 				initPageNo: 1, // 初始页码
 				totalPages: 10, //总页数
 				// totalCount: '共300条', // 条目总数
 				slideSpeed: 600, // 缓动速度。单位毫秒 
-				callback: function (page) { // 回调函数 
-	
+				callback: function(page) { // 回调函数 
+
 				}
 			})
-			  $('.tab-group').tabify();
+
+		});
+
+		$('.tab-group').tabify();
+
+		layui.use('element', function() {
+			var element = layui.element;
+		});
+
+		layui.use('form', function() {
+			var form = layui.form;
+			//		  
+			//		  //监听提交
+			//		  form.on('submit(formDemo)', function(data){
+			//		    layer.msg(JSON.stringify(data.field));
+			//		    return false;
+			//		  });
 		});
 		
-		layui.use('element', function(){
-		  var element = layui.element;
-		});
-	
 	</script>
-	
-	</html>
+
+</html>

@@ -3,7 +3,7 @@ var phoneFlag = false;
 var emailPswFlag = false;
 var phonePswFlag = false;
 var pswStrong = 0;
-var role = "firstParty";
+var role = "";
 var InterValObj; //timer变量，控制时间 
 var count = 60; //间隔函数，1秒执行 
 var curCount; //当前剩余秒数 
@@ -18,16 +18,21 @@ $('.role-item').click(function() {
 	if($(this).text() == "甲方") {
 		role = "firstParty"
 	} else if($(this).text() == "设计师") {
-		role = "freeDesigner"
+		role = "freeDesigner"	
 	} else {
 		role = "projectManager"
 	}
 })
 
 $('#btnNext').click(function() {
-	$('#registerBox').css('display', 'block');
-	$('#roleBox').css('display', 'none');
-	$('.hasAccount').css('display', 'block');
+	if(role==""){
+		layer.msg("请先选择注册的身份！")
+	}else{
+		$('#registerBox').css('display', 'block');
+		$('#roleBox').css('display', 'none');
+		$('.hasAccount').css('display', 'block');
+	}
+
 })
 
 $('#btnRegister').on('click', function() {

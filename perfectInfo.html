@@ -155,7 +155,7 @@
 							    <div class="layui-form-item">
 								    <label class="layui-form-label">擅长领域</label>
 								    <div class="layui-input-block">
-								          <select name="personnelIds" xm-select="select_person" lay-verify="required">
+								          <select name="personnelIds" xm-select="select_person"  lay-verify="required">
 										        <option value="">请选择你所擅长的领域，可多选</option>
 										  </select>
 								    </div>
@@ -197,21 +197,25 @@
 			    <div class="layui-form-item">
 				    <label class="layui-form-label">项目类别</label>
 				    <div class="layui-input-block">
-			          <select name="platformId" xm-select="select_platform" lay-verify="required">
-					        <option value="">请选择项目类别</option>
+			          <select name="platformId" xm-select="select_platform" xm-select-max="1" xm-select-radio lay-verify="required">
+					        <option value="">请选择项目类别(最多一项)</option>-
 					  </select>
 				    </div>
 			  </div>
 			  <div class="layui-form-item">
 			    <label class="layui-form-label">业主名称</label>
 			    <div class="layui-input-block">
-			      <input type="text" name="ownerName" lay-verify="required" placeholder="请输入业主名称" autocomplete="off" class="layui-input">
+			      <input type="text" name="ownerName" placeholder="请输入业主名称" autocomplete="off" class="layui-input">
 			    </div>
 			  </div>
 			  <div class="layui-form-item">
 			    <label class="layui-form-label">业主级别</label>
 			    <div class="layui-input-block">
-			      <input type="text" name="platformId " lay-verify="required" placeholder="请输入业主级别" autocomplete="off" class="layui-input">
+				<select name="ownerLevel" lay-verify="required">
+			        <option value=""></option>
+			        <option value="全国性">全国性</option>
+			        <option value="地方性">地方性</option>
+			      </select>
 			    </div>
 			  </div>
 			  <div class="layui-form-item">
@@ -221,15 +225,15 @@
 			    </div>
 			  </div>
 			  <div class="layui-form-item">
-			    <label class="layui-form-label">业主成功案例</label>
+			    <label class="layui-form-label">业主典型案例</label>
 			    <div class="layui-input-block">
-			      <input type="text" name="ownerCases" lay-verify="required" placeholder="请输入成功案例" autocomplete="off" class="layui-input">
+			      <input type="text" name="ownerCases" lay-verify="required" placeholder="请输入业主的典型案例" autocomplete="off" class="layui-input">
 			    </div>
 			  </div>
 			  <div class="layui-form-item">
 			    <label class="layui-form-label">项目完成时间</label>
 			    <div class="layui-input-block">
-			     <input type="text" class="layui-input" name="finishDate" lay-verify="required" placeholder="请选择项目完成时间" id="finishDate">
+			     <input type="text" class="layui-input" name="finishDate" lay-verify="required" autocomplete="off" placeholder="请选择项目完成时间" id="finishDate">
 			    </div>
 			  </div>
 			  <div class="layui-form-item">
@@ -253,7 +257,7 @@
 			  <div class="layui-form-item">
 			    <label class="layui-form-label">参与时间</label>
 			    <div class="layui-input-block joinDatePicker">
-			       <input type="text" class="layui-input" name="joinDate" lay-verify="required" placeholder="请选择起止时间" id="joinDate">
+			       <input type="text" class="layui-input" name="joinDate" autocomplete="off" lay-verify="required" placeholder="请选择起止时间" id="joinDate">
 			    </div>
 			  </div>
 			  <div class="layui-form-item">

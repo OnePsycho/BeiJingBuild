@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>北京工业设计院</title>
+		<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/animate.css" />
+		<link rel="stylesheet" href="lib/js/layui/css/layui.css" />
+		<link rel="stylesheet" href="lib/js/layui/css/modules/layer/default/layer.css" />
+		<link rel="stylesheet" href="css/perfectInfo.css" />
+		<link rel="stylesheet" href="css/myself.css" />
+		<link rel="stylesheet" href="lib/formSelect/formSelects-v4.css" />
+		<!--<script type="text/javascript" src="bootstrap-3.3.7-dist/js/jquery-3.2.1.min.js"></script>-->
+		<script type="text/javascript" src="lib/js/jquery.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+		<script type="text/javascript" src="js/paging.js"></script>
+		<script type="text/javascript" src="lib/js/vue.min.js"></script>
+		<!--[if lte IE 9]>
+	<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.3/jquery.xdomainrequest.min.js'></script>
+	<![endif]-->
+
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="row bj-container">
+				<div class="col-sm-12">
+					<div class="row">
+						<!--Header部分-->
+						<div class="col-sm-12 bj-header">
+							<div class="header-tools">
+								<ul class="layui-nav">
+									<li class="layui-nav-item">
+										<a href=""><img src="img/icon_headImg.png" class="layui-nav-img" id="header_img"><span id="header_username"></span></a>
+										<dl class="layui-nav-child">
+											<dd>
+												<a href="javascript:;">个人中心</a>
+											</dd>
+											<dd>
+												<a href="index.html">返回首页</a>
+											</dd>
+											<dd>
+												<a href="login.html">退出登录</a>
+											</dd>
+										</dl>
+									</li>
+									<li class="layui-nav-item">
+										<a href=""><img src="img/icon_news.png" class="layui-nav-img">消息通知</a>
+									</li>
+
+								</ul>
+							</div>
+						</div>
+						<div class="row bj-main">
+							<!--左侧栏-->
+							<div class="col-sm-2 bj-aside bj-aside-left">
+								<div class="bj-aside-title">个人中心</div>
+								<div class="left-menu">
+									<div class="left-info-box">
+										<img src="img/icon_headImg.png" class="header-img" id="personalHeadImg"/>
+										<p class="username" id="personalUsername"/>18482133094</p>
+										<div>
+											<img src="img/icon_wallet.png" />
+											<span style="vertical-align: sub;font-size: 16px;">账号余额(元)</span>
+										</div>
+										<p class="money">0.<span style="font-size: 14px;">00</span></p>
+										<button class="btn-cash" id="btnCash">提现</button>
+									</div>
+									<div class="left-menu-item" id="myNews">
+										<img src="img/icon_news_black.png" class="left-menu-icon" />
+										<span class="left-menu-text">消息通知</span>
+									</div>
+									<div class="left-menu-item" id="mySettings">
+										<img src="img/icon_settings.png" class="left-menu-icon" />
+										<span class="left-menu-text">个人设置</span>
+									</div>
+									<div class="left-menu-item" id="myPassWord">
+										<img src="img/icon_psw_black.png" class="left-menu-icon" />
+										<span class="left-menu-text">修改密码</span>
+									</div>
+								</div>
+							</div>
+							<!--主内容区域-->
+							<div class="col-sm-9 bj-main-box">
+								<!--消息通知展示区域-->
+								<div class="bj-content questionsShow" id="questionsShow" >
+									<span class="layui-breadcrumb" style="margin-left: 20px;">
+									  <a href="">个人中心</a>
+									  <a><cite>消息通知</cite></a>
+									</span>
+									<div class="layui-collapse" lay-accordion>
+										<div class="layui-colla-item">
+											<span class="layui-colla-title">您回答的问题已发布赏金，请您及时查看</span><span style="margin-left: 100px;color: gray;">2018-11-01 11:22:33</span>
+											<div class="layui-colla-content">内容区域</div>
+										</div>
+									</div>
+								</div>
+
+								<!--个人信息设置展示区域-->
+								<div class="bj-content iframeShow" id="iframeShow" style="display: none;">
+									<iframe src="fdCenter.html" frameborder="0" id="contentIframe"></iframe>
+
+								</div>
+
+							</div>
+
+						</div>
+						<div class="row">
+							<div class="col-sm-12 bj-footer">
+								<div class="footer-left">
+									<p>Q　　Q：928062553</p>
+									<p>电　　话：18482133094</p>
+									<p>传　　真：928062553</p>
+									<p>邮　　箱：928062553@qq.com</p>
+									<p>公司地址：四川省成都市高新区天府二街99号</p>
+								</div>
+								<div class="footer-right">
+									<p>Copyright © 2018 汇辰环球（成都）信息科技有限公司 </p>
+									<p>版权所有 备案许可证号： 蜀ICP备18001922号 </p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="btnCashBox">
+				<div class="layui-tab layui-tab-card">
+				  <ul class="layui-tab-title">
+				    <li class="layui-this"><img src="img/icon_alipay.png" class="icon-pay" />支付宝提现</li>
+				    <li><img src="img/icon_wepay.png" class="icon-pay"/>微信提现</li>
+				  </ul>
+				  <div class="layui-tab-content">
+				    <div class="layui-tab-item layui-show">
+				    	<form class="layui-form" action="" lay-filter="aliForm">
+						  <div class="layui-form-item">
+						    <label class="layui-form-label">提现金额</label>
+						    <div class="layui-input-block">
+						      <input type="number" name="amount" id="inputAliPay" onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" lay-verify="required|number" placeholder="请输入提现金额" autocomplete="off" class="layui-input">
+						    </div>
+						  </div>
+						  <div class="layui-form-item">
+						    <label class="layui-form-label">支付宝账号</label>
+						    <div class="layui-input-block">
+						      <input type="number" name="aliAccount"  required  lay-verify="required" placeholder="请输入您的支付宝账号" autocomplete="off" class="layui-input">
+						    </div>
+						  </div>
+						  <p>* 支付宝将收取您 <span id="chargeValue" style="color: rgb(139,22,11);">0</span> (0.06%)的手续费</p>
+						  <div class="layui-form-item" style="margin-left: 50px;margin-top: 30px;">
+						    <div class="layui-input-block">
+						      <button class="layui-btn" lay-submit lay-filter="aliForm">确定</button>
+						      <button type="reset" class="layui-btn">取消</button>
+						    </div>
+						  </div>
+						</form>
+				    </div>
+				    <div class="layui-tab-item">
+				    	<form class="layui-form" action="" lay-filter="wxForm">
+						  <div class="layui-form-item">
+						    <label class="layui-form-label">提现金额</label>
+						    <div class="layui-input-block">
+						      <input type="text" name="amount" id="inputWxPay"  lay-verify="required" onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"  placeholder="请输入提现金额" autocomplete="off" class="layui-input">
+						    </div>
+						  </div>
+						  <div class="bindWeChat">
+						  	<img src="img/erCode.jpg" />
+						  	<div class="tag">
+							      <em></em>   
+							      <p style="color: #3C3C3C;">请扫码关注服务号</p>
+							      <p style="color: #3C3C3C;">方便打款到您的微信账号</p>
+							</div>
+						  </div>
+						  <p>* 微信将收取您 <span id="chargeValueWx" style="color: rgb(139,22,11);">0</span> (0.06%)的手续费</p>
+						  <!--<p>微信会收取0.06%的手续费</p>-->
+						  <div class="layui-form-item" style="margin-left: 50px;margin-top: 30px;">
+						    <div class="layui-input-block">
+						      <button class="layui-btn" lay-submit lay-filter="wxForm">确定</button>
+						      <button type="reset" class="layui-btn">取消</button>
+						    </div>
+						  </div>
+						</form>
+				    </div>
+				  </div>
+				</div>
+	</body>
+
+	<script type="text/javascript" src="lib/js/layui/layui.js"></script>
+	<script type="text/javascript" src="lib/js/layui/lay/modules/layer.js" ></script>
+	<script type="text/javascript" src="lib/formSelect/formSelects-v4.js" ></script>
+	<script type="text/javascript" src="js/myself.js"></script>
+
+
+	<script>
+		$(function() {
+			layui.use('laydate', function(){
+			  var laydate = layui.laydate;
+			  //执行一个laydate实例
+			  laydate.render({
+			    elem: '#year',
+			    type:'year',
+			    format: 'yyyy'
+			  });
+			  laydate.render({
+			    elem: '#month',
+			    type:'month',
+			    format: 'MM'
+			  });
+			  laydate.render({
+			    elem: '#joinDate',
+			    range:',',
+			  });
+			  laydate.render({
+			    elem: '#finishDate'
+			  });
+			});
+			
+			layui.use('element', function(){
+			  var element = layui.element;
+			});
+		})
+	</script>
+</html>

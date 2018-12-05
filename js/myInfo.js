@@ -7,12 +7,9 @@ var personnelIds=[];
 var requestUrl;
 var member = JSON.parse(sessionStorage.getItem('member'));
 
-var schemeJson = [{name:"方案",id:999,personnelTypes:[]}];
-var drawingJson = [{name:"施工图",id:1000,personnelTypes:[]}];
-var platformSchemeJson = [{name:"方案",id:999,platformTypes:[]}];
-var platformDrawingJson = [{name:"施工图",id:1000,platformTypes:[]}];
+var schemeJson = [{name:"方案",id:999,personnelTypes:[]}]
+var drawingJson = [{name:"施工图",id:1000,personnelTypes:[]}]
 
-if(!member){window.location.href = "login.html"};
 
 $('#btnAddCase').on('click', function() {
 	layer.open({
@@ -115,8 +112,10 @@ $('#btnSubmit').on('click', function() {
 					layer.msg("提交成功！", {
 						icon: 1
 					});
+					member.memberExt = res;
 					setTimeout(function() {
-						window.location.href = 'index.html';
+						sessionStorage.setItem('member',JSON.stringify(member));
+						window.location.reload();
 					}, 1000);
 				}
 			},
@@ -130,26 +129,26 @@ $('#btnSubmit').on('click', function() {
 })
 
 //获取微信二维码
-//$.ajax({
-//	type: "get",
-//	url: apiUrl + "/wx/assist/qrcode",
-//	data: {
-//		memberId: member.id
-//	},
-//	async: true,
-//	success: function(res) {
-//		$('.qrCodeText').css('display', 'block');
-//		var qrcode = new QRCode("qrcode", {
-//			text: res,
-//			width: 150,
-//			height: 150,
-//			colorDark: "#000000",
-//			colorLight: "#ffffff",
-//			typeNumber: 4,
-//			correctLevel: QRCode.CorrectLevel.H
-//		});
-//	}
-//});
+$.ajax({
+	type: "get",
+	url: apiUrl + "/wx/assist/qrcode",
+	data: {
+		memberId: member.id
+	},
+	async: true,
+	success: function(res) {
+		$('.qrCodeText').css('display', 'block');
+		var qrcode = new QRCode("qrcode", {
+			text: res,
+			width: 150,
+			height: 150,
+			colorDark: "#000000",
+			colorLight: "#ffffff",
+			typeNumber: 4,
+			correctLevel: QRCode.CorrectLevel.H
+		});
+	}
+});
 
 //上传项目经验
 function uploadProjectInfo(memberId) {
@@ -159,10 +158,9 @@ function uploadProjectInfo(memberId) {
 		data: {
 			memberId: memberId,
 			name: projectInfo.name,
-			platformId: projectInfo.platformId.split('/')[projectInfo.platformId.split('/').length-1],
+			platformId: projectInfo.platformId,
 			ownerName: projectInfo.ownerName,
 			ownerCases: projectInfo.ownerCases,
-			ownerLevel:projectInfo.ownerLevel,
 			assetScale: projectInfo.assetScale,
 			finishDate: projectInfo.finishDate,
 			city: projectInfo.city,
@@ -213,27 +211,17 @@ var formSelects = layui.formSelects;
    			 });
 		}
 	});
-
-//项目分类联动
+	
 	$.ajax({
 		type:"get",
 		url:apiUrl+'/client/api/platformType/findPage',
-//		async:true,
+		async:true,
 		success:function(res){
-			for(var i=0;i<res.content.length;i++){
-				if(res.content[i].type=="scheme"){
-					platformSchemeJson[0].platformTypes = platformSchemeJson[0].platformTypes.concat(res.content[i]);
-				}else{
-					platformDrawingJson[0].platformTypes = platformDrawingJson[0].platformTypes.concat(res.content[i]);
-				}
-			}
-			
 			formSelects.data('select_platform', 'local', {
-				arr:platformSchemeJson.concat(platformDrawingJson),
+				arr:res.content,
 	            linkage: true,
 	            linkageWidth: 130
    			 });
-   			 console.log(platformSchemeJson.concat(platformDrawingJson));
 		}
 	});
 	
@@ -263,31 +251,27 @@ var formSelects = layui.formSelects;
         }
     });
      
-//   formSelects.on('select_person', function(id, vals, val, isAdd, isDisabled){
-//   	personnelIds = [];
-//   	console.log(vals);
-//   	for(var i=0;i<vals.length;i++){
-//			 personnelIds.push(vals[i].value.split('/')[vals[i].value.split('/').length-1]);
-//		}
-//   	console.log(personnelIds);
-//	}, true);
-	
-	//初始赋值
-	formSelects.value('select_person', ['999/1/13','999/1/14'])
-
-
+     formSelects.on('select_person', function(id, vals, val, isAdd, isDisabled){
+     	personnelIds = [];
+     	console.log(vals);
+     	for(var i=0;i<vals.length;i++){
+			 personnelIds.push(vals[i].value.split('/')[vals[i].value.split('/').length-1]);
+		}
+	}, true);
+//	
 //	var nameArr = [];
 //	var personnelName = member.memberExt.personnelTypes;
 //	for(var i=0;i<personnelName.length;i++){
 //		nameArr.push(findTreePerson(personnelName[i].id));
 //	}
 	
+	formSelects.value('select_person', [{name: "11/22/33",value: "4/5/6"}])
 
 //修改项目经验数据源
 var projectDatas = new Vue({
 	el: '#projectDatas',
 	data: {
-		projectData: member.projectInfos.reverse()
+		projectData: member.projectInfos
 	}
 })
 
@@ -332,7 +316,7 @@ function deleteProject(id){
 				success:function(res){
 					layer.open({
 					  content: '删除成功！',
-					  icon:1,	
+					  icon:1,
 					  yes: function(index, layero){
 					    layer.close(index); //如果设定了yes回调，需进行手工关闭
 					    getProjectInfos(member.id);

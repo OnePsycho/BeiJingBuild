@@ -98,6 +98,7 @@ html,
 
 .bj-main-box {
 	height: 90%;
+	min-height: 940px;
 	background: rgba(255, 255, 255,0);
 	padding: 0px;
 	margin: 0px 10px;
@@ -175,7 +176,7 @@ html,
 }
 
 .bj-content .row {
-	text-align: center;
+	padding-left: 50px;
 }
 
 .bj-hall-item {
@@ -192,58 +193,6 @@ html,
 	padding-left: 0px;
 }
 
-.third {
-	width: 80%;
-	height: 80px;
-	border: 1px solid #C0C0C0;
-	color: #333;
-	margin: 10px 20px;
-	margin-left: 10%;
-	text-align: center;
-	line-height: 80px;
-	font-size: 14px;
-	cursor: pointer;
-}
-
-.third-active {
-	background: rgb(192, 178, 131);
-	color: white;
-}
-
-.third-select {
-	width: 80%;
-	margin-left: 10%;
-	display: none;
-}
-
-.third-select-item {
-	width: 20%;
-	height: 100px;
-	margin: 10px 0px;
-	background: #C7254E;
-	border-left: 1px solid white;
-	text-align: center;
-	line-height: 100px;
-	font-size: 12px;
-	color: rgb(192, 178, 131);
-	background: rgb(255, 255, 255);
-	cursor: pointer;
-	border: 1px solid rgb(192, 178, 131);
-}
-
-.third-item-active {
-	background: rgb(192, 178, 131);
-	color: white;
-}
-
-.third-select-item-title {
-	background: rgb(192, 178, 131);
-	color: white;
-}
-
-.icons {
-	margin-bottom: 6px;
-}
 
 .menu-buttons {
 	width: 90%;
@@ -349,60 +298,14 @@ html,
 	padding: 10px 0px;
 }
 
-.tab-group {
-  position: relative;
-  margin-top: 2.5em\9\0;
-  border-radius: 0 0 10px 10px;
+.slidenav-classify-b li{
+	box-shadow: 0px 0px 0px saddlebrown;
+	border-radius: 0;
+	margin: 0;
+	background: transparent;
 }
-.tab-group section {
-  opacity: 0;
-  height: 0;
-  width: 100%;
-  overflow: hidden;
-  transition: opacity 0.4s ease, height 0.4s ease;
-}
-.tab-group section.active {
-  opacity: 1;
-  height: auto;
-  overflow: visible;
-}
- 
-.tab-nav {
-  list-style: none;
-  /* margin: -2.5em -1px 0 0; */
-  padding: 0;
-  height: 36px;
-  overflow: hidden;
-}
-.tab-nav li {
-  display: inline;
-  margin: 0px;
-}
-.tab-nav li a {
-  top: 1px;
-  position: relative;
-  display: block;
-  float: left;
-  border-radius: 10px 10px 0 0;
-  background: #eee;
-  line-height: 2em;
-  padding: 0 8px;
-  text-decoration: none;
-  color: grey;
-  margin-top: .5em;
-  margin-right: 1px;
-  transition: background .2s ease, line-height .2s ease, margin .2s ease;
-}
-.tab-nav li.active a {
-  background: rgb(134,22,11);
-  color: white;
-  line-height: 2.5em;
-  margin-top: 0;
-  text-align: center;
-  /* padding: 0px 18px; */
-  width: 25%;
-}
-.tab-group .room-item{
+
+.room-item{
 	width: 65px;
 	height: 65px;
 	border: 2px solid rgba(134,22,11,.9);
@@ -414,6 +317,7 @@ html,
 	margin-right: -2px;
 	margin-bottom: -2px;
 	float: left;
+	cursor: pointer;
 }
 .room-item p{
 	margin-top: 5px;
@@ -424,7 +328,75 @@ html,
 	height: 70px;
 }
 
+.inviteDialog{
+	padding: 30px;
+	display: none;
+}
+.inviteDialog .layui-btn{
+	background-color: rgb(139,22,11);
+}
+.layui-form-label{
+	float: none !important;
+	width: 200px !important;
+	padding: 4px;
+}
+.layui-input-block{
+	margin-left: 0px !important;
+}
 
+ input::-webkit-input-placeholder {
+	color: #8C8C8C !important;
+	font-size: 14px;
+}
+
+.invitedUser{
+	margin-left: 15px;
+	font-size: 16px;
+	font-weight: bolder;
+}
+
+.layui-tab-card>.layui-tab-title{
+	background: rgb(139,22,11);
+	color: #fff;
+}
+.layui-tab-card{
+	border:0px solid rgb(139,22,11);
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0);
+}
+.layui-tab-card>.layui-tab-title li{
+	margin-top: -6px;
+	margin-left: 0px;
+	margin-right: 0px;
+	padding-top: 4px;
+	background-color: rgb(139,22,11);
+	border-right: 1px solid rgb(255,255,255,.6);
+}
+.layui-tab-content{
+	padding: 1px 0px;
+}
+.layui-tab-card>.layui-tab-title .layui-this:after{
+	border-width: 0px;
+}
+.layui-tab-title .layui-this{
+	background-color: firebrick !important;
+	border-radius: 8px 8px 0px 0px;
+	color: #fff;
+	margin-top: -17px !important;
+	line-height: 50px;	
+}
+.layui-tab-title{
+	height: auto;
+	border-bottom-width:0px;
+	background: rgba(139,11,22,0) !important;
+}
+.layui-tab-bar{
+	background-color: rgb(139,22,11);
+	top: -4px;
+	border-width: 0px;
+}
+.layui-tab[overflow]>.layui-tab-title{
+	overflow-x: hidden;
+}
 
 
 

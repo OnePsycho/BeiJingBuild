@@ -25,7 +25,7 @@
 
 .personShow-item{
 	position: relative;
-	height: 160px;
+	height: 140px;
 	width: 100%;
 	background: #FFFFFF;
 	box-shadow: 0px 0px 6px 1px #b1b1b1;
@@ -35,14 +35,14 @@
 }
 
 .person-img{
-	width:150px;
-	height: 150px;
+	width:140px;
+	height: 140px;
 	float: left;
-	padding: 10px;
+	padding: 5px;
 }
 .person-img img{
-	width: 130px;
-	height: 130px;
+	width: 120px;
+	height: 120px;
 	box-shadow: 0px 0px 12px 1px #b1b1b1;
 	border-radius: 5px;
 }
@@ -52,7 +52,7 @@
 	padding-top: 10px;
 }
 .person-info-item{
-	height: 50px;
+	height: 40px;
 }
 .person-usename{
 	font-weight: bold;
@@ -78,20 +78,20 @@
 	position: absolute;
 	right: 50px;
 	top: 30px;
-	width: 100px;
-	height: 100px;
+	width: 80px;
+	height: 80px;
 	background: rgba(139,22,11,.6);
 }
 .person-btn-invite-in{
 	position: absolute;
 	right: 60px;
 	top: 40px;
-	width: 80px;
-	height: 80px;
+	width: 60px;
+	height: 60px;
 	background: rgb(139,22,11);
 	text-align: center;
 	color: white;
-	line-height: 80px;
+	line-height: 60px;
 	font-size: 16px;
 	cursor: pointer;
 }
