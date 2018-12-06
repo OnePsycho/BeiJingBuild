@@ -12,6 +12,7 @@ $('#loginBtn').on('click',function(){
 		$.ajax({
 			type: "POST",
 			url: apiUrl + reUrl,
+			crossDomain: true == !(document.all),
 			data:{
 				email:username,
 				phoneNum:username,
@@ -68,6 +69,12 @@ $('#loginBtn').on('click',function(){
 	}
 })
 
+//回车触发事件
+$(document).keyup(function(event){
+  if(event.keyCode ==13){
+    $("#loginBtn").trigger("click");
+  }
+});
 
 // 判断账号为手机号还是邮箱
 function isPhoneNo(username) {
@@ -96,3 +103,4 @@ function perfectAction(type){
 						break;
 				}
 }
+

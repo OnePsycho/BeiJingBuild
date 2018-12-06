@@ -37,16 +37,16 @@
 					<div class="infoBox-left">
 						<div class="infoBoxItem">
 							<form class="layui-form" action="" lay-filter="formLeft"> 
-							  <div class="layui-form-item">
+							  <!--<div class="layui-form-item">
 							    <label class="layui-form-label">用户名</label>
 							    <div class="layui-input-block">
 							      <input type="text" name="u_name" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
 							    </div>
-							  </div>
+							  </div>-->
 							  <div class="layui-form-item">
-							    <label class="layui-form-label">手机号码</label>
+							    <label class="layui-form-label redDot">手机号码</label>
 							    <div class="layui-input-block">
-							      <input type="text" name="u_phoneNum" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+							      <input type="text" name="u_phoneNum" lay-verify="required" placeholder="请输入手机号" autocomplete="off" class="layui-input">
 							    </div>
 							  </div>
 							  <div class="layui-form-item">
@@ -65,7 +65,7 @@
 							  <div class="layui-form-item">
 							    <label class="layui-form-label">项目经验</label>
 							    <span class="btnAddCase" id="btnAddCase">新增</span>
-									<div class="layui-collapse" lay-accordion  id="projectDatas" lay-filter="demo">
+									<div class="layui-collapse" lay-accordion  id="projectDatas" lay-filter="demo" style="min-height: 180px;">
 									  <div class="layui-colla-item" v-for="(item,index) in projectData">
 									    <h2 class="layui-colla-title">{{item.name}}<span class="case-delete" @click="deleteProject(item.id)">删除</span></h2>
 									    <div class="layui-colla-content">
@@ -118,6 +118,9 @@
 							      <button class="layui-btn" id="btnSubmitLeft" lay-submit="" lay-filter="formLeft">立即提交</button>
 							    </div>
 							  </div>
+							  	<div class="perfectSubmit" style="text-align: center;">
+								<img src="img/btn_submit.png" id="btnSubmit"/>
+							</div>
 							</form>
 						</div>
 					</div>
@@ -174,10 +177,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="perfectSubmit" style="text-align: center;">
-					<img src="img/btn_submit.png" id="btnSubmit"/>
-					<p><a href="login.html">返回登录</a></p>
-				</div>
+
 			</div>
 			
 			<div class="footer">
@@ -187,7 +187,7 @@
 		
 		<!--新增项目经验弹窗-->
 		<div class="addCaseBox">
-			<form class="layui-form" action="">
+			<form class="layui-form" action="" id="addCaseForm">
 			  <div class="layui-form-item">
 			    <label class="layui-form-label">项目名称</label>
 			    <div class="layui-input-block">
@@ -203,7 +203,7 @@
 				    </div>
 			  </div>
 			  <div class="layui-form-item">
-			    <label class="layui-form-label">业主名称</label>
+			    <label class="layui-form-label noRedDot">业主名称（非必填）</label>
 			    <div class="layui-input-block">
 			      <input type="text" name="ownerName" placeholder="请输入业主名称" autocomplete="off" class="layui-input">
 			    </div>

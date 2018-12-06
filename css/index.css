@@ -284,12 +284,9 @@ html,
 }
 .slidenav-classify-a{
 	width: 90%;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
 	border-top: 2px solid rgba(195,195,195,.7);
-	padding: 10px 0px;
-	padding: 26px 0px \9\0;
+	padding: 26px 0px;
+	/*padding: 26px 0px \9\0;*/
 	font-size: 14px;
 }
 
@@ -367,9 +364,10 @@ html,
 	margin-top: -6px;
 	margin-left: 0px;
 	margin-right: 0px;
-	padding-top: 4px;
+	/*padding-top: 4px;*/
 	background-color: rgb(139,22,11);
 	border-right: 1px solid rgb(255,255,255,.6);
+	border-radius: 5px 5px 0px 0px;
 }
 .layui-tab-content{
 	padding: 1px 0px;
@@ -398,7 +396,20 @@ html,
 	overflow-x: hidden;
 }
 
-
+.firstPartyType{
+	margin: 0px 10px;
+	padding: 3px 10px;
+	background: #404040;
+	color: white;
+	border-radius: 3px;
+}
+.freeDesignerType{
+	margin: 0px 10px;
+	padding: 3px 10px;
+	background: rgb(139,22,11);
+	border-radius: 3px;
+	color: white;
+}
 
 
 @media (max-width:1366px) {

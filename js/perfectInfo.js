@@ -12,7 +12,10 @@ var drawingJson = [{name:"施工图",id:1000,personnelTypes:[]}];
 var platformSchemeJson = [{name:"方案",id:999,platformTypes:[]}];
 var platformDrawingJson = [{name:"施工图",id:1000,platformTypes:[]}];
 
+
 if(!member){window.location.href = "login.html"};
+
+$('.layui-form-label').not('.noRedDot').addClass('redDot');
 
 $('#btnAddCase').on('click', function() {
 	layer.open({
@@ -21,6 +24,19 @@ $('#btnAddCase').on('click', function() {
 		content: $('.addCaseBox'),
 		area: ['500px', '800px']
 	});
+	document.getElementById("addCaseForm").reset();
+})
+
+
+//修改项目经验数据源
+var projectDatas = new Vue({
+	el: '#projectDatas',
+	data: {
+		projectData: member.projectInfos.reverse()
+	},
+	updated:function(){
+		layui.element.render('collapse');
+	}
 })
 
 //账号回显不可修改
@@ -85,6 +101,9 @@ $('#btnSubmit').on('click', function() {
 	$('#btnSubmitRight').trigger('click');
 	var submitInfo = $.extend(leftData, rightData);
 	if(leftData && rightData) {
+		if(member.projectInfos.length < 1){
+			layer.msg("项目经验不能为空,请添加您的项目经验！",{icon:2})
+		}else{
 		$.ajax({
 			type: "POST",
 			url: apiUrl + requestUrl,
@@ -95,7 +114,7 @@ $('#btnSubmit').on('click', function() {
 				graduateInstitutions: submitInfo.graduateInstitutions,
 				realName: submitInfo.realName,
 				u_email: submitInfo.u_email,
-				u_name: submitInfo.u_name,
+//				u_name: submitInfo.u_name,
 				u_phoneNum: submitInfo.u_phoneNum,
 				sex: submitInfo.sex,
 				workTime: submitInfo.workTime,
@@ -126,6 +145,8 @@ $('#btnSubmit').on('click', function() {
 				});
 			}
 		});
+		}
+
 	}
 })
 
@@ -155,6 +176,7 @@ $('#btnSubmit').on('click', function() {
 function uploadProjectInfo(memberId) {
 	$.ajax({
 		type: "POST",
+		async:true,
 		url: apiUrl + "/client/api/projectInfo/add",
 		data: {
 			memberId: memberId,
@@ -178,10 +200,7 @@ function uploadProjectInfo(memberId) {
 			  yes: function(index, layero){
 			    layer.closeAll(); //如果设定了yes回调，需进行手工关闭
 			    getProjectInfos(member.id);
-			    setTimeout(function(){
-			   	 window.location.reload();
-			    },500);
-				}
+			}
 		});  
 		},
 		error: function() {
@@ -197,7 +216,7 @@ var formSelects = layui.formSelects;
 	$.ajax({
 		type:"get",
 		url:apiUrl+'/client/api/personnelType/findPage',
-		async:true,
+//		async:true,
 		success:function(res){
 			for(var i=0;i<res.content.length;i++){
 				if(res.content[i].type=="scheme"){
@@ -206,6 +225,7 @@ var formSelects = layui.formSelects;
 					drawingJson[0].personnelTypes = drawingJson[0].personnelTypes.concat(res.content[i]);
 				}
 			}
+			console.log(schemeJson.concat(drawingJson));
 			formSelects.data('select_person', 'local', {
 				arr:schemeJson.concat(drawingJson),
 	            linkage: true,
@@ -233,7 +253,6 @@ var formSelects = layui.formSelects;
 	            linkage: true,
 	            linkageWidth: 130
    			 });
-   			 console.log(platformSchemeJson.concat(platformDrawingJson));
 		}
 	});
 	
@@ -241,13 +260,7 @@ var formSelects = layui.formSelects;
 		keyName: 'name',            //自定义返回数据中name的key, 默认 name
 	    keyVal: 'id',            //自定义返回数据中value的key, 默认 value
 	    keySel: 'name',         //自定义返回数据中selected的key, 默认 selected
-	    keyChildren: 'personnelTypes',    //联动多选自定义children
-        success: function(id, url, val, result){
-            console.log(result);
-        },
-        error: function(id, url, val, err){
-            console.log("err回调: " + url);
-        }
+	    keyChildren: 'personnelTypes'    //联动多选自定义children
     });
     
 	formSelects.config('select_platform', {
@@ -263,17 +276,17 @@ var formSelects = layui.formSelects;
         }
     });
      
-//   formSelects.on('select_person', function(id, vals, val, isAdd, isDisabled){
-//   	personnelIds = [];
-//   	console.log(vals);
-//   	for(var i=0;i<vals.length;i++){
-//			 personnelIds.push(vals[i].value.split('/')[vals[i].value.split('/').length-1]);
-//		}
-//   	console.log(personnelIds);
-//	}, true);
+     formSelects.on('select_person', function(id, vals, val, isAdd, isDisabled){
+     	personnelIds = [];
+     	console.log(vals);
+     	for(var i=0;i<vals.length;i++){
+			 personnelIds.push(vals[i].value.split('/')[vals[i].value.split('/').length-1]);
+		}
+     	console.log(personnelIds);
+	}, true);
 	
 	//初始赋值
-	formSelects.value('select_person', ['999/1/13','999/1/14'])
+	formSelects.value('select_person', ["999/1/12"]);
 
 
 //	var nameArr = [];
@@ -283,13 +296,7 @@ var formSelects = layui.formSelects;
 //	}
 	
 
-//修改项目经验数据源
-var projectDatas = new Vue({
-	el: '#projectDatas',
-	data: {
-		projectData: member.projectInfos.reverse()
-	}
-})
+
 
 $('.layui-colla-title').mouseover(function(){
 	$(this).find('.case-delete').eq(0).css('display','block');
@@ -305,11 +312,12 @@ function getProjectInfos(memberId){
 		url:apiUrl+"/client/api/projectInfo/findByMemberId",
 		async:true,
 		data:{
-			memberId:member.id
+			memberId:member.id,
+			sort:'id,desc'
 		},
 		success:function(res){
 			projectDatas.projectData = res;
-			member.projectInfos = res;
+			member.projectInfos = res.reverse();
 			console.log(member);
 			sessionStorage.setItem('member',JSON.stringify(member));
 		}

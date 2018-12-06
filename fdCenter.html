@@ -66,7 +66,7 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">项目经验</label>
 								<span class="btnAddCase" id="btnAddCase">新增</span>
-								<div class="layui-collapse" lay-accordion id="projectDatas" lay-filter="demo">
+								<div class="layui-collapse" lay-accordion id="projectDatas" lay-filter="demo" style="min-height: 180px;">
 									<div class="layui-colla-item" v-for="(item,index) in projectData">
 										<h2 class="layui-colla-title">{{item.name}}<span class="case-delete" @click="deleteProject(item.id)">删除</span></h2>
 										<div class="layui-colla-content">
@@ -118,6 +118,9 @@
 								<div class="layui-input-block">
 									<button class="layui-btn" id="btnSubmitLeft" lay-submit="" lay-filter="formLeft">立即提交</button>
 								</div>
+							</div>
+							<div class="perfectSubmit" style="text-align: center;">
+								<img src="img/btn_submit.png" id="btnSubmit" />
 							</div>
 						</form>
 					</div>
@@ -175,14 +178,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="perfectSubmit" style="text-align: center;">
-				<img src="img/btn_submit.png" id="btnSubmit" />
-			</div>
+
 		</div>
 		
 				<!--新增项目经验弹窗-->
 		<div class="addCaseBox" style="display: none;">
-			<form class="layui-form" action="">
+			<form class="layui-form" action="" id="addCaseForm">
 			  <div class="layui-form-item">
 			    <label class="layui-form-label">项目名称</label>
 			    <div class="layui-input-block">
@@ -192,21 +193,25 @@
 			    <div class="layui-form-item">
 				    <label class="layui-form-label">项目类别</label>
 				    <div class="layui-input-block">
-			          <select name="platformId" xm-select="select_platform" lay-verify="required">
-					        <option value="">请选择项目类别</option>
+			          <select name="platformId" xm-select="select_platform" xm-select-max="1" xm-select-radio lay-verify="required">
+					        <option value="">请选择项目类别(最多一项)</option>-
 					  </select>
 				    </div>
 			  </div>
 			  <div class="layui-form-item">
-			    <label class="layui-form-label">业主名称</label>
+			    <label class="layui-form-label noRedDot">业主名称（非必填）</label>
 			    <div class="layui-input-block">
-			      <input type="text" name="ownerName" lay-verify="required" placeholder="请输入业主名称" autocomplete="off" class="layui-input">
+			      <input type="text" name="ownerName" placeholder="请输入业主名称" autocomplete="off" class="layui-input">
 			    </div>
 			  </div>
 			  <div class="layui-form-item">
 			    <label class="layui-form-label">业主级别</label>
 			    <div class="layui-input-block">
-			      <input type="text" name="platformId " lay-verify="required" placeholder="请输入业主级别" autocomplete="off" class="layui-input">
+				<select name="ownerLevel" lay-verify="required">
+			        <option value=""></option>
+			        <option value="全国性">全国性</option>
+			        <option value="地方性">地方性</option>
+			      </select>
 			    </div>
 			  </div>
 			  <div class="layui-form-item">
@@ -216,15 +221,15 @@
 			    </div>
 			  </div>
 			  <div class="layui-form-item">
-			    <label class="layui-form-label">业主成功案例</label>
+			    <label class="layui-form-label">业主典型案例</label>
 			    <div class="layui-input-block">
-			      <input type="text" name="ownerCases" lay-verify="required" placeholder="请输入成功案例" autocomplete="off" class="layui-input">
+			      <input type="text" name="ownerCases" lay-verify="required" placeholder="请输入业主的典型案例" autocomplete="off" class="layui-input">
 			    </div>
 			  </div>
 			  <div class="layui-form-item">
 			    <label class="layui-form-label">项目完成时间</label>
 			    <div class="layui-input-block">
-			     <input type="text" class="layui-input" name="finishDate" lay-verify="required" placeholder="请选择项目完成时间" id="finishDate">
+			     <input type="text" class="layui-input" name="finishDate" lay-verify="required" autocomplete="off" placeholder="请选择项目完成时间" id="finishDate">
 			    </div>
 			  </div>
 			  <div class="layui-form-item">
@@ -248,7 +253,7 @@
 			  <div class="layui-form-item">
 			    <label class="layui-form-label">参与时间</label>
 			    <div class="layui-input-block joinDatePicker">
-			       <input type="text" class="layui-input" name="joinDate" lay-verify="required" placeholder="请选择起止时间" id="joinDate">
+			       <input type="text" class="layui-input" name="joinDate" autocomplete="off" lay-verify="required" placeholder="请选择起止时间" id="joinDate">
 			    </div>
 			  </div>
 			  <div class="layui-form-item">

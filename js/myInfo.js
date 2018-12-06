@@ -9,6 +9,8 @@ var member = JSON.parse(sessionStorage.getItem('member'));
 
 var schemeJson = [{name:"方案",id:999,personnelTypes:[]}]
 var drawingJson = [{name:"施工图",id:1000,personnelTypes:[]}]
+var platformSchemeJson = [{name:"方案",id:999,platformTypes:[]}];
+var platformDrawingJson = [{name:"施工图",id:1000,platformTypes:[]}];
 
 
 $('#btnAddCase').on('click', function() {
@@ -18,7 +20,11 @@ $('#btnAddCase').on('click', function() {
 		content: $('.addCaseBox'),
 		area: ['500px', '800px']
 	});
+	
+	document.getElementById("addCaseForm").reset();
 })
+
+$('.layui-form-label').not('.noRedDot').addClass('redDot');
 
 //账号回显不可修改
 if(member.phoneNum != "") {
@@ -82,6 +88,9 @@ $('#btnSubmit').on('click', function() {
 	$('#btnSubmitRight').trigger('click');
 	var submitInfo = $.extend(leftData, rightData);
 	if(leftData && rightData) {
+		if(member.projectInfos.length < 1){
+			layer.msg("项目经验不能为空,请添加您的项目经验！",{icon:2})
+		}else{
 		$.ajax({
 			type: "POST",
 			url: apiUrl + requestUrl,
@@ -125,6 +134,7 @@ $('#btnSubmit').on('click', function() {
 				});
 			}
 		});
+		}
 	}
 })
 
@@ -158,7 +168,7 @@ function uploadProjectInfo(memberId) {
 		data: {
 			memberId: memberId,
 			name: projectInfo.name,
-			platformId: projectInfo.platformId,
+			platformId: projectInfo.platformId.split('/')[projectInfo.platformId.split('/').length-1],
 			ownerName: projectInfo.ownerName,
 			ownerCases: projectInfo.ownerCases,
 			assetScale: projectInfo.assetScale,
@@ -176,9 +186,6 @@ function uploadProjectInfo(memberId) {
 			  yes: function(index, layero){
 			    layer.closeAll(); //如果设定了yes回调，需进行手工关闭
 			    getProjectInfos(member.id);
-			    setTimeout(function(){
-			   	 window.location.reload();
-			    },500);
 				}
 		});  
 		},
@@ -212,13 +219,22 @@ var formSelects = layui.formSelects;
 		}
 	});
 	
+//项目分类联动
 	$.ajax({
 		type:"get",
 		url:apiUrl+'/client/api/platformType/findPage',
-		async:true,
+//		async:true,
 		success:function(res){
+			for(var i=0;i<res.content.length;i++){
+				if(res.content[i].type=="scheme"){
+					platformSchemeJson[0].platformTypes = platformSchemeJson[0].platformTypes.concat(res.content[i]);
+				}else{
+					platformDrawingJson[0].platformTypes = platformDrawingJson[0].platformTypes.concat(res.content[i]);
+				}
+			}
+			
 			formSelects.data('select_platform', 'local', {
-				arr:res.content,
+				arr:platformSchemeJson.concat(platformDrawingJson),
 	            linkage: true,
 	            linkageWidth: 130
    			 });
@@ -272,6 +288,9 @@ var projectDatas = new Vue({
 	el: '#projectDatas',
 	data: {
 		projectData: member.projectInfos
+	},
+	updated:function(){
+		layui.element.render('collapse');
 	}
 })
 
@@ -289,11 +308,12 @@ function getProjectInfos(memberId){
 		url:apiUrl+"/client/api/projectInfo/findByMemberId",
 		async:true,
 		data:{
-			memberId:member.id
+			memberId:member.id,
+			sort:'id,desc'
 		},
 		success:function(res){
 			projectDatas.projectData = res;
-			member.projectInfos = res;
+			member.projectInfos = res.reverse();
 			console.log(member);
 			sessionStorage.setItem('member',JSON.stringify(member));
 		}

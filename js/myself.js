@@ -71,8 +71,8 @@ $(function() {
 			$('.left-menu-item').eq(1).find('img').eq(0).attr('src','img/icon_settings.png');
 		})
  
-	$('#header_username').text(member.memberExt.u_name + memberType);
-	$('#personalUsername').text(member.memberExt.u_name + memberType);
+	$('#header_username').text(member.phoneNum?member.phoneNum:member.email);
+	$('#personalUsername').text(member.phoneNum?member.phoneNum:member.email);
 	$('#header_img').attr('src', imgUrl + member.tempHeadImg);
 	$('#personalHeadImg').attr('src', imgUrl + member.tempHeadImg);
 	
@@ -98,9 +98,11 @@ $(function() {
 	function userTypeAssign(memberType) {
 		switch(memberType) {
 			case 'firstParty':
+			$('#header_userType').text("甲方").addClass('firstPartyType');
 				$('#mySettings').css('display','none');
 				break;
 			case 'freeDesigner':
+			$('#header_userType').text("设计师").addClass('freeDesignerType');
 				$('#mySettings').css('display','block');
 				break;
 			case 'projectManager':

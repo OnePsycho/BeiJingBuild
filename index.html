@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=2">
 		<title>北京工业设计院</title>
 		<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="css/main.css" />
@@ -41,7 +41,10 @@
 							<div class="header-tools">
 								<ul class="layui-nav">
 									<li class="layui-nav-item">
-										<a href=""><img src="img/icon_headImg.png" class="layui-nav-img" id="header_img"><span id="header_username"></span></a>
+										<a href="personalCenter.html"><img src="img/icon_headImg.png" class="layui-nav-img" id="header_img">
+										<span id="header_username"></span>
+										<span id="header_userType"></span>
+										</a>
 										<dl class="layui-nav-child">
 											<dd>
 												<a href="personalCenter.html">个人中心</a>
@@ -112,7 +115,7 @@
 								<!--问题展示区域-->
 								<div class="bj-content questionsShow" id="questionsShow">
 									<div class="row">
-										<div class="bj-hall-item" v-for="(item,index) of questionList">
+										<div class="bj-hall-item" v-for="(item,index) of questionList" v-cloak>
 											<div class="hall-item-countDown">
 												<span style="color: #000000;">倒计时:</span><span :id='"d"+item.id'></span>天<span :id='"h"+item.id'></span>时<span :id='"m"+item.id'></span>分<span :id='"s"+item.id'></span>秒
 											</div>
