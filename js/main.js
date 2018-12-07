@@ -14,7 +14,6 @@
 		window.location.href = 'login.html';
 	}
 
-
 	var questionList = new Vue({
 		el: "#questionsShow",
 		data: {
@@ -23,7 +22,34 @@
 		methods: {
 			//我要答题
 			applyAction: function(questionId) {
-				alert(questionId);
+				$.ajax({
+					type:"post",
+					url:apiUrl+"/client/api/question/join?questionId="+questionId,
+					async:true,
+					success:function(res){
+						switch (res.status){
+							case "1001":
+								layer.msg("该问题已结束！",{icon:5});
+								break;
+							case "1002":
+								layer.msg("该房间参与人数已满！",{icon:5});
+								break;
+							case "1003":
+								layer.open({
+									title: false,
+									type: 1,
+									content: $('#noInvitedDialog'),
+									area: ['500px', '220px']
+								});
+								break;
+							case "200":
+								//认证成功，可以进入房间
+								break;
+							default:
+								break;
+						}
+					}
+				});
 			}
 		},
 	})

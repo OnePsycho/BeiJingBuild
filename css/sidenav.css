@@ -30,6 +30,7 @@
 
 .sidenav-menu li {
 	display: block;
+	overflow: hidden;
 	position: relative;
 	padding-top: 3px;
 	padding-bottom: 10px;
@@ -72,7 +73,7 @@
 	left: 20px;
 	position: absolute;
 	text-align: center;
-	top: 16px;
+	top: 12px;
 	width: 24px;
 }
 

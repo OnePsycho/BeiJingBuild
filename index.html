@@ -18,6 +18,7 @@
 		<link rel="stylesheet" href="css/person.css" />
 		<!--<script type="text/javascript" src="bootstrap-3.3.7-dist/js/jquery-3.2.1.min.js"></script>-->
 		<script type="text/javascript" src="lib/js/jquery.js"></script>
+		<script type="text/javascript" src="lib/js/jquery.cookie.js"></script>
 		<script type="text/javascript" src="js/common.js"></script>
 		<script type="text/javascript" src="bootstrap-3.3.7-dist/js/sidenav.js"></script>
 		<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
@@ -25,13 +26,13 @@
 		<script type="text/javascript" src="lib/js/jquery-tab.js"></script>
 		<script type="text/javascript" src="lib/js/vue.min.js"></script>
 		<!--[if lte IE 9]>
-	<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.3/jquery.xdomainrequest.min.js'></script>
-	<![endif]-->
+			<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.3/jquery.xdomainrequest.min.js'></script>
+			<![endif]-->
 
 	</head>
 
 	<body>
-		
+
 		<div class="container-fluid">
 			<div class="row bj-container">
 				<div class="col-sm-12">
@@ -42,8 +43,8 @@
 								<ul class="layui-nav">
 									<li class="layui-nav-item">
 										<a href="personalCenter.html"><img src="img/icon_headImg.png" class="layui-nav-img" id="header_img">
-										<span id="header_username"></span>
-										<span id="header_userType"></span>
+											<span id="header_username"></span>
+											<span id="header_userType"></span>
 										</a>
 										<dl class="layui-nav-child">
 											<dd>
@@ -121,7 +122,7 @@
 											</div>
 											<div class="hall-item-container">
 												<div class="hall-item-questionBox">
-													<div class="hall-item-question">
+													<div class="hall-item-question" @click="applyAction(item.id)">
 														{{item.title}}
 													</div>
 													<img src="img/btn_bg.png" class="applyBtn" style="display: none;cursor: pointer;" @click="applyAction(item.id)" />
@@ -219,29 +220,24 @@
 														<input type="radio" name="radio1" @click="platformTypeHandle(third.id,third.sortPlatformTypes)">
 														<label><i class="default" ></i> {{third.name}}</label>
 													</div>
-													</div>	
-													
-													<div class="slidenav-classify-b" id="thirdList" style="display:none;">
-														<div class="layui-tab layui-tab-card">
-														  <ul class="layui-tab-title" >
-														    <li v-for="item in thirdList" v-cloak @click="thirdClickHandle(item.id,item.sortPlatformTypes)">{{item.name}}</li>
-														  </ul>
-														  <div class="layui-tab-content">
-														    <div class="layui-tab-item" v-for="item in thirdList">
-														    	<div class="rooms">
-														    		<div class="room-item"  v-for="fourth in fourthList" @click="fourthClickHandle(fourth.id,fourth.sortPlatformTypes)">
-														    			{{fourth.name}}
-														    		</div>
-														    	</div>
-														    </div>
-														  </div>
+												</div>
+
+												<div class="slidenav-classify-b" id="thirdList" style="display:none;">
+													<div class="layui-tab layui-tab-card">
+														<ul class="layui-tab-title">
+															<li v-for="item in thirdList" v-cloak @click="thirdClickHandle(item.id,item.sortPlatformTypes)">{{item.name}}</li>
+														</ul>
+														<div class="layui-tab-content">
+															<div class="layui-tab-item" v-for="item in thirdList">
+																<div class="rooms">
+																	<div class="room-item" v-for="fourth in fourthList" @click="fourthClickHandle(fourth.id,fourth.sortPlatformTypes)">
+																		{{fourth.name}}
+																	</div>
+																</div>
+															</div>
 														</div>
 													</div>
-													
-													
-													
-													
-													
+												</div>
 											</div>
 										</li>
 									</ul>
@@ -296,6 +292,14 @@
 					</div>
 				</form>
 			</div>
+
+			<div id="noInvitedDialog" class="noInviteDialog">
+				<p>对不起，您还没有查看权限！若想查看，请联系管理员</p>
+				<p>联系电话：028-88888888</p>
+				<p>QQ：928062553</p>
+				<button onclick="layer.closeAll()">确定</button>
+			</div>
+
 		</div>
 	</body>
 
@@ -334,7 +338,6 @@
 			//		    return false;
 			//		  });
 		});
-		
 	</script>
 
 </html>

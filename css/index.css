@@ -122,9 +122,12 @@ html,
 .nav-tabs li {
 	width: 50%;
 	height: 50px;
-	border-radius: 0px;
+	border-radius: 0px 10px 0px 0px;
 	box-sizing: border-box;
 	font-weight: bold;
+}
+.nav-tabs li:first-child{
+	border-radius:10px 0px 0px 0px;
 }
 
 .nav-tabs li a {
@@ -271,6 +274,7 @@ html,
 	text-align: left;
 	line-height: 30px;
 	font-size: 16px;
+	cursor: pointer;
 }
 .hall-item-questionBox img{
 	position: absolute;
@@ -291,8 +295,9 @@ html,
 }
 
 .slidenav-classify-b{
-	width: 90%;
+	width: 100%;
 	padding: 10px 0px;
+	overflow: hidden;
 }
 
 .slidenav-classify-b li{
@@ -361,7 +366,7 @@ html,
 	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0);
 }
 .layui-tab-card>.layui-tab-title li{
-	margin-top: -6px;
+	/*margin-top: -6px;*/
 	margin-left: 0px;
 	margin-right: 0px;
 	/*padding-top: 4px;*/
@@ -376,25 +381,35 @@ html,
 	border-width: 0px;
 }
 .layui-tab-title .layui-this{
-	background-color: firebrick !important;
+	background-color: rgb(139,22,11) !important;
 	border-radius: 8px 8px 0px 0px;
 	color: #fff;
-	margin-top: -17px !important;
-	line-height: 50px;	
+	margin-top: -8px !important;
+	line-height: 40px;	
 }
 .layui-tab-title{
 	height: auto;
 	border-bottom-width:0px;
 	background: rgba(139,11,22,0) !important;
+	margin-top: 10px;
+	padding-top: 6px;
 }
 .layui-tab-bar{
 	background-color: rgb(139,22,11);
 	top: -4px;
 	border-width: 0px;
+	display: none;
 }
 .layui-tab[overflow]>.layui-tab-title{
-	overflow-x: hidden;
+	overflow-x: scroll;
 }
+
+.layui-tab-title li{
+	padding: 0 18px;
+	font-size: 12px;
+	line-height: 32px;
+}
+
 
 .firstPartyType{
 	margin: 0px 10px;
@@ -411,6 +426,56 @@ html,
 	color: white;
 }
 
+
+.noInviteDialog{
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+	display: none;
+	border-radius: 6px;
+}
+
+.noInviteDialog p{
+	margin-top: 15px;
+}
+
+.noInviteDialog button{
+	width: 150px;
+	height: 35px;
+	border-radius: 50px;
+	background: rgb(139,22,11);
+	color: white;
+	margin-top: 25px;
+}
+
+
+.slidenav-classify-b /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
+::-webkit-scrollbar  
+{  
+    width: 16px;  /*滚动条宽度*/
+    height: 6px;  /*滚动条高度*/
+}  
+  
+/*定义滚动条轨道 内阴影+圆角*/  
+.slidenav-classify-b
+::-webkit-scrollbar-track  
+{  
+    -webkit-box-shadow: inset 0 0 0px rgba(0,0,0,0.3);  
+    border-radius: 0px;  /*滚动条的背景区域的圆角*/
+    background-color: rgba(255,255,255,0);/*滚动条的背景颜色*/  
+}  
+  
+/*定义滑块 内阴影+圆角*/  
+.slidenav-classify-b
+::-webkit-scrollbar-thumb  
+{  
+    border-radius: 0px;  /*滚动条的圆角*/
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+    background-color: rgba(193,193,193,.6);  /*滚动条的背景颜色*/
+}  
 
 @media (max-width:1366px) {
 	.bj-hall-item .hall-item-countDown {
