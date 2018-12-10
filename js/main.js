@@ -41,6 +41,9 @@
 									content: $('#noInvitedDialog'),
 									area: ['500px', '220px']
 								});
+//								$('#questionsShow').hide();
+//								$('#iframeShow').show();
+//								$('#iframeShow').attr('src','answerHall.html');
 								break;
 							case "200":
 								//认证成功，可以进入房间
@@ -299,7 +302,22 @@
 		}
 	})
 
-
+	//我要提问
+	$('#btnAsk').on('click',function(){
+		if(memberType=="freeDesigner"){
+			layer.open({
+				title: false,
+				type: 1,
+				content: $('#noInvitedDialog'),
+				area: ['500px', '220px']
+			});
+		}else{
+			$('#personShow').css('display', 'none');
+			$('#questionsShow').css('display', 'none');
+			$('#iframeShow').css('display', 'block');
+			$('#contentIframe').attr('src', 'newQuestion.html');
+		}
+	})
 	
 	//查看我的问题
 	$('#btnMyQuestions').on('click', function() {
@@ -326,7 +344,7 @@
 		switch(memberType) {
 			case 'firstParty':
 				$('#header_userType').text("甲方").addClass('firstPartyType');
-				$('#contentIframe').attr('src', 'myQuestions.html');
+//				$('#contentIframe').attr('src', 'myQuestions.html');
 				var iframe = document.getElementById("contentIframe");
 				if(iframe.attachEvent) {
 					iframe.attachEvent("onload", function() {
@@ -344,7 +362,7 @@
 				break;
 			case 'freeDesigner':
 				$('#header_userType').text("设计师").addClass('freeDesignerType');
-				$('#contentIframe').attr('src', 'myAnswers.html');
+//				$('#contentIframe').attr('src', 'myAnswers.html');
 				$('#btnMyQuestions').attr('src', 'img/btn_my_answers.png');
 				$('.applyBtn').css('display', 'block');
 				break;

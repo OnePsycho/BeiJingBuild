@@ -114,7 +114,7 @@
 							<!--主内容区域-->
 							<div class="col-sm-7 bj-main-box">
 								<!--问题展示区域-->
-								<div class="bj-content questionsShow" id="questionsShow">
+								<div class="bj-content questionsShow" id="questionsShow" style="display: none;">
 									<div class="row">
 										<div class="bj-hall-item" v-for="(item,index) of questionList" v-cloak>
 											<div class="hall-item-countDown">
@@ -183,8 +183,8 @@
 
 								</div>
 
-								<div class="bj-content iframeShow" id="iframeShow" style="display: none;">
-									<iframe src="myQuestions.html" frameborder="0" id="contentIframe"></iframe>
+								<div class="bj-content iframeShow" id="iframeShow">
+									<iframe src="newQuestion.html" frameborder="0" id="contentIframe"></iframe>
 
 								</div>
 							</div>
@@ -299,7 +299,6 @@
 				<p>QQ：928062553</p>
 				<button onclick="layer.closeAll()">确定</button>
 			</div>
-
 		</div>
 	</body>
 
