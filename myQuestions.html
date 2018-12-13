@@ -7,10 +7,18 @@
 		<link rel="stylesheet" href="css/paging.css" />
 		<script type="text/javascript" src="lib/js/jquery.js" ></script>
 		<script type="text/javascript" src="js/paging.js" ></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script type="text/javascript" src="lib/js/vue.min.js" ></script>
+
+		
 	</head>
 	<style>
 		body{
 			overflow: hidden;
+		}
+		.questionContainer{
+			height: 900px;
+			width: 100%;
 		}
 		.quetions-type-tab{
 			width: 100%;
@@ -36,7 +44,7 @@
 			border-radius: 6px;
 			padding-left: 20px;
 			padding-top: 10px;
-			margin-top: 30px;
+			margin-top: 12px;
 			margin-left: 1%;
 			box-sizing: border-box;
 		}
@@ -53,6 +61,7 @@
 		}
 		.questions-info-reward{
 			margin-left: 20px;
+			width: 200px;
 		}
 		.questions-info-reward,.questions-info-time{
 			float: left;
@@ -65,6 +74,7 @@
 			font-size: 16px;
 			font-weight: bolder;
 		}
+		
 		.questions-info-time{
 			margin-left: 140px;
 			font-weight: 600;
@@ -78,9 +88,8 @@
 			top: 20px;
 			width: 90px;
 			height: 90px;
-			display: none;
 		}
-		.person-btn-invite-pending{
+		.person-btn-invite-checkPending{
 			background: rgba(94, 137, 216,0.6);
 		}
 		.person-btn-invite-normal{
@@ -102,9 +111,8 @@
 			cursor: pointer;
 			padding-top: 15px;
 			box-sizing: border-box;
-			display: none;
 		}
-		.person-btn-invite-in-pending{
+		.person-btn-invite-in-checkPending{
 			background: rgb(94, 137, 216,1);
 		}
 		.person-btn-invite-in-finish{
@@ -119,94 +127,48 @@
 		
 	</style>
 	<body>
+
 			<div class="quetions-type-tab">
 				<span class="active">方案</span>
 				<span>施工图</span>
 			</div>
-			<div class="questionsItem">
-				<div class="questions-name">
-					建筑设计中基于文脉关系分析等有什么作用？
-				</div>
-				<div class="questions-info">
-					<div class="questions-info-reward">
-						<img src="img/money.png" />
-						<span><span class="questions-money">50000</span>  RMB</span>
-					</div>
-					<div class="questions-info-time">
-						<img src="img/time.png" />
-						<span class="questions-time">
-							2018-10-01 13:33:22
-						</span>
-					</div>
-				</div>
-				<div class="person-btn-invite layui-circle  person-btn-invite-normal"></div>
-				<div class="person-btn-invite-in layui-circle person-btn-invite-in-normal">
-					<p>结束</p>
-					<p>答题</p>
-				</div>
-				<img src="img/icon_normal.png" class="icon-status" />
-			</div>
-			<div class="questionsItem">
-				<div class="questions-name">
-					建筑设计中基于文脉关系分析等有什么作用？
-				</div>
-				<div class="questions-info">
-					<div class="questions-info-reward">
-						<img src="img/money.png" />
-						<span><span class="questions-money">50000</span>  RMB</span>
-					</div>
-					<div class="questions-info-time">
-						<img src="img/time.png" />
-						<span class="questions-time">
-							2018-10-01 13:33:22
-						</span>
-					</div>
-				</div>
-				<div class="person-btn-invite layui-circle person-btn-invite-finish"></div>
-				<div class="person-btn-invite-in layui-circle person-btn-invite-in-finish">
-					<p>删除</p>
-					<p>问题</p>
-				</div>
-				<img src="img/icon_finish.png" class="icon-status" />
-			</div>
-			<div class="questionsItem">
-				<div class="questions-name">
-					建筑设计中基于文脉关系分析等有什么作用？
-				</div>
-				<div class="questions-info">
-					<div class="questions-info-reward">
-						<img src="img/money.png" />
-						<span><span class="questions-money">50000</span>  RMB</span>
-					</div>
-					<div class="questions-info-time">
-						<img src="img/time.png" />
-						<span class="questions-time">
-							2018-10-01 13:33:22
-						</span>
-					</div>
-				</div>
-				<div class="person-btn-invite layui-circle person-btn-invite-pending"></div>
-				<div class="person-btn-invite-in layui-circle person-btn-invite-in-pending">
-					<p>修改</p>
-					<p>问题</p>
-				</div>
-				<img src="img/icon_pending.png" class="icon-status" />
-			</div>
-
-
 			
+		<div id="myQuestionContainer">
+			<div class="questionsItem" v-for="item of myList">
+				<div class="questions-name">
+					问题：{{item.title}}
+				</div>
+				<div class="questions-info">
+					<div class="questions-info-reward">
+						<img src="img/money.png" />
+						<span><span class="questions-money">{{item.reward}}</span>  RMB</span>
+					</div>
+					<div class="questions-info-time">
+						<img src="img/time.png" />
+						<span class="questions-time">
+							{{item.publishDate}}
+						</span>
+					</div>
+				</div>
+				<div class="person-btn-invite layui-circle"  :class="'person-btn-invite-'+item.status"></div>
+				<div class="person-btn-invite-in layui-circle" :class="'person-btn-invite-in-'+item.status">
+					<p style="font-size: 16px;line-height: 40px;">{{item.t1}}</p>
+				</div>
+				<img :src='"img/icon_"+item.status+".png"' class="icon-status" />
+			</div>
+		
 			<div class="box pageBox" id="box"></div>
-			
+		</div>
 	</body>
-	<script>
-		$('#box').paging({
-				initPageNo: 1, // 初始页码
-				totalPages: 10, //总页数
-				// totalCount: '共300条', // 条目总数
-				slideSpeed: 600, // 缓动速度。单位毫秒 
-				callback: function (page) { // 回调函数 
-	
-				}
-			})
-	</script>
+		<script type="text/javascript" src="js/myQuestion.js" ></script>
+		<script>
+			$('#box').paging({
+					initPageNo: 1, // 初始页码
+					totalPages: 10, //总页数
+					// totalCount: '共300条', // 条目总数
+					slideSpeed: 600, // 缓动速度。单位毫秒 
+					callback: function (page) { // 回调函数 
+					}
+				})
+		</script>
 </html>

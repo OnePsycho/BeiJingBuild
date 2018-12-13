@@ -7,6 +7,8 @@
 		<link rel="stylesheet" href="css/paging.css" />
 		<script type="text/javascript" src="lib/js/jquery.js" ></script>
 		<script type="text/javascript" src="js/paging.js" ></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script type="text/javascript" src="lib/js/vue.min.js" ></script>
 	</head>
 	<style>
 		body{
@@ -36,7 +38,7 @@
 			border-radius: 6px;
 			padding-left: 20px;
 			padding-top: 10px;
-			margin-top: 30px;
+			margin-top: 12px;
 			margin-left: 1%;
 			box-sizing: border-box;
 			
@@ -49,6 +51,7 @@
 		}
 		.questions-info-reward{
 			margin-left: 20px;
+			width: 200px;
 		}
 		.questions-info-reward,.questions-info-time{
 			float: left;
@@ -100,19 +103,21 @@
 				<span class="active">方案</span>
 				<span>施工图</span>
 			</div>
-			<div class="questionsItem">
+			
+			<div id="myQuestionContainer">
+			<div class="questionsItem" v-for="item of myList">
 				<div class="questions-name">
-					建筑设计中基于文脉关系分析等有什么作用？
+					问题：{{item.title}}
 				</div>
 				<div class="questions-info">
 					<div class="questions-info-reward">
 						<img src="img/money.png" />
-						<span><span class="questions-money">50000</span>  RMB</span>
+						<span><span class="questions-money">{{item.reward}}</span>  RMB</span>
 					</div>
 					<div class="questions-info-time">
 						<img src="img/time.png" />
 						<span class="questions-time">
-							2018-10-01 13:33:22
+							{{item.publishDate}}
 						</span>
 					</div>
 				</div>
@@ -122,86 +127,49 @@
 					<p>结束</p>
 				</div>
 			</div>
-			<div class="questionsItem">
-				<div class="questions-name">
-					建筑设计中基于文脉关系分析等有什么作用？
-				</div>
-				<div class="questions-info">
-					<div class="questions-info-reward">
-						<img src="img/money.png" />
-						<span><span class="questions-money">50000</span>  RMB</span>
-					</div>
-					<div class="questions-info-time">
-						<img src="img/time.png" />
-						<span class="questions-time">
-							2018-10-01 13:33:22
-						</span>
-					</div>
-				</div>
-				<div class="person-btn-invite layui-circle"></div>
-				<div class="person-btn-invite-in layui-circle">
-					<p>答题</p>
-					<p>结束</p>
-				</div>
-			</div>
-			<div class="questionsItem">
-				<div class="questions-name">
-					建筑设计中基于文脉关系分析等有什么作用？
-				</div>
-				<div class="questions-info">
-					<div class="questions-info-reward">
-						<img src="img/money.png" />
-						<span><span class="questions-money">50000</span>  RMB</span>
-					</div>
-					<div class="questions-info-time">
-						<img src="img/time.png" />
-						<span class="questions-time">
-							2018-10-01 13:33:22
-						</span>
-					</div>
-				</div>
-				<div class="person-btn-invite layui-circle"></div>
-				<div class="person-btn-invite-in layui-circle">
-					<p>答题</p>
-					<p>结束</p>
-				</div>
-			</div>
-			<div class="questionsItem">
-				<div class="questions-name">
-					建筑设计中基于文脉关系分析等有什么作用？
-				</div>
-				<div class="questions-info">
-					<div class="questions-info-reward">
-						<img src="img/money.png" />
-						<span><span class="questions-money">50000</span>  RMB</span>
-					</div>
-					<div class="questions-info-time">
-						<img src="img/time.png" />
-						<span class="questions-time">
-							2018-10-01 13:33:22
-						</span>
-					</div>
-				</div>
-				<div class="person-btn-invite layui-circle"></div>
-				<div class="person-btn-invite-in layui-circle">
-					<p>答题</p>
-					<p>结束</p>
-				</div>
-			</div>
-
 			
 			<div class="box pageBox" id="box"></div>
-			
+			</div>
 	</body>
 	<script>
-		$('#box').paging({
-				initPageNo: 1, // 初始页码
-				totalPages: 10, //总页数
-				// totalCount: '共300条', // 条目总数
-				slideSpeed: 600, // 缓动速度。单位毫秒 
-				callback: function (page) { // 回调函数 
-	
-				}
-			})
+
+		var questionList = new Vue({
+			el:'#myQuestionContainer',
+			data:{
+				myList:""
+			}
+		})
+		
+		
+		getMyQuestions(1);
+		
+		
+		function getMyQuestions(page){
+		$.ajax({
+			type:"get",
+			url:apiUrl+"/client/api/question/findMyPage",
+			data:{
+				page:page,
+				size:5,
+				sort:'id,desc',
+				status:"finish"
+			},
+			success:function(res){
+				questionList.myList = res.content;
+				$('#box').paging({
+					initPageNo: page, // 初始页码
+					slideSpeed: 600, // 缓动速度。单位毫秒 
+					totalPages: res.totalPages, //总页数
+					callback: function(curPage) { // 回调函数 
+						console.log(curPage);
+						if(curPage != page) {
+							getMyQuestions(curPage);
+						}
+					}
+				})
+			}
+		});
+		}
+
 	</script>
 </html>

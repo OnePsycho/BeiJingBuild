@@ -44,7 +44,7 @@ input[type="number"]{
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
 ::-webkit-scrollbar  
 {  
-    width: 16px;  /*滚动条宽度*/
+    width: 10px;  /*滚动条宽度*/
     height: 16px;  /*滚动条高度*/
 }  
   
@@ -52,14 +52,14 @@ input[type="number"]{
 ::-webkit-scrollbar-track  
 {  
     -webkit-box-shadow: inset 0 0 0px rgba(0,0,0,0.3);  
-    border-radius: 0px;  /*滚动条的背景区域的圆角*/
+    border-radius: 10px;  /*滚动条的背景区域的圆角*/
     background-color: rgba(255,255,255,0);/*滚动条的背景颜色*/  
 }  
   
 /*定义滑块 内阴影+圆角*/  
 ::-webkit-scrollbar-thumb  
 {  
-    border-radius: 0px;  /*滚动条的圆角*/
+    border-radius: 10px;  /*滚动条的圆角*/
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
     background-color: rgba(193,193,193,.6);  /*滚动条的背景颜色*/
 }  

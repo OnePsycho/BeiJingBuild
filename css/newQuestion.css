@@ -1,0 +1,90 @@
+body{
+	background: rgba(255,255,255,0);
+	padding: 0px;
+}
+.formContainer{
+	background: #fff;
+	padding: 40px 20px;
+	padding-bottom: 20px;
+	border-radius: 6px;
+	box-shadow: 0 0 12px 1px #dedede;
+}
+.formContainer .layui-input, .layui-textarea,.layui-layedit{
+	width: 80%;
+}
+.formContainer .layui-layedit body{
+	min-height: 150px !important;	
+}
+.formContainer .layui-form-label{
+	padding: 10px;
+	font-weight: bolder;
+	width: 60px;
+	position: relative;
+}
+.formContainer .layui-input-block{
+	margin-left: 100px;
+}
+.formContainer .layui-form-select{
+	width: 100%;
+}
+.formContainer .layui-btn{
+	background: rgb(139,22,11);
+	border-radius: 100px;
+	width: 150px;
+	height: 45px;
+}
+.formContainer .layui-btn-primary{
+	color: white;
+}
+.uploadFile,.invitePM{
+	width: 120px !important;
+	height: 36px !important;
+	border-radius: 5px !important;
+}
+.xm-input{
+	width: 80% !important;
+}
+.xm-select-linkage-group{
+	width: 80% !important;
+}
+.xm-select-parent .xm-form-select dl{
+	min-width: 80% !important;
+}
+.invitePMBox{
+	padding: 10px;
+	display: none;
+}
+.invitePMBox .layui-form-label{
+	width: 120px;
+	float: none;
+}
+.invitePMBox .layui-input{
+	margin-left: -90px;
+	margin-top: 10px;
+}
+.licenseUpload button{
+	float: left;
+	margin-left: 20px;
+	background-color: rgb(139,22,11);
+}
+.licenseUpload img{
+	width: 80px;
+	height: 100px;
+	float: left;
+	margin-bottom: 10px;
+	margin-left: 20px;
+	border: 2px slategray solid;
+	display: none;
+}
+.licenseUpload span{
+	margin-left: 20px;
+	line-height: 40px;
+}
+.layui-upload{
+	/*width: 40%;*/
+}
+.btnUploadFile{
+	position: absolute;
+	top: 0;
+	left: 0;
+}

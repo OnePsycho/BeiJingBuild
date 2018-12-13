@@ -5,59 +5,12 @@
 		<title>我要提问</title>
 		<link rel="stylesheet" href="lib/js/layui/css/layui.css" />
 		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="lib/formSelect/formSelects-v4.css" />
+		<link rel="stylesheet" href="css/newQuestion.css" />
 		<script type="text/javascript" src="lib/js/jquery.js" ></script>
 		<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
 		<script type="text/javascript" src="js/common.js" ></script>
 	</head>
-	<style>
-		body{
-			background: rgba(255,255,255,0);
-			padding: 0px;
-		}
-		.formContainer{
-			background: #fff;
-			padding: 40px 20px;
-			padding-bottom: 20px;
-			border-radius: 6px;
-			box-shadow: 0 0 12px 1px #dedede;
-		}
-		.layui-input, .layui-textarea,.layui-layedit{
-			width: 80%;
-		}
-		.layui-layedit body{
-			min-height: 150px !important;	
-		}
-		.layui-form-label{
-			padding: 10px;
-			font-weight: bolder;
-			width: 60px;
-		}
-		.layui-input-block{
-			margin-left: 100px;
-		}
-		.layui-form-select{
-			width: 100%;
-		}
-		.layui-btn{
-			background: rgb(139,22,11);
-			border-radius: 100px;
-			width: 150px;
-			height: 45px;
-		}
-		.layui-btn-primary{
-			color: white;
-		}
-		.uploadFile{
-			width: 120px;
-			height: 36px;
-			border-radius: 5px;
-		}
-		.invitePM{
-			width: 120px;
-			height: 36px;
-			border-radius: 5px;
-		}
-	</style>
 	<body>
 		<div class="formContainer">
 		<form class="layui-form" action="">
@@ -76,26 +29,29 @@
 		  <div class="layui-form-item">
 		    <label class="layui-form-label">问题分类</label>
 		    <div class="layui-input-block">
-		      <input type="text" name="title" required  lay-verify="required" placeholder="请输入问题的赏金" autocomplete="off" class="layui-input">
+		      <select name="platformId" xm-select="select_platform" xm-select-max="1" xm-select-radio lay-verify="required">
+				 <option value="">请选择项目类别(最多一项)</option>-
+			  </select>
 		    </div>
 		  </div>
 		  <div class="layui-form-item">
 		    <label class="layui-form-label">问题赏金</label>
 		    <div class="layui-input-block">
-		      <input type="text" name="title" required  lay-verify="required" placeholder="请选择问题分类" autocomplete="off" class="layui-input">
+		      <input type="text" name="reward" required  lay-verify="required" placeholder="请输入问题赏金金额" autocomplete="off" class="layui-input">
 		    </div>
 		  </div>
 		  <div class="layui-form-item">
 		    <label class="layui-form-label">内容描述</label>
 		    <div class="layui-input-block">
-		      <textarea required  lay-verify="required"  id="content" style="display: none;"></textarea>
+		     <textarea id="content" style="display: none;"></textarea>
 		    </div>
 		  </div>
 		  <div class="layui-form-item">
 		    <label class="layui-form-label">附件</label>
 		    <div class="layui-input-block">
-		    	<p>基于O2O模式的线上销售系统</p>
-				<button type="button" class="layui-btn uploadFile" id="uploadFile">上传附件</button>
+				<input id="uploadFile" type="file"  multiple="multiple"  name="fileTrans" ref="file" value="" style="opacity: 0;height: 40px;width: 130px;" />
+		    	 <button type="button" class="layui-btn invitePM btnUploadFile" >上传附件</button>
+		    	 <span id="fileNames"></span>
 		    </div>
 		  </div>
 		 
@@ -114,7 +70,7 @@
 		  <div class="layui-form-item layui-form-text">
 		    <label class="layui-form-label">公告</label>
 		    <div class="layui-input-block">
-		      <textarea name="notice" required  lay-verify="required" placeholder="请输入内容" class="layui-textarea"></textarea>
+		      <textarea name="notice" required  lay-verify="required" placeholder="请输入问题公告的内容" class="layui-textarea"></textarea>
 		    </div>
 		  </div>
 		  <div class="layui-form-item">
@@ -124,75 +80,66 @@
 		    </div>
 		  </div>
 		</form>
+	</div>
+	<!--邀请项目经理弹窗-->
+		<div class="invitePMBox">
+			<form class="layui-form" action="" id="invitePMForm" lay-filter="invitePMBox">
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">公司名称</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="company" required  lay-verify="required" placeholder="请输入公司名称" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			    <div class="layui-form-item licenseUpload">
+		   		<label class="layui-form-label">公司营业执照</label>
+			    <div class="layui-upload">
+				  <div class="layui-upload-list">
+				    <img class="layui-upload-img" id="licensePreview">
+				    <span id="demoText">（支持png,jpg格式，大小不超过2M）</span>
+				  </div>
+				  <button type="button" class="layui-btn" id="licenseImg"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+				</div> 
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">公司地址</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="address" lay-verify="required" placeholder="请输入公司地址" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">项目名称</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="projectName" lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">项目经理姓名</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="u_name" lay-verify="required" placeholder="请输入项目经理姓名" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">项目经理联系电话</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="u_phoneNum" lay-verify="required" placeholder="请输入项目经理联系电话" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">项目经理邮箱</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="u_email" lay-verify="required" placeholder="请输入项目经理邮箱" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  
+			  <div class="layui-form-item">
+			    <div class="layui-input-block" style="margin-left: 20px;">
+			      <button class="layui-btn" lay-submit="" lay-filter="invitePMBox" style="background: rgb(139,22,11);">立即提交</button>
+			      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			    </div>
+			  </div>
+			</form>
 		</div>
 	</body>
-	<script>
-		var member = JSON.parse(sessionStorage.getItem('member'));
-		var editContent;
-		$('#projectName').val(member.memberExt.projectName);
-		
-		layui.use('form', function(){
-		  var form = layui.form;
-		  
-		  //监听提交
-		  form.on('submit(formDemo)', function(data){
-		  	var content = layui.layedit.getContent(editContent);
-		  	var submitInfo = JSON.stringify(data.field);
-		  	submitInfo.description = content;
-		    layer.msg(submitInfo);
-		    return false;
-		  });
-		});
-		
-		layui.use('laydate', function(){
-		  var laydate = layui.laydate;
-		  
-		  //执行一个laydate实例
-		laydate.render({
-		    elem: '#joinDate', //指定元素,
-		    range:','
-		  });
-		});
-		
-		//富文本编辑器
-		layui.use('layedit', function(){
-		  var layedit = layui.layedit;
-		  layedit.set({
-		  uploadImage: {
-		    url: apiUrl+'/client/api/file/upload'
-		  }
-		});
-		  editContent = layedit.build('content',{
-		  	height:180
-		  });
-		});
-		
-
-		
-		
-		layui.use('upload', function(){
-		  var upload = layui.upload;
-		   
-		  //执行实例
-		  var uploadInst = upload.render({
-		    elem: '#uploadFile' //绑定元素
-		    ,url: apiUrl+'/client/api/file/upload'
-		    ,accept: 'file' //允许上传的文件类型
-		    ,size: 4096 //最大允许上传的文件大小,
-		    ,multiple:true
-		    ,before: function(obj){
-		      //预读本地文件示例，不支持ie8
-		      obj.preview(function(index, file, result){
-		      	
-		      });
-		    }
-		    ,done: function(res){
-		      //上传完毕回调
-		    }
-		    ,error: function(){
-		      //请求异常回调
-		    }
-		  });
-		});
-	</script>
+	<script type="text/javascript" src="lib/formSelect/formSelects-v4.js" ></script>
+	<script type="text/javascript" src="js/newQuestion.js" ></script>
 </html>

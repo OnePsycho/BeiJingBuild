@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=2">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>北京工业设计院</title>
 		<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="css/main.css" />
@@ -91,10 +91,6 @@
 											</a>
 											<div class="slidenav-content" data-sidenav-dropdown>
 												<div class="slidenav-classify-a">
-													<!--<div class="pretty circle danger"  @click="personnelTypeHandle(item.id)">
-												  <input type="radio" name="radio1"> 
-												  <label><i class="default"></i> 全部</label>
-												</div>	-->
 													<div class="pretty circle danger" v-for="(personnelTypes,index) of item.sortPersonnelTypes" @click="personnelTypeHandle(personnelTypes.id)">
 														<input type="radio" name="radio1">
 														<label><i class="default"></i> {{personnelTypes.name}}</label>
@@ -114,7 +110,7 @@
 							<!--主内容区域-->
 							<div class="col-sm-7 bj-main-box">
 								<!--问题展示区域-->
-								<div class="bj-content questionsShow" id="questionsShow" style="display: none;">
+								<div class="bj-content questionsShow" id="questionsShow">
 									<div class="row">
 										<div class="bj-hall-item" v-for="(item,index) of questionList" v-cloak>
 											<div class="hall-item-countDown">
@@ -131,11 +127,11 @@
 													<div class="hall-item-data hall-reward">
 														<img src="img/money.png" title="赏金金额" />
 														<span>{{item.reward}}</span>
-														<span style="margin-left: 10px;color: gray;">RMB</span>
+														<span style="margin-left: 5px;color: gray;">RMB</span>
 													</div>
 													<div class="hall-item-data hall-reward">
 														<img src="img/person.png" title="参与人数" />
-														<span>{{item.joinNum}}</span>
+														<span>{{item.joinNum ? item.joinNum : '0' }}</span>
 														<span style="margin-left: 10px;color: gray;">人</span>
 													</div>
 													<div class="hall-item-data hall-reward">
@@ -178,13 +174,38 @@
 										<div class="person-btn-invite layui-circle" style="display: none;"></div>
 										<div class="person-btn-invite-in layui-circle" style="display: none;" @click="inviteFreeDesigner(item.id,item.tempName)">邀请</div>
 									</div>
-
 									<div class="box pageBox" id="box-person"></div>
+									<!--邀请人才选择框-->
+									<div id="inviteDialog" class="inviteDialog" style="display: none;">
+										<form class="layui-form" action="" lay-filter="inviteForm">
+											<div class="layui-form-item">
+												<label class="layui-form-label">被邀请人</label>
+												<div class="layui-input-block">
+													<span id="invitedUser" class="invitedUser">张山</span>
+												</div>
+											</div>
+											<div class="layui-form-item">
+												<label class="layui-form-label">请选择邀请回答的问题</label>
+												<div class="layui-input-block">
+													<select name="questionId" lay-verify="required">
+														<option value=""></option>
+														<option v-for="item of questionList" :value="item.id" >{{item.title}}</option>
+													</select>
+												</div>
+											</div>
+											<div class="layui-form-item" style="margin-top: 30px;">
+												<div class="layui-input-block">
+													<button class="layui-btn" lay-submit lay-filter="inviteForm">确认邀请</button>
+													<button type="reset" class="layui-btn">重置</button>
+												</div>
+											</div>
+										</form>
+									</div>
 
 								</div>
 
-								<div class="bj-content iframeShow" id="iframeShow">
-									<iframe src="newQuestion.html" frameborder="0" id="contentIframe"></iframe>
+								<div class="bj-content iframeShow" id="iframeShow"  style="display: none;">
+									<iframe src="" frameborder="0" id="contentIframe"></iframe>
 
 								</div>
 							</div>
@@ -262,37 +283,7 @@
 					</div>
 				</div>
 			</div>
-			<!--邀请人才选择框-->
-			<div id="inviteDialog" class="inviteDialog">
-				<form class="layui-form" action="">
-					<div class="layui-form-item">
-						<label class="layui-form-label">被邀请人</label>
-						<div class="layui-input-block">
-							<span id="invitedUser" class="invitedUser">张山</span>
-						</div>
-					</div>
-					<div class="layui-form-item">
-						<label class="layui-form-label">请选择邀请回答的问题</label>
-						<div class="layui-input-block">
-							<select name="city" lay-verify="required">
-								<option value=""></option>
-								<option value="0">北京</option>
-								<option value="1">上海</option>
-								<option value="2">广州</option>
-								<option value="3">深圳</option>
-								<option value="4">杭州</option>
-							</select>
-						</div>
-					</div>
-					<div class="layui-form-item" style="margin-top: 30px;">
-						<div class="layui-input-block">
-							<button class="layui-btn" lay-submit lay-filter="formDemo">确认邀请</button>
-							<button type="reset" class="layui-btn">重置</button>
-						</div>
-					</div>
-				</form>
-			</div>
-
+			
 			<div id="noInvitedDialog" class="noInviteDialog">
 				<p>对不起，您还没有查看权限！若想查看，请联系管理员</p>
 				<p>联系电话：028-88888888</p>
@@ -328,15 +319,6 @@
 			var element = layui.element;
 		});
 
-		layui.use('form', function() {
-			var form = layui.form;
-			//		  
-			//		  //监听提交
-			//		  form.on('submit(formDemo)', function(data){
-			//		    layer.msg(JSON.stringify(data.field));
-			//		    return false;
-			//		  });
-		});
 	</script>
 
 </html>

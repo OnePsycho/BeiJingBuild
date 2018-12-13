@@ -7,6 +7,7 @@
 		var platformSchemeData = [];
 		var platformDrawingData = [];
 		var thirdListData=[];
+		var myQuestionList=[];
 		var memberType = JSON.parse(sessionStorage.getItem('member')).type;
 		userTypeAssign(memberType);
 
@@ -29,7 +30,7 @@
 					success:function(res){
 						switch (res.status){
 							case "1001":
-								layer.msg("该问题已结束！",{icon:5});
+								layer.msg("该问题正在审核中！",{icon:5});
 								break;
 							case "1002":
 								layer.msg("该房间参与人数已满！",{icon:5});
@@ -41,12 +42,13 @@
 									content: $('#noInvitedDialog'),
 									area: ['500px', '220px']
 								});
-//								$('#questionsShow').hide();
-//								$('#iframeShow').show();
-//								$('#iframeShow').attr('src','answerHall.html');
 								break;
 							case "200":
 								//认证成功，可以进入房间
+								$('#questionsShow').css('display','none');
+								$('#iframeShow').css('display','block');
+								$('#contentIframe').attr('src','answerHall.html');
+								sessionStorage.setItem('questionInfo',JSON.stringify(res.data));
 								break;
 							default:
 								break;
@@ -67,11 +69,13 @@
 		var index = layer.load();
 		$.ajax({
 			type: "get",
-			url: apiUrl+"/client/api/question/findPage",
+			url: apiUrl+"/client/api/question/findUiPage",
 			async: true,
 			data: {
 				page: page,
-				size: 4
+				size: 4,
+				sort:'id,desc',
+				status:"normal"
 			},
 			success: function(res) {
 				countDownTime(res);
@@ -112,6 +116,7 @@
 			async: true,
 			success: function(res) {
 				if(res.content.length == 0) {
+					questionList.questionList = res.content;
 					layer.msg("该分类下暂无问题数据！");
 				} else {
 					questionList.questionList = res.content;
@@ -137,6 +142,7 @@
 
 	//方案 施工图切换
 	$('.nav-pills-left>li').on('click', function() {
+		$('.sidenav-menu').find('input[type=radio]').attr('checked',false);
 		$('.nav-pills-left>li').not(this).removeClass('active');
 		$('.nav-pills-left>li').not(this).addClass('else');
 		$(this).addClass('active');
@@ -150,6 +156,7 @@
 	})
 
 	$('.nav-pills-right>li').on('click', function() {
+		$('.sidenav-menu').find('input[type=radio]').attr('checked',false);
 		$('.nav-pills-right>li').not(this).removeClass('active');
 		$('.nav-pills-right>li').not(this).addClass('else');
 		$(this).addClass('active');
@@ -196,26 +203,71 @@
 		}
 	});
 
+		layui.use('form', function() {
+		var form = layui.form;
+		  //监听提交
+		  form.on('submit(inviteForm)', function(data){
+		    var inviteInfo = data.field;
+			$.ajax({
+				type:"post",
+				url:apiUrl+"/client/api/invite/invite",
+				async:true,
+				data:{
+					memberId:sessionStorage.getItem('invitedMemberId'),
+					questionId:inviteInfo.questionId
+				},
+				success:function(res){
+					layer.closeAll();
+					if(res.status == "200"){
+						layer.msg("邀请成功！",{icon:1});
+					}else{
+						layer.msg("该问题已经邀请过此设计师！",{icon:5})
+					}
+
+				}
+			});
+			return false;
+		  });
+		});
+
 	//人才展示数据源
 	var freeDesginerList = new Vue({
 		el: "#personShow",
 		data: {
-			freeDesginerList: ""
+			freeDesginerList: "",
+			questionList:""
 		},
 		methods: {
 			//邀请人才
 			inviteFreeDesigner: function(memberId, username) {
 				$('#invitedUser').text(username);
-				layer.open({
-					title: '选择问题邀请',
-					type: 1,
-					content: $('#inviteDialog'),
-					area: ['500px', '400px']
+				sessionStorage.setItem('invitedMemberId',memberId);
+//				this.getMyQuestions();
+				$.ajax({
+					type:"get",
+					url:apiUrl+"/client/api/question/findMyPage",
+					async:true,
+					success:function(res){
+						console.log(res.content);
+						if(res.content.length>0){
+							freeDesginerList.questionList = res.content;
+							layer.open({
+								title: '选择问题邀请',
+								type: 1,
+								content: $('#inviteDialog'),
+								area: ['500px', '400px']
+							});
+						}else{
+							layer.msg("您还没有发布问题！");
+						}
+					}
 				});
-			}
+			},
+		},
+		updated:function(){
+			layui.form.render('select');
 		}
 	})
-
 
 	//左侧人才分类数据源
 	var personnelList = new Vue({
@@ -449,4 +501,5 @@ function IEVersion() {
         return -1;//不是ie浏览器
     }
 }
+
 
