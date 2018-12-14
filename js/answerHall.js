@@ -47,25 +47,29 @@ var questionVm = new Vue({
 			
 		},
 		//查看答案
-		showAnswer:function(id){
-			$.ajax({
-				type:"get",
-				url:apiUrl+"/client/api/answer/findPage?memberJoinQuestionId="+id,
-				async:true,
-				data:{
-					sort:'id,desc'
-				},
-				success:function(res){
-					if(res.content.length > 0){
-						$('.memberBox').hide();
-						$('.answerBox').show();
-						questionVm.answerList = res.content;
+		showAnswer:function(id,memberId){
+			if((member.type == "freeDesigner"&&memberId==member.id)||member.type=="firstParty"){
+				$.ajax({
+					type:"get",
+					url:apiUrl+"/client/api/answer/findPage?memberJoinQuestionId="+id,
+					async:true,
+					data:{
+						sort:'id,desc'
+					},
+					success:function(res){
+						if(res.content.length > 0){
+							$('.memberBox').hide();
+							$('.answerBox').show();
+							questionVm.answerList = res.content;
+						}else{
+							layer.msg("该设计师暂无回答数据！");
+						}
+					},
+					error:function(res){
+						console.log(res);
 					}
-				},
-				error:function(res){
-					console.log(res);
-				}
-			});
+				});
+			}
 		},
 		//采纳答案
 		acceptAction:function(index,answerId,flag){

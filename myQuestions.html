@@ -5,127 +5,16 @@
 		<title></title>
 		<link rel="stylesheet" href="lib/js/layui/css/layui.css" />
 		<link rel="stylesheet" href="css/paging.css" />
+		<link rel="stylesheet" href="css/myQuestion.css" />
+		<link rel="stylesheet" href="lib/js/layui/css/modules/layer/default/layer.css" />
 		<script type="text/javascript" src="lib/js/jquery.js" ></script>
 		<script type="text/javascript" src="js/paging.js" ></script>
+		<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
 		<script type="text/javascript" src="js/common.js" ></script>
 		<script type="text/javascript" src="lib/js/vue.min.js" ></script>
 
-		
 	</head>
-	<style>
-		body{
-			overflow: hidden;
-		}
-		.questionContainer{
-			height: 900px;
-			width: 100%;
-		}
-		.quetions-type-tab{
-			width: 100%;
-			height: 30px;
-			padding-left: 50px;
-		}
-		.quetions-type-tab span{
-			font-size: 16px;
-			font-weight: bold;
-			margin-left: 100px;
-			color: gray;
-			cursor: pointer;
-		}
-		.quetions-type-tab .active{
-			color: #000;
-		}
-		.questionsItem{
-			position: relative;
-			width: 98%;
-			height: 140px;
-			background: #FFFFFF;
-			box-shadow: 0px 0px 6px 1px #b1b1b1;
-			border-radius: 6px;
-			padding-left: 20px;
-			padding-top: 10px;
-			margin-top: 12px;
-			margin-left: 1%;
-			box-sizing: border-box;
-		}
-		.questionsItem .icon-status{
-			position: absolute;
-			top: 0;
-			right: 20px;
-		}
-		.questions-name{
-			height: 40px;
-			font-size: 16px;
-			font-weight: bolder;
-			padding: 10px 20px;
-		}
-		.questions-info-reward{
-			margin-left: 20px;
-			width: 200px;
-		}
-		.questions-info-reward,.questions-info-time{
-			float: left;
-		}
-		.questions-info-reward .questions-money{
-			color: rgb(139,22,11);
-		}
-		.questions-info-reward span{
-			color: gray;
-			font-size: 16px;
-			font-weight: bolder;
-		}
-		
-		.questions-info-time{
-			margin-left: 140px;
-			font-weight: 600;
-			font-size: 16px;
-			color: #3C3C3C;
-			letter-spacing: .5px;
-		}
-		.person-btn-invite {
-			position: absolute;
-			right: 110px;
-			top: 20px;
-			width: 90px;
-			height: 90px;
-		}
-		.person-btn-invite-checkPending{
-			background: rgba(94, 137, 216,0.6);
-		}
-		.person-btn-invite-normal{
-			background: rgba(139, 22, 11, 0.6);
-		}
-		.person-btn-invite-finish{
-			background: rgba(173, 173, 173, 0.6);
-		}
-		.person-btn-invite-in{
-			position: absolute;
-			right: 120px;
-			top: 30px;
-			width: 70px;
-			height: 70px;
-			text-align: center;
-			color: white;
-			line-height: 20px;
-			font-size: 14px;
-			cursor: pointer;
-			padding-top: 15px;
-			box-sizing: border-box;
-		}
-		.person-btn-invite-in-checkPending{
-			background: rgb(94, 137, 216,1);
-		}
-		.person-btn-invite-in-finish{
-			background: rgba(173, 173, 173, 1);
-		}
-		.person-btn-invite-in-normal{
-			background: rgba(139, 22, 11, 1);
-		}
-		.pageBox{
-			bottom: 20px;
-		}
-		
-	</style>
+
 	<body>
 
 			<div class="quetions-type-tab">
@@ -134,7 +23,7 @@
 			</div>
 			
 		<div id="myQuestionContainer">
-			<div class="questionsItem" v-for="item of myList">
+			<div class="questionsItem" v-for="(item,index) of myList">
 				<div class="questions-name">
 					问题：{{item.title}}
 				</div>
@@ -151,16 +40,49 @@
 					</div>
 				</div>
 				<div class="person-btn-invite layui-circle"  :class="'person-btn-invite-'+item.status"></div>
-				<div class="person-btn-invite-in layui-circle" :class="'person-btn-invite-in-'+item.status">
+				<div class="person-btn-invite-in layui-circle" :class="'person-btn-invite-in-'+item.status" @click="modifyStatus(index,item.id,item.status,item.reward)">
 					<p style="font-size: 16px;line-height: 40px;">{{item.t1}}</p>
 				</div>
 				<img :src='"img/icon_"+item.status+".png"' class="icon-status" />
 			</div>
 		
 			<div class="box pageBox" id="box"></div>
+
+		
+		<!--设置赏金弹窗-->
+		<div id="rewardDialog" class="rewardDialog">
+			<p style="font-size: 16px;margin: 20px 14px;">问题总赏金：￥ <span id="questionReward"></span></p>
+			<form class="layui-form" action="" lay-filter="rewardForm">
+			  <div class="layui-form-item" v-for="(item,index) of rewardMembers">
+			    <label class="layui-form-label" @click="showAnswer(index,item.answers,item.member.tempName)">{{item.member.tempName}}</label>
+			    <div class="layui-input-block">
+			     <input type="text" :name="'reward'+item.id" lay-verify="required|number"  placeholder="设置赏金" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  
+			  <div class="answerBox">
+			  		<p class="answerTitle"><span id="answerName"></span>的回答</p>
+					<div class="answerItem" v-for="item of answers">
+			  			<p class="answerTime">{{item.createDate}}</p>
+			  			<div class="answerContent" v-html="item.content"></div>
+			  	</div>
+
+
+			  </div>
+			 
+			  <div class="layui-form-item" style="margin-top: 40px;">
+			    <div class="layui-input-block" style="margin-left: 10px;">
+			      <button class="layui-btn" lay-submit lay-filter="rewardForm">立即提交</button>
+			      <button class="layui-btn layui-btn-primary" onclick="layer.closeAll()">取消</button>
+			    </div>
+			  </div>
+			</form>
 		</div>
+		</div>
+			
 	</body>
 		<script type="text/javascript" src="js/myQuestion.js" ></script>
+		<!--<script type="text/javascript" src="lib/js/layui/lay/modules/layer.js" ></script>-->
 		<script>
 			$('#box').paging({
 					initPageNo: 1, // 初始页码

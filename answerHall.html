@@ -63,7 +63,7 @@
 				<div class="desk-top" id="freeDesignerTop">
 					<div class="respondentItem" v-for="fd of topDesigners">
 						<p :style="fd.member.tempName=='我'? 'font-weight:bold;color:rgb(139,22,11)' : ''" >{{fd.member.tempName}}</p>
-						<img :src="fd.member.tempHeadImg" class="layui-nav-img" :class="fd.member.online? 'online' : 'offline'" @click="showAnswer(fd.id)" />
+						<img :src="fd.member.tempHeadImg" class="layui-nav-img" :class="fd.member.online? 'online' : 'offline'" @click="showAnswer(fd.id,fd.member.id)" />
 					</div>
 					<div class="respondentItem" id="inviteDesignerTop">
 						<p>邀请设计师</p>

@@ -111,7 +111,8 @@
 				platformId: platformId,
 				page: page,
 				size: 4,
-				sort: 'id,desc'
+				sort: 'id,desc',
+				status:"normal"
 			},
 			async: true,
 			success: function(res) {
@@ -137,7 +138,7 @@
 		});
 	}
 
-	$('#header_username').text(member.memberExt.u_name);
+	$('#header_username').text(member.phoneNum?member.phoneNum:member.email);
 	$('#header_img').attr('src', imgUrl + member.tempHeadImg);
 
 	//方案 施工图切换
@@ -293,7 +294,10 @@
 					success: function(res) {
 						for(var i = 0; i < res.content.length; i++) {
 							res.content[i].tempHeadImg = imgUrl + res.content[i].tempHeadImg;
-							res.content[i].memberExt.flags = res.content[i].memberExt.flags.split(',');
+							if(res.content[i].memberExt.flags){
+								res.content[i].memberExt.flags = res.content[i].memberExt.flags.split(',');
+							}
+
 							for(var j = 0; j < res.content[i].personnelTree.length; j++) {
 								res.content[i].personnelTree[j] = res.content[i].personnelTree[j].join('-');
 							}

@@ -1,0 +1,149 @@
+body{
+	overflow: hidden;
+}
+.questionContainer{
+	height: 900px;
+	width: 100%;
+}
+.quetions-type-tab{
+	width: 100%;
+	height: 30px;
+	padding-left: 50px;
+}
+.quetions-type-tab span{
+	font-size: 16px;
+	font-weight: bold;
+	margin-left: 100px;
+	color: gray;
+	cursor: pointer;
+}
+.quetions-type-tab .active{
+	color: #000;
+}
+.questionsItem{
+	position: relative;
+	width: 98%;
+	height: 140px;
+	background: #FFFFFF;
+	box-shadow: 0px 0px 6px 1px #b1b1b1;
+	border-radius: 6px;
+	padding-left: 20px;
+	padding-top: 10px;
+	margin-top: 12px;
+	margin-left: 1%;
+	box-sizing: border-box;
+}
+.questionsItem .icon-status{
+	position: absolute;
+	top: 0;
+	right: 20px;
+}
+.questions-name{
+	height: 40px;
+	font-size: 16px;
+	font-weight: bolder;
+	padding: 10px 20px;
+}
+.questions-info-reward{
+	margin-left: 20px;
+	width: 200px;
+}
+.questions-info-reward,.questions-info-time{
+	float: left;
+}
+.questions-info-reward .questions-money{
+	color: rgb(139,22,11);
+}
+.questions-info-reward span{
+	color: gray;
+	font-size: 16px;
+	font-weight: bolder;
+}
+
+.questions-info-time{
+	margin-left: 140px;
+	font-weight: 600;
+	font-size: 16px;
+	color: #3C3C3C;
+	letter-spacing: .5px;
+}
+.person-btn-invite {
+	position: absolute;
+	right: 110px;
+	top: 20px;
+	width: 90px;
+	height: 90px;
+}
+.person-btn-invite-checkPending{
+	background: rgba(94, 137, 216,0.6);
+}
+.person-btn-invite-normal{
+	background: rgba(139, 22, 11, 0.6);
+}
+.person-btn-invite-complete{
+	background: rgba(173, 173, 173, 0.6);
+}
+.person-btn-invite-in{
+	position: absolute;
+	right: 120px;
+	top: 30px;
+	width: 70px;
+	height: 70px;
+	text-align: center;
+	color: white;
+	line-height: 20px;
+	font-size: 14px;
+	cursor: pointer;
+	padding-top: 15px;
+	box-sizing: border-box;
+}
+.person-btn-invite-in-checkPending{
+	background: rgb(94, 137, 216,1);
+}
+.person-btn-invite-in-complete{
+	background: rgba(173, 173, 173, 1);
+}
+.person-btn-invite-in-normal{
+	background: rgba(139, 22, 11, 1);
+}
+.pageBox{
+	bottom: 20px;
+}
+.rewardDialog{
+	display: none;
+	padding: 20px;
+}
+.rewardDialog .layui-input{
+	width: 80%;
+	border-radius: 10px;
+}
+.rewardDialog .layui-input-block{
+	margin-left: 70px;
+}
+.rewardDialog .layui-form-label{
+	padding: 12px 15px;
+	width: 60px;
+	cursor: pointer;
+}
+.layui-layer-page{
+	border-radius: 6px !important;
+}
+.answerBox{
+	width: 80%;
+	margin-left: 10%;
+	margin-top: 20px;
+	background: #fff;
+	box-shadow: 0 0 5px 2px #dedede;
+	border-radius: 10px;
+	display: none;
+	padding: 10px;
+}
+.answerTitle{
+	font-size: 16px;
+	font-weight: bolder;
+	color: rgb(139,22,11);
+}
+.answerTime{
+	color: gray;
+	margin: 10px 0px;
+}
