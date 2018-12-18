@@ -82,6 +82,8 @@ function getMyQuestions(page) {
 					res.content[i].status = "complete";
 					res.content[i].t1 = "删除";
 				}
+				
+				res.content[i].miniTitle = res.content[i].title.split('').length > 20 ?res.content[i].title.substring(0,39)+'...':res.content[i].title;
 			}
 			questionList.myList = res.content;
 			$('#box').paging({

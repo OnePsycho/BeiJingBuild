@@ -51,7 +51,7 @@
 						<img src="img/btn_download.png" style="width: 80%;margin-left: 8%;margin-bottom: 20px;" />
 						<div class="fileItem" v-for="file of questionData.attachments">
 							<img src="img/icon_file.png" />
-							<span :title="file.name" @click="downLoadFile(file.path)">{{file.tempName}}</span>
+							<a :title="file.name" :href="file.path" :download="file.path" @click="downLoadFile(file.path)">{{file.tempName}}</a>
 						</div>
 					</div>
 				</div>

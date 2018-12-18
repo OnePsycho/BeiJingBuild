@@ -5,34 +5,39 @@ var onlineMember = [];
 var fileNames = [];
 var attachments = [];
 var memberJoinQuestionId;
+var memberJoinQuestionIndex;
 
-if(member.type == "freeDesigner"){
+//获取问题详情信息
+var questionInfo = JSON.parse(sessionStorage.getItem('questionInfo'));
+
+
+
+//参与设计师头像和是否在线处理
+	var joinMembers = questionInfo.memberJoinQuestions;
+	for (var i=0;i<joinMembers.length;i++) {
+		joinMembers[i].member.tempHeadImg = imgUrl + joinMembers[i].member.tempHeadImg;
+		if(joinMembers[i].member.online){
+			onlineMember.push(joinMembers[i].member);
+		}
+		//获取memberJoinQuestionId
+		if(joinMembers[i].member.id == member.id){
+			memberJoinQuestionId = joinMembers[i].id;
+			memberJoinQuestionIndex = i;
+			joinMembers[i].member.tempName = "我"
+		}
+	}
+
+
+if(member.type == "freeDesigner" && questionInfo.memberJoinQuestions[memberJoinQuestionIndex].type == "participator"){
 	$('#inviteDesignerTop').hide();
 	$('#inviteDesignerBottom').hide();
 	$('#btnSubmitAnswer').show();
+	$('.memberItem').find('button').hide();
 }
 
-$('#iframeShow',window.parent.document).css("background","rgba(0,0,0,0)");
+	$('#iframeShow',window.parent.document).css("background","rgba(0,0,0,0)");
 	$('.memberBox').find('.memberItem').last().find('hr').hide();
-	var noticeFlag = false;
-	var noticeHeight = $('.noticeText').height();
-	if(noticeHeight > 50){
-		$('.noticeText').css('height','100px');
-		$('.openAll').show();
-	}
-	$('.openAll').on('click',function(){
-		if(!noticeFlag){
-			$('.noticeText').css('-webkit-line-clamp','unset').css('height','auto');
-			$('.openAll').find('span').text("收起全文");
-			$('.openAll').find('i').removeClass('layui-icon-down').addClass('layui-icon-up');
-			noticeFlag  = true;
-		}else{
-			$('.noticeText').css('-webkit-line-clamp','5').css('height','100px');
-			$('.openAll').find('span').text("展开详情");
-			$('.openAll').find('i').removeClass('layui-icon-up').addClass('layui-icon-down');
-			noticeFlag  = false;
-		}
-	})
+	
 var questionVm = new Vue({
 	el:'#questionContainer',
 	data:{
@@ -93,12 +98,29 @@ var questionVm = new Vue({
 				}
 			});
 		}
+	},
+	updated:function(){
+		var noticeFlag = false;
+		var noticeHeight = $('.noticeText').height();
+		if(noticeHeight > 50){
+			$('.noticeText').css('height','60px');
+			$('.openAll').show();
+		}
+		$('.openAll').on('click',function(){
+			if(!noticeFlag){
+				$('.noticeText').css('-webkit-line-clamp','unset').css('height','auto');
+				$('.openAll').find('span').text("收起全文");
+				$('.openAll').find('i').removeClass('layui-icon-down').addClass('layui-icon-up');
+				noticeFlag  = true;
+			}else{
+				$('.noticeText').css('-webkit-line-clamp','5').css('height','60px');
+				$('.openAll').find('span').text("展开详情");
+				$('.openAll').find('i').removeClass('layui-icon-up').addClass('layui-icon-down');
+				noticeFlag  = false;
+			}
+		})
 	}
 })
-
-//获取问题详情信息
-var questionInfo = JSON.parse(sessionStorage.getItem('questionInfo'));
-
 
 
 
@@ -111,19 +133,7 @@ var attachmentFiles = questionInfo.attachments;
 //倒计时处理
 countDownTime(questionInfo);
 
-//参与设计师头像和是否在线处理
-var joinMembers = questionInfo.memberJoinQuestions;
-	for (var i=0;i<joinMembers.length;i++) {
-		joinMembers[i].member.tempHeadImg = imgUrl + joinMembers[i].member.tempHeadImg;
-		if(joinMembers[i].member.online){
-			onlineMember.push(joinMembers[i].member);
-		}
-		//获取memberJoinQuestionId
-		if(joinMembers[i].member.id == member.id){
-			memberJoinQuestionId = joinMembers[i].id;
-			joinMembers[i].member.tempName = "我"
-		}
-	}
+	
 	
 	//提取问题描述中的文本信息
 	var strs = questionInfo.content.split("<img src");

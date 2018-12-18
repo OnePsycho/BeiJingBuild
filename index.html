@@ -7,7 +7,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>北京工业设计院</title>
 		<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="css/main.css" />
 		<link rel="stylesheet" href="css/sidenav.css" />
 		<link rel="stylesheet" href="css/animate.css" />
 		<link rel="stylesheet" href="css/paging.css" />
@@ -16,9 +15,13 @@
 		<link rel="stylesheet" href="lib/js/layui/css/modules/layer/default/layer.css" />
 		<link rel="stylesheet" href="css/index.css" />
 		<link rel="stylesheet" href="css/person.css" />
+		<link rel="stylesheet" href="css/main.css" />
 		<!--<script type="text/javascript" src="bootstrap-3.3.7-dist/js/jquery-3.2.1.min.js"></script>-->
 		<script type="text/javascript" src="lib/js/jquery.js"></script>
 		<script type="text/javascript" src="lib/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="lib/dwr/engine.js" ></script>
+		<script type="text/javascript" src="lib/dwr/util.js" ></script>
+		<script type="text/javascript" src="lib/dwr/MsgChannel.js" ></script>
 		<script type="text/javascript" src="js/common.js"></script>
 		<script type="text/javascript" src="bootstrap-3.3.7-dist/js/sidenav.js"></script>
 		<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
@@ -56,15 +59,17 @@
 										</dl>
 									</li>
 									<li class="layui-nav-item">
-										<a href="personalCenter.html"><img src="img/icon_news.png" class="layui-nav-img">消息通知</a>
+										<a href="personalCenter.html"><img src="img/icon_news.png" class="layui-nav-img">消息通知<span class="layui-badge-dot"></span></a>
 									</li>
 
 								</ul>
 							</div>
 						</div>
 						<div class="row bj-main">
+							<div class="row col-left-main">
+
 							<!--左侧栏-->
-							<div class="col-sm-2 bj-aside bj-aside-left">
+							<div class="col-left bj-aside bj-aside-left">
 								<div class="bj-aside-title">人才展示</div>
 								<ul class="nav nav-tabs nav-pills-left">
 									<li role="presentation" class="active">
@@ -91,9 +96,9 @@
 											</a>
 											<div class="slidenav-content" data-sidenav-dropdown>
 												<div class="slidenav-classify-a">
-													<div class="pretty circle danger" v-for="(personnelTypes,index) of item.sortPersonnelTypes" @click="personnelTypeHandle(personnelTypes.id)">
+													<div class="pretty circle danger" v-for="(personnelTypes,index) of item.sortPersonnelTypes" @click="personnelTypeHandle(personnelTypes.id,1)">
 														<input type="radio" name="radio1">
-														<label><i class="default"></i> {{personnelTypes.name}}</label>
+														<label :class="'label'+personnelTypes.id" class="chooseLabel"><i class="default"></i> {{personnelTypes.name}}</label>
 													</div>
 
 												</div>
@@ -108,7 +113,7 @@
 								</nav>
 							</div>
 							<!--主内容区域-->
-							<div class="col-sm-7 bj-main-box">
+							<div class="col-main bj-main-box">
 								<!--问题展示区域-->
 								<div class="bj-content questionsShow" id="questionsShow">
 									<div class="row">
@@ -209,8 +214,11 @@
 
 								</div>
 							</div>
+															
+							</div>
+								
 							<!--右侧栏-->
-							<div class="col-sm-2 bj-aside bj-aside-right">
+							<div class="col-right bj-aside bj-aside-right">
 								<div class="bj-aside-title">问题展示</div>
 								<ul class="nav nav-tabs nav-pills-right">
 									<li role="presentation" class="active">
@@ -239,7 +247,7 @@
 												<div class="slidenav-classify-a">
 													<div class="pretty circle danger" v-for="(third,index) of item.sortPlatformTypes" v-cloak>
 														<input type="radio" name="radio1" @click="platformTypeHandle(third.id,third.sortPlatformTypes)">
-														<label><i class="default" ></i> {{third.name}}</label>
+														<label :class="'label'+third.id" class="chooseLabel"><i class="default" ></i> {{third.name}}</label>
 													</div>
 												</div>
 
@@ -300,17 +308,6 @@
 	<script>
 		$(function() {
 			$('[data-sidenav]').sidenav();
-
-			$('#box-person').paging({
-				initPageNo: 1, // 初始页码
-				totalPages: 10, //总页数
-				// totalCount: '共300条', // 条目总数
-				slideSpeed: 600, // 缓动速度。单位毫秒 
-				callback: function(page) { // 回调函数 
-
-				}
-			})
-
 		});
 
 		$('.tab-group').tabify();

@@ -16,7 +16,11 @@
 		<link rel="stylesheet" href="lib/formSelect/formSelects-v4.css" />
 		<!--<script type="text/javascript" src="bootstrap-3.3.7-dist/js/jquery-3.2.1.min.js"></script>-->
 		<script type="text/javascript" src="lib/js/jquery.js"></script>
+		<script type="text/javascript" src="lib/dwr/engine.js" ></script>
+		<script type="text/javascript" src="lib/dwr/util.js" ></script>
+		<script type="text/javascript" src="lib/dwr/MsgChannel.js" ></script>
 		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="lib/js/qrcode.js" ></script>
 		<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 		<script type="text/javascript" src="js/paging.js"></script>
 		<script type="text/javascript" src="lib/js/vue.min.js"></script>
@@ -41,9 +45,6 @@
 										<span id="header_userType"></span>
 										</a>
 										<dl class="layui-nav-child">
-											<dd>
-												<a href="javascript:;">个人中心</a>
-											</dd>
 											<dd>
 												<a href="index.html">返回首页</a>
 											</dd>
@@ -71,7 +72,8 @@
 											<img src="img/icon_wallet.png" />
 											<span style="vertical-align: sub;font-size: 16px;">账号余额(元)</span>
 										</div>
-										<p class="money">0.<span style="font-size: 14px;">00</span></p>
+										<p class="money" id="user_asset">0.<span style="font-size: 14px;">00</span></p>
+										<button class="btn-cash" id="btnRecharge">充值</button>
 										<button class="btn-cash" id="btnCash">提现</button>
 									</div>
 									<div class="left-menu-item" id="myNews">
@@ -106,7 +108,7 @@
 
 								<!--个人信息设置展示区域-->
 								<div class="bj-content iframeShow" id="iframeShow" style="display: none;">
-									<iframe src="fdCenter.html" frameborder="0" id="contentIframe"></iframe>
+									<iframe src="" frameborder="0" id="contentIframe"></iframe>
 
 								</div>
 
@@ -132,7 +134,7 @@
 				</div>
 			</div>
 			
-			<div class="btnCashBox">
+			<div class="btnCashBox" id="btnCashBox">
 				<div class="layui-tab layui-tab-card">
 				  <ul class="layui-tab-title">
 				    <li class="layui-this"><img src="img/icon_alipay.png" class="icon-pay" />支付宝提现</li>
@@ -140,11 +142,11 @@
 				  </ul>
 				  <div class="layui-tab-content">
 				    <div class="layui-tab-item layui-show">
-				    	<form class="layui-form" action="" lay-filter="aliForm">
+				    	<form class="layui-form" action="" lay-filter="aliForm" id="btnCashBoxForm">
 						  <div class="layui-form-item">
 						    <label class="layui-form-label">提现金额</label>
 						    <div class="layui-input-block">
-						      <input type="number" name="amount" id="inputAliPay" onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" lay-verify="required|number" placeholder="请输入提现金额" autocomplete="off" class="layui-input">
+						      <input type="number" name="amount" id="inputAliPay" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" lay-verify="required|number" placeholder="请输入提现金额" autocomplete="off" class="layui-input">
 						    </div>
 						  </div>
 						  <div class="layui-form-item">
@@ -157,7 +159,7 @@
 						  <div class="layui-form-item" style="margin-left: 50px;margin-top: 30px;">
 						    <div class="layui-input-block">
 						      <button class="layui-btn" lay-submit lay-filter="aliForm">确定</button>
-						      <button type="reset" class="layui-btn">取消</button>
+						      <button type="reset" class="layui-btn" onclick="layer.closeAll()">取消</button>
 						    </div>
 						  </div>
 						</form>
@@ -167,11 +169,13 @@
 						  <div class="layui-form-item">
 						    <label class="layui-form-label">提现金额</label>
 						    <div class="layui-input-block">
-						      <input type="text" name="amount" id="inputWxPay"  lay-verify="required" onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"  placeholder="请输入提现金额" autocomplete="off" class="layui-input">
+						      <input type="text" name="amount" id="inputWxPay"  lay-verify="required"   placeholder="请输入提现金额" autocomplete="off" class="layui-input">
 						    </div>
 						  </div>
 						  <div class="bindWeChat">
-						  	<img src="img/erCode.jpg" />
+						  	<div id="erCode">
+						  	<!--<img src="img/erCode.jpg" />-->
+						  	</div>
 						  	<div class="tag">
 							      <em></em>   
 							      <p style="color: #3C3C3C;">请扫码关注服务号</p>
@@ -183,13 +187,51 @@
 						  <div class="layui-form-item" style="margin-left: 50px;margin-top: 30px;">
 						    <div class="layui-input-block">
 						      <button class="layui-btn" lay-submit lay-filter="wxForm">确定</button>
-						      <button type="reset" class="layui-btn">取消</button>
+						      <button type="reset" class="layui-btn" onclick="layer.closeAll()">取消</button>
 						    </div>
 						  </div>
 						</form>
 				    </div>
 				  </div>
 				</div>
+			</div>
+			<div class="btnCashBox btnRechargeDialog">
+				<form class="layui-form" action="" lay-filter="reChargeForm" id="btnRechargeDialog">
+						  <div class="layui-form-item">
+						    <label class="layui-form-label">充值金额</label>
+						    <div class="layui-input-block">
+						      <input type="text" name="amount" id="inputWxPay"  lay-verify="required"  placeholder="请输入充值金额" autocomplete="off" class="layui-input">
+						    </div>
+						  </div>
+						  <div class="layui-form-item">
+						    <label class="layui-form-label">支付方式</label>
+							    <div class="layui-input-block">
+							    	<div class="paymentType">
+							    		<div class="payItem" >
+										  	<img src="img/icon_wepay.png" />
+											<span>微信支付</span>					  		
+									  	</div>
+									  	<div class="payItem" style="margin-left: 30px;">
+										  	<img src="img/icon_alipay.png" />
+											<span>支付宝充值</span>					  		
+									  	</div>
+
+									  </div>
+						    </div>
+						  </div>
+						  <div class="layui-form-item">
+						    <label class="layui-form-label"></label>
+						    <div class="layui-input-block" id="wxPayCode">
+						    </div>
+						  </div>
+						  <div class="layui-form-item" style="margin-left: 50px;margin-top: 30px;">
+						    <div class="layui-input-block">
+						      <button class="layui-btn" lay-submit lay-filter="reChargeForm">确定</button>
+						      <button type="reset" class="layui-btn" onclick="layer.closeAll()">取消</button>
+						    </div>
+						  </div>
+						</form>
+			</div>	
 	</body>
 
 	<script type="text/javascript" src="lib/js/layui/layui.js"></script>

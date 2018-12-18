@@ -316,6 +316,7 @@ html,
 	border-bottom-width: 0px;
 }
 
+
 .btnCashBox .layui-form-label {
 	float: left !important;
 	width: 120px !important;
@@ -348,6 +349,7 @@ html,
 .bindWeChat{
 	height: 80px;
 	width: 100%;
+	/*display: none;*/
 }
 .bindWeChat img{
 	width: 70px;
@@ -398,8 +400,43 @@ html,
 	border-radius: 3px;
 	color: white;
 }
+.btnCashBox {
+	display: none;
+}
+.btnRechargeDialog{
+	padding: 65px 50px;
+	display: none;
+}
+.paymentType{
+	height: 50px;
+	margin: 40px auto;
+}
+.paymentType img{
+	margin-left: 0;
+}
+.payItem{
+	float: left;
+	text-align: center;
+	padding: 5px 28px;
+	border-radius: 6px;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+.payItem:first-child{
+	border: 2px solid #ececec;
+}
+.payItem span{
+	font-size: 14px;
+	margin-left: 5px;
+	color: #3c3c3c;
+}
 
-
+.wxPayCode{
+	width: 150px;
+	height: 150px;
+	margin-left: 0 !important;
+	display: none;
+}
 
 @media (max-width:1366px) {
 	.bj-hall-item .hall-item-countDown {

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="lib/js/jquery.js" ></script>
+		<script type="text/javascript" src="lib/dwr/engine.js" ></script>
+		<script type="text/javascript" src="lib/dwr/util.js" ></script>
+		<script type="text/javascript" src="lib/dwr/MsgChannel.js" ></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+	</head>
+	<body>
+		<input id="data" > <button id="button">button</button>
+		<p id="p">
+
+	</body>
+	
+	<script>
+	dwr.engine.setOverridePath("http://192.168.0.18:8000/dwr");
+    dwr.engine.setActiveReverseAjax(true);
+    dwr.engine.setNotifyServerOnPageUnload(true);
+    function showMessage(msg) {
+        //接受消息
+        $("#p").append(msg + "<br>")
+    }
+    $(function () {
+        //发送消息
+        $("#button").click(function(){
+            var data = document.getElementById("data").value;
+            MsgChannel.connect(data, function(res) {
+            	console.log(res);
+            });
+        });
+    })
+
+
+	</script>
+</html>

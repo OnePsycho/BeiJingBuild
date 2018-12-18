@@ -1,5 +1,6 @@
 	//从session获取用户信息
 	var member = JSON.parse(sessionStorage.getItem('member'));
+	var dwrMessage = JSON.parse(sessionStorage.getItem('dwr'));
 	var layer = layui.layer;
 	if(member) {
 		var personSchemeData = [];
@@ -14,7 +15,21 @@
 	} else {
 		window.location.href = 'login.html';
 	}
-
+	
+//	dwr.engine.setOverridePath(apiUrl+"/dwr");
+//	dwr.engine.setActiveReverseAjax(true);
+//	dwr.engine.setNotifyServerOnPageUnload(true);
+//	
+//	MsgChannel.connect(member.id, function(res) {
+//  	console.log(res);
+//  });
+//
+//	function showMessage(msg) {
+//		dwrMessage.push(msg);
+//		sessionStorage.setItem('dwr',JSON.stringify(dwrMessage));
+//	}
+//	
+	
 	var questionList = new Vue({
 		el: "#questionsShow",
 		data: {
@@ -97,6 +112,7 @@
 				layer.msg("获取数据失败", {
 					icon: 5
 				});
+				layer.close(index);
 			}
 		});
 	}
@@ -134,6 +150,12 @@
 					})
 				}
 				layer.close(index);
+			},
+			error: function() {
+				layer.msg("获取数据失败", {
+					icon: 5
+				});
+				layer.close(index);
 			}
 		});
 	}
@@ -144,6 +166,7 @@
 	//方案 施工图切换
 	$('.nav-pills-left>li').on('click', function() {
 		$('.sidenav-menu').find('input[type=radio]').attr('checked',false);
+		$('.chooseLabel').css('color','rgb(179,179,179)');
 		$('.nav-pills-left>li').not(this).removeClass('active');
 		$('.nav-pills-left>li').not(this).addClass('else');
 		$(this).addClass('active');
@@ -158,6 +181,7 @@
 
 	$('.nav-pills-right>li').on('click', function() {
 		$('.sidenav-menu').find('input[type=radio]').attr('checked',false);
+		$('.chooseLabel').css('color','rgb(179,179,179)');
 		$('.nav-pills-right>li').not(this).removeClass('active');
 		$('.nav-pills-right>li').not(this).addClass('else');
 		$(this).addClass('active');
@@ -248,6 +272,9 @@
 					type:"get",
 					url:apiUrl+"/client/api/question/findMyPage",
 					async:true,
+					data:{
+						sort:'id,desc'
+					},
 					success:function(res){
 						console.log(res.content);
 						if(res.content.length>0){
@@ -278,8 +305,11 @@
 		},
 		methods: {
 			//人才展示点击事件
-			personnelTypeHandle: function(id) {
+			personnelTypeHandle: function(id,page) {
+				var that = this;
 				var index = layer.load();
+				$('.label'+id).css('color','rgb(139,22,11)').css('font-weight','bolder');
+				$('.chooseLabel').not($('.label'+id)).css('color','rgb(179,179,179)')
 				$('#personShow').css('display', 'block');
 				$('#questionsShow').css('display', 'none');
 				$('#iframeShow').css('display', 'none');
@@ -288,10 +318,23 @@
 					url: apiUrl + "/client/api/member/findUiPage",
 					data: {
 						judgeInvited: false,
-						personnelId: id
+						personnelId: id,
+						page:page,
+						size:5
 					},
 					async: true,
 					success: function(res) {
+						$('#box-person').paging({
+							initPageNo: page, // 初始页码
+							totalPages: res.totalPages, //总页数
+							slideSpeed: 600, // 缓动速度。单位毫秒 
+							callback: function(curPage) { // 回调函数 
+								if(curPage != page) {
+								that.personnelTypeHandle(id,curPage)
+								}
+
+							}
+						})
 						for(var i = 0; i < res.content.length; i++) {
 							res.content[i].tempHeadImg = imgUrl + res.content[i].tempHeadImg;
 							if(res.content[i].memberExt.flags){
@@ -331,6 +374,8 @@
 		methods: {
 			//问题展示点击事件
 			platformTypeHandle: function(id,data) {
+				$('.label'+id).css('color','rgb(139,22,11)').css('font-weight','bolder');
+				$('.chooseLabel').not($('.label'+id)).css('color','rgb(179,179,179)')
 				$('#personShow').css('display', 'none');
 				$('#questionsShow').css('display', 'block');
 				$('#iframeShow').css('display', 'none');

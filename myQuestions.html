@@ -24,8 +24,8 @@
 			
 		<div id="myQuestionContainer">
 			<div class="questionsItem" v-for="(item,index) of myList">
-				<div class="questions-name">
-					问题：{{item.title}}
+				<div class="questions-name" :title="item.title">
+					问题：{{item.miniTitle}}
 				</div>
 				<div class="questions-info">
 					<div class="questions-info-reward">
@@ -66,10 +66,7 @@
 			  			<p class="answerTime">{{item.createDate}}</p>
 			  			<div class="answerContent" v-html="item.content"></div>
 			  	</div>
-
-
 			  </div>
-			 
 			  <div class="layui-form-item" style="margin-top: 40px;">
 			    <div class="layui-input-block" style="margin-left: 10px;">
 			      <button class="layui-btn" lay-submit lay-filter="rewardForm">立即提交</button>
@@ -84,13 +81,5 @@
 		<script type="text/javascript" src="js/myQuestion.js" ></script>
 		<!--<script type="text/javascript" src="lib/js/layui/lay/modules/layer.js" ></script>-->
 		<script>
-			$('#box').paging({
-					initPageNo: 1, // 初始页码
-					totalPages: 10, //总页数
-					// totalCount: '共300条', // 条目总数
-					slideSpeed: 600, // 缓动速度。单位毫秒 
-					callback: function (page) { // 回调函数 
-					}
-				})
 		</script>
 </html>

@@ -63,3 +63,7 @@ input[type="number"]{
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
     background-color: rgba(193,193,193,.6);  /*滚动条的背景颜色*/
 }  
+
+
+.layui-badge-dot{margin: -15px -75px !important;width: 10px;height: 10px;}
+.layui-badge, .layui-badge-dot, .layui-badge-rim{background-color: red !important;}

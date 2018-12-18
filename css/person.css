@@ -18,7 +18,7 @@
 .iframeShow iframe{
 	width: 100%;
 	height: 100%;
-	position: relative;
+	position: relative;+
 	padding: 10px;
 	
 }
@@ -35,7 +35,7 @@
 }
 
 .person-img{
-	width:140px;
+	width:13%;
 	height: 140px;
 	float: left;
 	padding: 5px;
@@ -50,9 +50,10 @@
 	float: left;
 	margin-left: 20px;
 	padding-top: 10px;
+	width: 80%;
 }
 .person-info-item{
-	height: 40px;
+	height: 38px;
 }
 .person-usename{
 	font-weight: bold;
