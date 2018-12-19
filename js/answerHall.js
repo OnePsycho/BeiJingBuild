@@ -5,15 +5,24 @@ var onlineMember = [];
 var fileNames = [];
 var attachments = [];
 var memberJoinQuestionId;
-var memberJoinQuestionIndex;
+var isManagerId;
+var joinMembers = [];
 
 //获取问题详情信息
 var questionInfo = JSON.parse(sessionStorage.getItem('questionInfo'));
 
-
-
+if(questionInfo.notice == ""||questionInfo.notice == null){
+	questionInfo.notice = "暂无公告";
+}
 //参与设计师头像和是否在线处理
-	var joinMembers = questionInfo.memberJoinQuestions;
+	for(var i=0;i<questionInfo.memberJoinQuestions.length;i++){
+		if(questionInfo.memberJoinQuestions[i].type == "participator"){
+			joinMembers.push(questionInfo.memberJoinQuestions[i]);
+		}else{
+			isManagerId = questionInfo.memberJoinQuestions[i].member.id;
+		}
+	}
+	
 	for (var i=0;i<joinMembers.length;i++) {
 		joinMembers[i].member.tempHeadImg = imgUrl + joinMembers[i].member.tempHeadImg;
 		if(joinMembers[i].member.online){
@@ -22,17 +31,19 @@ var questionInfo = JSON.parse(sessionStorage.getItem('questionInfo'));
 		//获取memberJoinQuestionId
 		if(joinMembers[i].member.id == member.id){
 			memberJoinQuestionId = joinMembers[i].id;
-			memberJoinQuestionIndex = i;
 			joinMembers[i].member.tempName = "我"
 		}
 	}
 
-
-if(member.type == "freeDesigner" && questionInfo.memberJoinQuestions[memberJoinQuestionIndex].type == "participator"){
+//判断是设计师还是项目经理
+if(member.type == "freeDesigner" && (isManagerId!=member.id)){
 	$('#inviteDesignerTop').hide();
 	$('#inviteDesignerBottom').hide();
 	$('#btnSubmitAnswer').show();
 	$('.memberItem').find('button').hide();
+}else if(member.type == "freeDesigner" && (isManagerId==member.id)){
+	$('#inviteDesignerTop').hide();
+	$('#inviteDesignerBottom').hide();
 }
 
 	$('#iframeShow',window.parent.document).css("background","rgba(0,0,0,0)");
@@ -44,7 +55,7 @@ var questionVm = new Vue({
 		questionData:"",
 		topDesigners:"",
 		bottomDesigners:"",
-		onlineDesigners:"",
+		onlineDesigners:[],
 		answerList:""
 	},
 	methods:{
@@ -65,6 +76,11 @@ var questionVm = new Vue({
 						if(res.content.length > 0){
 							$('.memberBox').hide();
 							$('.answerBox').show();
+							for (var i=0;i<res.content.length;i++) {
+								for (var j=0;j<res.content[i].attachments.length;j++) {
+										res.content[i].attachments[j].path = imgUrl + res.content[i].attachments[j].path;
+								}
+							}
 							questionVm.answerList = res.content;
 						}else{
 							layer.msg("该设计师暂无回答数据！");
@@ -130,6 +146,7 @@ var attachmentFiles = questionInfo.attachments;
 		attachmentFiles[i].tempName = attachmentFiles[i].name.length < 5?attachmentFiles[i].name:attachmentFiles[i].name.substring(0,4)+"...";
 		attachmentFiles[i].path = imgUrl + attachmentFiles[i].path
 	}
+
 //倒计时处理
 countDownTime(questionInfo);
 
@@ -143,7 +160,14 @@ countDownTime(questionInfo);
 	questionInfo.tempContent = questionInfo.tempContent.length > 50?questionInfo.tempContent.slice(0,70)+"...":questionInfo.tempContent;
 	
 	questionVm.questionData = questionInfo;
-	questionVm.onlineDesigners = onlineMember;
+	
+	if(onlineMember.length < 1){
+		$('#noMember').show()
+	}else{
+		questionVm.onlineDesigners = onlineMember;
+		$('#noMember').hide()
+	}
+
 
 //判断设计师的数量
 	if(joinMembers.length < 5){

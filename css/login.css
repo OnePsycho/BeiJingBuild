@@ -14,15 +14,16 @@ html,body{
 	width: 100%;
 	height: 50px;
 	position: absolute;
-	bottom: 10px;
+	bottom: 0px;
 	left: 0;
 	text-align: center;
 }
 .loginBox{
-	width: 450px;
+	width: 34%;
+	max-width: 450px;
 	background: rgba(193,193,193,.6);
 	position: absolute;
-	top: 50%;
+	top: 47%;
 	left: 50%;
 	transform: translate(-50%, -50%); 
 	border-radius: 4%;

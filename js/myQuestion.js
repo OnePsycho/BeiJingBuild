@@ -3,6 +3,7 @@ var answerIndex;
 var questionReward;
 var currentId;
 var currentIndex;
+var currentType="scheme";
 var questionList = new Vue({
 	el: '#myQuestionContainer',
 	data: {
@@ -31,7 +32,7 @@ var questionList = new Vue({
 						},
 						success: function(res) {
 							layer.msg("删除成功！",{icon:1});
-							getMyQuestions(1);
+							getMyQuestions(1,currentType);
 						}
 					});
 					break;
@@ -44,7 +45,6 @@ var questionList = new Vue({
 			}
 	},
 	showAnswer:function(index,answers,name){
-
 		if(answerIndex!=index){
 			$('.answerBox').show();
 			$('#answerName').text(name);
@@ -59,18 +59,30 @@ var questionList = new Vue({
 	}
 	}
 })
+		$('.question-type').on('click',function(){
+			$(this).addClass('active');
+			$('.question-type').not(this).removeClass('active');
+			if($(this).text()=="方案"){
+				getMyQuestions(1,'scheme');
+				currentType = "scheme";
+			}else{
+				getMyQuestions(1,'workingDrawing');
+				currentType = "workingDrawing"
+			}
+		})
 
-getMyQuestions(1);
+getMyQuestions(1,'scheme');
 
 //查找我的问题数据
-function getMyQuestions(page) {
+function getMyQuestions(page,type) {
 	$.ajax({
 		type: "get",
 		url: apiUrl + "/client/api/question/findMyPage",
 		data: {
 			page: page,
 			size: 5,
-			sort: 'id,desc'
+			sort: 'id,desc',
+			type:type
 		},
 		success: function(res) {
 			for(var i = 0; i < res.content.length; i++) {
@@ -112,6 +124,7 @@ function completeQuestion(id){
 			},
 			success: function(res) {
 				res.t1 = "删除";
+				res.miniTitle = res.title.split('').length > 20 ?res.title.substring(0,39)+'...':res.title;
 				questionList.myList[currentIndex] = res;
 				console.log(questionList.myList);
 				questionList.$forceUpdate();
@@ -137,6 +150,7 @@ function getQuestionAnswers(questionId){
 					});
 				}else{
 					layer.msg("该问题无人参与，无赏金分配！",{icon:6,time:1200});
+					completeQuestion(currentId);
 				}
 		}
 	});

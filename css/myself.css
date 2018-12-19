@@ -6,6 +6,8 @@ html,
 	min-width: 1366px;
 	overflow-x: hidden;
 	font-family: 'myFont';
+	background: url(../img/bg.jpg) no-repeat 100%;
+	
 }
 
 .bj-header {
@@ -20,6 +22,7 @@ html,
 	box-sizing: border-box;
 	box-shadow: -2px 1px 5px rgba(171, 171, 171, 0.8);
 	position: relative;
+	
 }
 
 .footer-left {
@@ -113,7 +116,7 @@ html,
 
 .bj-main {
 	margin: 104px 10px 0px 10px;
-	background: url(../img/bg.jpg) no-repeat 100%;
+
 }
 
 .bj-main-box {
@@ -124,12 +127,16 @@ html,
 }
 
 .bj-content {
+	position: relative;
 	width: 100%;
 	height: 900px;
 	background: rgba(241, 241, 241, 0.66);
 	margin: 50px auto;
 	border-radius: 6px;
 	padding: 20px;
+}
+.bj-content #box{
+	bottom: 20px;
 }
 
 .bj-content .row {
@@ -146,7 +153,6 @@ html,
 
 .left-info-box {
 	width: 90%;
-	height: 300px;
 	background: #fff;
 	margin-left: 5%;
 	border-radius: 6px;
@@ -179,6 +185,7 @@ html,
 	border-radius: 50px;
 	background: rgb(139, 22, 11);
 	color: white;
+	margin-top: 10px;
 }
 
 .left-menu-item {
@@ -437,6 +444,37 @@ html,
 	margin-left: 0 !important;
 	display: none;
 }
+
+.newsItem{
+	position: relative;
+	width: 96%;
+	height: 50px;
+	background: #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 5px 1px #DEDEDE;
+	margin-left: 2%;
+	margin-top: 10px;
+	line-height: 50px;
+	cursor: pointer;
+}
+.newsItem .layui-badge-dot{
+	margin: 0px !important;
+	position: absolute;
+	top: 21px;
+	left: 10px;
+}
+.newsItem .layui-icon-right{
+	position: absolute;
+	top: 0px;
+	right: 15px;
+}
+.newsItem .newsTitle{
+	margin-left: 28px;
+}
+
+
+
+
 
 @media (max-width:1366px) {
 	.bj-hall-item .hall-item-countDown {

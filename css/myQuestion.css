@@ -8,7 +8,7 @@ body{
 .quetions-type-tab{
 	width: 100%;
 	height: 30px;
-	padding-left: 50px;
+	margin-top: 20px;
 }
 .quetions-type-tab span{
 	font-size: 16px;

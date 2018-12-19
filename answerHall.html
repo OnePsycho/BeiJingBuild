@@ -125,7 +125,7 @@
 			</div>
 			<div class="tipBox memberBox">
 				<p style="color: rgb(139,22,11);font-size: 16px;font-weight: bold;margin-bottom: 20px;">在线设计师</p>
-				<div class="memberItem" v-for="member of onlineDesigners">
+				<div v-if="onlineDesigners" class="memberItem" v-for="member of onlineDesigners" v-cloak>
 					<div class="memberHeaderImg">
 						<img :src="member.tempHeadImg" class="layui-nav-img" />
 					</div>
@@ -136,12 +136,21 @@
 					<hr>
 					<img src="img/icon_online.png" class="member-online" />
 				</div>
+				<span id="noMember">
+					暂无设计师在线
+				</span>
 			</div>
 			<div class="tipBox answerBox" style="display: none;">
 				<p style="color: rgb(139,22,11);font-size: 16px;font-weight: bold;margin-bottom: 20px;">设计师回答</p>
 				<div class="memberItem" v-for="(answer,index) of answerList">
 					<p class="answerTime">{{answer.createDate}}</p>
 					<div class="answerContainer" v-html="answer.content"></div>
+					<div class="answerContainer" style="float: left;width: 100%;">
+						<div class="fileItem" v-for="file of answer.attachments">
+							<img src="img/icon_file.png" />
+							<a :title="file.name" :href="file.path" :download="file.path" @click="downLoadFile(file.path)">{{file.name.length < 5?file.name:file.name.substring(0,4)+"..."}}</a>
+						</div>
+					</div>
 					<button :class="answer.accept? 'btnCancel' : 'btnAccept'" id="btnAccept" @click="acceptAction(index,answer.id,answer.accept)">{{answer.accept ? '取消采纳' : '采纳' }}</button>
 					<hr>
 				</div>

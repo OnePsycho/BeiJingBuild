@@ -64,7 +64,7 @@ layui.use('form', function() {
 	if(member.memberExt){
 		form.val("formLeft", {
 		"u_phoneNum": member.memberExt.u_phoneNum,
-		"u_name":member.memberExt.u_name,
+//		"u_name":member.memberExt.u_name,
 		"workTime":member.memberExt.workTime,
 		"year":member.memberExt.birthday.split('-')[0],
 		"month":member.memberExt.birthday.split('-')[1]
@@ -101,7 +101,7 @@ $('#btnSubmit').on('click', function() {
 				graduateInstitutions: submitInfo.graduateInstitutions,
 				realName: submitInfo.realName,
 				u_email: submitInfo.u_email,
-				u_name: submitInfo.u_name,
+//				u_name: submitInfo.u_name,
 				u_phoneNum: submitInfo.u_phoneNum,
 				sex: submitInfo.sex,
 				workTime: submitInfo.workTime,

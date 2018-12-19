@@ -164,7 +164,7 @@ layui.use('form', function() {
 				async:true,
 				data:formData,
 				success:function(res){
-					layer.msg("发布成功！",{icon:1});
+					layer.msg("发布成功！",{icon:1,time:1000});
 					var questionId = res.id;
 					$.ajax({
 						type:"post",
@@ -185,7 +185,10 @@ layui.use('form', function() {
 							console.log(res)
 						}
 					});
-					$('#contentIframe').attr('src','myQuestion.html');
+					setTimeout(function(){
+						self.parent.$('#contentIframe').attr('src','myQuestions.html');
+					},1000)
+
 				},
 				error:function(res){
 					layer.msg("发布失败！",{icon:5});

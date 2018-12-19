@@ -14,6 +14,7 @@
 		<link rel="stylesheet" href="css/perfectInfo.css" />
 		<link rel="stylesheet" href="css/myself.css" />
 		<link rel="stylesheet" href="lib/formSelect/formSelects-v4.css" />
+		<link rel="stylesheet" href="css/paging.css" />
 		<!--<script type="text/javascript" src="bootstrap-3.3.7-dist/js/jquery-3.2.1.min.js"></script>-->
 		<script type="text/javascript" src="lib/js/jquery.js"></script>
 		<script type="text/javascript" src="lib/dwr/engine.js" ></script>
@@ -24,6 +25,7 @@
 		<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 		<script type="text/javascript" src="js/paging.js"></script>
 		<script type="text/javascript" src="lib/js/vue.min.js"></script>
+		<script type="text/javascript" src="js/paging.js" ></script>
 		<!--[if lte IE 9]>
 	<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.3/jquery.xdomainrequest.min.js'></script>
 	<![endif]-->
@@ -98,12 +100,12 @@
 									  <a href="">个人中心</a>
 									  <a><cite>消息通知</cite></a>
 									</span>
-									<div class="layui-collapse" lay-accordion>
-										<div class="layui-colla-item">
-											<span class="layui-colla-title">您回答的问题已发布赏金，请您及时查看</span><span style="margin-left: 100px;color: gray;">2018-11-01 11:22:33</span>
-											<div class="layui-colla-content">内容区域</div>
-										</div>
+									<div class="newsItem" v-for="item of newsList" @click="newsClickHandle(item.id,item.data.dataType)" v-cloak>
+										<i class="layui-icon layui-icon-right"></i>
+										<span class="layui-badge-dot" v-if="!item.status"></span>
+										<p class="newsTitle">{{item.description}}</p>
 									</div>
+									<div class="box pageBox" id="box"></div>
 								</div>
 
 								<!--个人信息设置展示区域-->

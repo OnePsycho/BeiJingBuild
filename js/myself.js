@@ -15,21 +15,41 @@ $(function() {
 		userTypeAssign(memberType);
 		getMemberInfoById(member.id);
 	}
+
+
+	var latestNewsVm = new Vue({
+		el:'#questionsShow',
+		data:{
+			newsList:""
+		},
+		methods:{
+			newsClickHandle:function(id,type){
+				switch (type){
+					case 'questionComplete':
+						break;
+					case 'questionAgree':
+						break;
+					case 'questionFinish':
+						break;
+					case 'questionModify':
+						break;
+					case 'questionPublish':
+						break;
+					default:
+						break;
+				}
+			}
+		},
+		updated:function(){
+			layui.element.render('collapse');
+			$('.newsItem').eq(0).css('margin-top','30px');
+		},
+		mounted:function(){
+		}
+	})
 	
-//	
-//	dwr.engine.setOverridePath(apiUrl+"/dwr");
-//	dwr.engine.setActiveReverseAjax(true);
-//	dwr.engine.setNotifyServerOnPageUnload(true);
-//	
-//	MsgChannel.connect(member.id, function(res) {
-//  	console.log(res);
-//  });
-//
-//	function showMessage(msg) {
-//		console.log(msg);
-//	}
-//	
-		
+	getLatestNews(1);
+
 
 
 		$('.left-menu-item').eq(0).hover(
@@ -385,6 +405,84 @@ function getPayResult(orderNo){
 					layer.closeAll();
 				},1500)
 			}
+		}
+	});
+}
+
+
+function findQuestionById(questionId){
+	var result;
+	$.ajax({
+		type:"get",
+		url:apiUrl+"/client/api/question/findById?id="+questionId,
+		async:false,
+		success:function(res){
+			result = res?res:"无内容";
+		}
+	});
+	return result;
+}
+
+
+function getLatestNews(page){
+	var index = layer.load(2);
+	$.ajax({
+		type:"get",
+		url:apiUrl+"/client/api/message/findPage",
+		async:true,
+		data:{
+			page:page,
+			size:10,
+			sort:'createTime,desc'
+		},
+		success:function(res){
+			if(res.content.length > 0){
+			for(var i=0;i<res.content.length;i++){
+				var news = res.content[i];
+				news.data = JSON.parse(news.data);
+				var question = findQuestionById(news.data.questionId);
+				question.title = question.title.split('').length > 10 ?question.title.substring(0,10)+"...":question.title;
+				switch (news.data.dataType){
+					case 'questionFinish':
+						news.description = "您回答的"+question.title+" 问题已发布赏金，请您及时查看";
+						break;
+					case 'questionAgree':
+						if(news.data.status){ //同意
+							news.description = "项目经理已同意您提交的关于"+question.title+" 问题的赏金分配方案";
+						}else{
+							news.description = "项目经理已拒绝您提交的关于"+question.title+" 问题的赏金分配方案(此处有按钮)";
+						}
+						break;
+					case 'questionComplete':
+						news.description = "甲方已提交 "+question.title+" 问题的赏金分配方案，请查看";
+						break;
+					case 'questionModify':
+						news.description = "管理员已修改的您的"+question.title+" 问题，请注意查看";
+						break;
+					case 'questionPublish':
+						news.description = "有新问题发布了！";
+						break;
+					default:
+						break;
+				}			
+				}
+			$('#box').paging({
+					initPageNo: page, // 初始页码
+					slideSpeed: 600, // 缓动速度。单位毫秒 
+					totalPages: res.totalPages, //总页数
+					callback: function(curPage) { // 回调函数 
+						if(curPage != page) {
+							getLatestNews(curPage);
+						}
+					}
+				})
+			}
+			latestNewsVm.newsList = res.content;
+			layer.close(index);
+				
+		},
+		error:function(){
+			layer.close(index);
 		}
 	});
 }

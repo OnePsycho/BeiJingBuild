@@ -22,7 +22,7 @@
 		.quetions-type-tab {
 			width: 100%;
 			height: 30px;
-			padding-left: 50px;
+			margin-top: 20px;
 		}
 		
 		.quetions-type-tab span {
@@ -40,7 +40,7 @@
 		.questionsItem {
 			position: relative;
 			width: 98%;
-			height: 140px;
+			height: 130px;
 			background: #FFFFFF;
 			box-shadow: 0px 0px 6px 1px #b1b1b1;
 			border-radius: 6px;
@@ -85,40 +85,47 @@
 			color: #3C3C3C;
 			letter-spacing: .5px;
 		}
-		
+				
 		.person-btn-invite {
 			position: absolute;
-			right: 50px;
+			right: 90px;
 			top: 20px;
-			width: 100px;
-			height: 100px;
-			background: rgba(173, 173, 173, 0.6);
+			width: 90px;
+			height: 90px;
 		}
-		
-		.person-btn-invite-normal {
+		.person-btn-invite-checkPending{
+			background: rgba(94, 137, 216,0.6);
+		}
+		.person-btn-invite-normal{
 			background: rgba(139, 22, 11, 0.6);
 		}
-		
-		.person-btn-invite-in {
+		.person-btn-invite-complete{
+			background: rgba(173, 173, 173, 0.6);
+		}
+		.person-btn-invite-in{
 			position: absolute;
-			right: 60px;
+			right: 100px;
 			top: 30px;
-			width: 80px;
-			height: 80px;
-			background: rgba(173, 173, 173, 1);
+			width: 70px;
+			height: 70px;
 			text-align: center;
 			color: white;
 			line-height: 20px;
-			font-size: 16px;
+			font-size: 14px;
 			cursor: pointer;
-			padding-top: 20px;
+			padding-top: 15px;
 			box-sizing: border-box;
 		}
-		
-		.person-btn-invite-in-normal {
+		.person-btn-invite-in-checkPending{
+			background: rgb(94, 137, 216,1);
+		}
+		.person-btn-invite-in-complete{
+			background: rgba(173, 173, 173, 1);
+		}
+		.person-btn-invite-in-normal{
 			background: rgba(139, 22, 11, 1);
 		}
-		
+				
 		.pageBox {
 			bottom: 20px;
 		}
@@ -126,8 +133,8 @@
 
 	<body>
 		<div class="quetions-type-tab">
-			<span class="active">方案</span>
-			<span>施工图</span>
+			<span class="question-type active">方案</span>
+			<span class="question-type">施工图</span>
 		</div>
 		<div id="myQuestionContainer">
 			<div class="questionsItem" v-for="item of myList">
@@ -146,10 +153,9 @@
 						</span>
 					</div>
 				</div>
-				<div class="person-btn-invite layui-circle person-btn-invite-normal"></div>
-				<div class="person-btn-invite-in layui-circle person-btn-invite-in-normal">
-					<p>答题</p>
-					<p>结束</p>
+				<div class="person-btn-invite layui-circle" :class="'person-btn-invite-'+item.status"></div>
+				<div class="person-btn-invite-in layui-circle" :class="'person-btn-invite-in-'+item.status" @click="joinQuestionHandle(item.id,item.status)">
+					<p style="width: 40px;margin-left: 15px;">{{item.t1}}</p>
 				</div>
 			</div>
 
@@ -163,12 +169,62 @@
 			el: '#myQuestionContainer',
 			data: {
 				myList: ""
+			},
+			methods:{
+				joinQuestionHandle:function(questionId,status){
+					if(status == "normal"){
+						$.ajax({
+							type:"post",
+							url:apiUrl+"/client/api/question/join?questionId="+questionId,
+							async:true,
+							success:function(res){
+								switch (res.status){
+									case "1001":
+										layer.msg("该问题正在审核中！",{icon:5});
+										break;
+									case "1002":
+										layer.msg("该房间参与人数已满！",{icon:5});
+										break;
+									case "1003":
+										layer.open({
+											title: false,
+											type: 1,
+											content: $('#noInvitedDialog'),
+											area: ['500px', '220px']
+										});
+										break;
+									case "200":
+										//认证成功，可以进入房间
+										$('#questionsShow').css('display','none');
+										$('#iframeShow').css('display','block');
+										self.parent.$('#contentIframe').attr('src','answerHall.html');
+										sessionStorage.setItem('questionInfo',JSON.stringify(res.data));
+										break;
+									default:
+										break;
+								}
+							}
+						});
+					}
+				}
 			}
 		})
-
-		getMyQuestions(1);
-
-		function getMyQuestions(page) {
+		//初始化数据
+		getMyQuestions(1,'scheme');
+		
+		
+		$('.question-type').on('click',function(){
+			$(this).addClass('active');
+			$('.question-type').not(this).removeClass('active');
+			if($(this).text()=="方案"){
+				getMyQuestions(1,'scheme');
+			}else{
+				getMyQuestions(1,'workingDrawing');
+			}
+		})
+		
+		//查找我参与过的问题
+		function getMyQuestions(page,type) {
 			$.ajax({
 				type: "get",
 				url: apiUrl + "/client/api/question/findMyPage",
@@ -176,12 +232,24 @@
 					page: page,
 					size: 5,
 					sort: 'id,desc',
+					type:type
 				},
 				success: function(res) {
 					if(res.content.length<1){
+					questionList.myList = res.content;
 					layer.msg("暂无数据！",{icon:6})
 					}else{
+					for (var i=0;i<res.content.length;i++) {
+						if(res.content[i].status == "normal") {
+							res.content[i].t1 = "参与答题";
+						}else {
+							res.content[i].status = "complete";
+							res.content[i].t1 = "答题结束";
+						}
+					}
+
 					questionList.myList = res.content;
+					
 					$('#box').paging({
 						initPageNo: page, // 初始页码
 						slideSpeed: 600, // 缓动速度。单位毫秒 

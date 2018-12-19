@@ -4,6 +4,9 @@ var InterValObj; //timer变量，控制时间
 var count = 60; //间隔函数，1秒执行 
 var curCount; //当前剩余秒数 
 var currentId;//当前注册成功用户ID
+var apiUrl = "http://39.104.239.208:9111"
+//var apiUrl = "http://192.168.0.18:8000"
+var imgUrl = "http://39.104.239.208"
 
 //DWR消息保存
 var dwrArr = [{name:"111"}];
@@ -25,6 +28,7 @@ $('#loginBtn').on('click',function(){
 			type: "POST",
 			url: apiUrl + reUrl,
 			crossDomain: true == !(document.all),
+			xhrFields: {withCredentials: true},
 			data:{
 				email:username,
 				phoneNum:username,
@@ -147,7 +151,8 @@ $('#btnGetPhoneCode').on('click', function() {
 				} else {
 					$.ajax({
 						type: "get",
-						crossDomain: true,
+						crossDomain: true == !(document.all),
+						xhrFields: {withCredentials: true},
 						url: apiUrl + "/client/api/assist/getLoginCode",
 						data: {
 							phoneNum: phone,
@@ -200,6 +205,7 @@ $('#loginBtnByCode').on('click',function(){
 			type: "POST",
 			url: apiUrl + '/client/mobileLogin',
 			crossDomain: true == !(document.all),
+			xhrFields: {withCredentials: true},
 			data:{
 				phoneNum:phoneNum,
 				code:code

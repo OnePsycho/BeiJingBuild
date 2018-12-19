@@ -1,11 +1,14 @@
 body,
 html,
-.container-fluid {
+.container {
 	height: 100%;
 	width: 100%;
 	min-width: 1666px;
-	overflow-x: auto;
+	overflow: auto;
 	font-family: 'myFont';
+	background: url(../img/bg.jpg) no-repeat 100%;
+	padding-right: 0;
+	
 }
 
 .bj-header {
@@ -88,12 +91,16 @@ html,
 }
 
 .bj-container {
+	width: 100%;
 	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow-x: auto;
 }
 
 .bj-main {
 	margin: 104px 10px 0px 10px;
-	background: url(../img/bg.jpg) no-repeat 100%;
+
 }
 
 .bj-main-box {
@@ -144,7 +151,7 @@ html,
 
 .bj-aside-right {
 	padding-left: 0px;
-	min-width: 20%;
+	min-width: 19%;
 	padding: 10px 10px 10px 0px;
 
 }
@@ -480,7 +487,7 @@ html,
     background-color: rgba(193,193,193,.6);  /*滚动条的背景颜色*/
 }  
 .col-left-main{
-	width: 81.5%;
+	width: 81.6%;
 	float: left;
 }
 .col-left{
