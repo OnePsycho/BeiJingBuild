@@ -23,24 +23,26 @@ $(function() {
 			newsList:""
 		},
 		methods:{
-			newsClickHandle:function(id,type,agreeStatus){
+			newsClickHandle:function(newsId,id,type){
+				modifyNewsStatus(newsId);
 				switch (type){
 					case 'questionComplete':
-					$('#questionsShow').hide();
-					$('#iframeShow').show();
-					sessionStorage.setItem('newsQId',id);
-					$('#contentIframe').attr('src','newsDetails.html');
-					
+						$('#questionsShow').hide();
+						$('#iframeShow').show();
+						sessionStorage.setItem('newsQId',id);
+						$('#contentIframe').attr('src','newsDetails.html');
 						break;
-					case 'questionAgree':
-						if(!agreeStatus){
-							$('#questionsShow').hide();
-							$('#iframeShow').show();
-							sessionStorage.setItem('newsQId',id);
-							$('#contentIframe').attr('src','newsDetailsFirst.html');
-						}
+					case 'questionAbsurd':
+						$('#questionsShow').hide();
+						$('#iframeShow').show();
+						sessionStorage.setItem('newsQId',id);
+						$('#contentIframe').attr('src','newsDetailsFirst.html');
 						break;
 					case 'questionFinish':
+						$('#questionsShow').hide();
+						$('#iframeShow').show();
+						sessionStorage.setItem('newsQId',id);
+						$('#contentIframe').attr('src','newsDetailsFinish.html');
 						break;
 					case 'questionModify':
 						break;
@@ -131,7 +133,8 @@ $(function() {
 	$('#myNews').find('img').eq(0).attr('src','img/icon_news_white.png');
 	
 	$('#myNews').on('click',function(){
-		$('#questionsShow').css('display','block');
+		getLatestNews(1);
+
 		$('#iframeShow').css('display','none');
 	})
 	$('#mySettings').on('click',function(){
@@ -434,20 +437,31 @@ function findQuestionById(questionId){
 	return result;
 }
 
-
+//获取最新消息
 function getLatestNews(page){
 	var index = layer.load(2);
 	$.ajax({
 		type:"get",
-		url:apiUrl+"/client/api/message/findPage",
+		url:apiUrl+"/client/api/message/findPage?sort=order%2Cdesc&sort=createTime%2Cdesc",
 		async:true,
 		data:{
 			page:page,
-			size:10,
-			sort:'createTime,desc'
+			size:10
 		},
 		success:function(res){
+			$('#questionsShow').css('display','block');
+//			var status_false = [];
+//			var status_true = [];;
+//			for(var i=0;i<res.content.length;i++){
+//				if(res.content[i].status){
+//					status_true.push(res.content[i]);
+//				}else{
+//					status_false.push(res.content[i]);
+//				}
+//			}
+//			res.content = status_false.concat(status_true);
 			if(res.content.length > 0){
+				$('#noMessage').hide();
 			for(var i=0;i<res.content.length;i++){
 				var news = res.content[i];
 				news.data = JSON.parse(news.data);
@@ -458,11 +472,10 @@ function getLatestNews(page){
 						news.description = "您回答的"+question.title+" 问题已发布赏金，请您及时查看";
 						break;
 					case 'questionAgree':
-						if(news.data.status){ //同意
 							news.description = "项目经理已同意您提交的关于"+question.title+" 问题的赏金分配方案";
-						}else{
+						break;
+					case 'questionAbsurd':
 							news.description = "项目经理已拒绝您提交的关于"+question.title+" 问题的赏金分配方案(此处有按钮)";
-						}
 						break;
 					case 'questionComplete':
 						news.description = "甲方已提交 "+question.title+" 问题的赏金分配方案，请查看";
@@ -487,6 +500,8 @@ function getLatestNews(page){
 						}
 					}
 				})
+			}else{
+				$('#noMessage').show()
 			}
 			latestNewsVm.newsList = res.content;
 			layer.close(index);
@@ -498,5 +513,17 @@ function getLatestNews(page){
 	});
 }
 
+//修改消息已读状态
+function modifyNewsStatus(id){
+	$.ajax({
+		type:"post",
+		url:apiUrl+"/client/api/message/update?status=true&order=0&id="+id,
+		async:true,
+		data:{_method:'PUT'},
+		success:function(res){
+			
+		}
+	});
+}
 
 });

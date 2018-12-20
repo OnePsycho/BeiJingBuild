@@ -60,23 +60,16 @@
 		  <a><cite>通知详情</cite></a>
 		</span>
 		<div class="newsDetailsBox" id="newsDetailsBox">
-				<div class="n_title">甲方已提交  {{questionInfo.title}} 问题的赏金分配方案</div>
+				<div class="n_title">您的答案已被采用，发放{{answerInfo.reward}}赏金</div>
 				<hr>
 				<p>问题：{{questionInfo.title}}</p>
-				<p style="font-weight: bold;">赏金分配</p>
-				<div class="n_reward">
-					<p v-for="item of questionInfo.memberJoinQuestions">{{item.member.tempName}}：{{item.reward}}</p>
+				<p style="font-weight: bold;">我的答案</p>
+				<div class="answerItem" v-for="answer of answerList">
+					<p style="font-size: 14px;color: gray;">提交时间：{{answer.createDate}}</p>
+					<p style="font-weight: bold;" v-html="answer.content"></p>
 				</div>
-				<button class="layui-btn" id="btnAgree">同意</button>
-				<button class="layui-btn" id="btnRefused">拒绝</button>
 		</div>
-		
-		<div id="refusedDialog" class="refusedDialog" style="display: none;">
-			<p style="text-align: center;color: gray;">拒绝理由</p>
-			<input type="text" class="layui-input" placeholder="请输入拒绝理由" id="reasonInput" />
-			<button class="layui-btn" id="submitReason">确定</button>
-			<button class="layui-btn" style="background: gray;color: white;">取消</button>
-		</div>
+
 	</body>
 		<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
 		<script type="text/javascript" src="lib/js/jquery.placeholder.js" ></script>
@@ -85,16 +78,18 @@
 			$("body").parent().css("overflow-y","hidden");
 			$('input, textarea').placeholder({ customClass: 'my-placeholder' });
 			var layer = layui.layer;
+			var member = JSON.parse(sessionStorage.getItem('member'));
 			layui.use('element', function(){
 			  var element = layui.element;
 			});
 			
 			var questionId = sessionStorage.getItem('newsQId');
-			
 			var rewardVm = new Vue({
 				el:'#newsDetailsBox',
 				data:{
-					questionInfo:""
+					questionInfo:"",
+					answerList:"",
+					answerInfo:""
 				}
 			})
 			
@@ -113,6 +108,15 @@
 							$('#btnAgree').css('background','gray');
 							$('#btnRefused').css('background','gray');
 						}
+						for (var i=0;i<res.memberJoinQuestions.length;i++) {
+							if(member.id == res.memberJoinQuestions[i].member.id){
+								rewardVm.answerInfo = res.memberJoinQuestions[i];
+								rewardVm.answerList = res.memberJoinQuestions[i].answers;
+							}else{
+								rewardVm.answerList = [];
+							}
+						}
+						
 					}
 				});
 			}

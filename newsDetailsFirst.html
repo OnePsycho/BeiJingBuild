@@ -68,22 +68,23 @@
 		  <a href="">消息通知</a>
 		  <a><cite>通知详情</cite></a>
 		</span>
-		<div class="newsDetailsBox" id="newsDetailsBox">
+		<div class="newsDetailsBox" id="newsDetailsBox" v-cloak>
 				<div class="n_title">项目经理已拒绝提交  {{questionInfo.title}} 问题的赏金分配方案</div>
 				<hr>
 				<p>问题：{{questionInfo.title}}</p>
 				<p style="font-weight: bold;">赏金分配</p>
 				<div class="n_reward">
-					<p v-for="item of questionInfo.memberJoinQuestions">{{item.member.tempName}}：{{item.reward}}</p>
+					<p v-for="item of questionInfo.memberJoinQuestions" v-cloak>{{item.member.tempName}}：{{item.reward}}</p>
 				</div>
 				<button class="layui-btn" id="btnRefused">查看拒绝理由</button>
 				<button class="layui-btn" id="btnAgree">重新分配</button>
-		</div>
+
 		
 		<!--查看拒绝理由弹窗-->
 		<div id="refusedDialog" class="refusedDialog" style="display: none;">
 			<p style="text-align: center;color: gray;">拒绝理由</p>
-			<p v-html="questionInfo.reason"></p>
+			<p>{{questionInfo.description}}</p>
+		</div>
 		</div>
 		
 		<!--设置赏金弹窗-->
@@ -107,7 +108,7 @@
 			  <div class="layui-form-item" style="margin-top: 40px;">
 			    <div class="layui-input-block" style="margin-left: 10px;">
 			      <button class="layui-btn" lay-submit lay-filter="rewardForm">立即提交</button>
-			      <button class="layui-btn layui-btn-primary" onclick="layer.closeAll()">取消</button>
+			      <button class="layui-btn" onclick="layer.closeAll()">取消</button>
 			    </div>
 			  </div>
 			</form>
@@ -122,6 +123,7 @@
 			$('input, textarea').placeholder({ customClass: 'my-placeholder' });
 			var layer = layui.layer;
 			var answerIndex;
+			var questionReward;
 			
 			layui.use('element', function(){
 			  var element = layui.element;
@@ -170,6 +172,7 @@
 						rewardVm.questionInfo = res;
 						rewardMemberVm.questionInfo = res;
 						rewardMemberVm.rewardMembers = res.memberJoinQuestions;
+						questionReward = res.reward;
 					}
 				});
 			}
@@ -260,11 +263,33 @@
 							});
 						}
 						layer.closeAll();
-						layer.msg("方案提交成功！",{icon:1});
+						layer.msg("方案提交成功！",{icon:1,time:1000});
+						completeQuestion(questionId);
+						setTimeout(function(){
+							self.parent.window.location.reload();
+						},1000)
+					
 					}
 					return false;
 				});
 			});
+			
+			
+			
+			function completeQuestion(id){
+					$.ajax({
+						type: "post",
+						url: apiUrl + "/client/api/question/completeQuestion",
+						async: true,
+						data: {
+							id: id,
+							status: "complete",
+							_method: "PUT"
+						},
+						success: function(res) {
+						}
+					});
+			}
 					</script>
 
 </html>
