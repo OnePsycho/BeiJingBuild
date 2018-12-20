@@ -74,7 +74,7 @@
 				<p>问题：{{questionInfo.title}}</p>
 				<p style="font-weight: bold;">赏金分配</p>
 				<div class="n_reward">
-					<p v-for="item of questionInfo.memberJoinQuestions" v-cloak>{{item.member.tempName}}：{{item.reward}}</p>
+					<p v-for="item of rewardMembers" v-cloak>{{item.member.tempName}}：{{item.reward}}</p>
 				</div>
 				<button class="layui-btn" id="btnRefused">查看拒绝理由</button>
 				<button class="layui-btn" id="btnAgree">重新分配</button>
@@ -135,6 +135,7 @@
 				el:'#newsDetailsBox',
 				data:{
 					questionInfo:"",
+					rewardMembers:""
 				}
 			})
 			
@@ -150,7 +151,7 @@
 						if(answerIndex!=index){
 							$('.answerBox').show();
 							$('#answerName').text(name);
-							$('.answerBox').appendTo($('#rewardDialog').find('.layui-form-item').eq(index));
+							$('.answerBox').appendTo($('#resetRewardDialog').find('.layui-form-item').eq(index));
 							answerIndex = index;
 							rewardMemberVm.answers = answers;
 						}else{
@@ -169,9 +170,16 @@
 					url:apiUrl+"/client/api/question/findById?id="+questionId,
 					async:false,
 					success:function(res){
+						var participators = [];
+						for(var i=0;i<res.memberJoinQuestions.length;i++){
+							if(res.memberJoinQuestions[i].type == "participator"){
+								participators.push(res.memberJoinQuestions[i]);
+							}
+						}
 						rewardVm.questionInfo = res;
 						rewardMemberVm.questionInfo = res;
-						rewardMemberVm.rewardMembers = res.memberJoinQuestions;
+						rewardMemberVm.rewardMembers = participators;
+						rewardVm.rewardMembers = participators;
 						questionReward = res.reward;
 					}
 				});

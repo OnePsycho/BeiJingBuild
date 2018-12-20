@@ -56,7 +56,7 @@
 										</dl>
 									</li>
 									<li class="layui-nav-item">
-										<a href=""><img src="img/icon_news.png" class="layui-nav-img">消息通知</a>
+										<a href=""><img src="img/icon_news.png" class="layui-nav-img">消息通知<span class="layui-badge-dot" id="messageDot" style="display: none;"></span></a>
 									</li>
 
 								</ul>
@@ -100,10 +100,10 @@
 									  <a href="">个人中心</a>
 									  <a><cite>消息通知</cite></a>
 									</span>
-									<div class="newsItem" v-for="item of newsList" v-if="newsList.length > 0" @click="newsClickHandle(item.id,item.data.questionId,item.data.dataType)" v-cloak>
+									<div class="newsItem" v-for="(item,index) of newsList" v-if="newsList.length > 0" @click="newsClickHandle(index,item.id,item.data.questionId,item.data.dataType)" v-cloak>
 										<i class="layui-icon layui-icon-right"></i>
 										<span class="layui-badge-dot" v-if="!item.status"></span>
-										<p class="newsTitle">{{item.description}}{{item.data.dataType}}<span style="margin-left: 100px;color: darkgrey;font-size: 13px;">{{item.createTime}}</span></p>
+										<p class="newsTitle">{{item.description}}<span class="newsTime">{{item.createTime}}</span></p>
 									</div>
 									<p style="margin: 20px;" id="noMessage">暂无消息通知</p>
 									<div class="box pageBox" id="box"></div>

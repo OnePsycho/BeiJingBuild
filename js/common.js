@@ -1,5 +1,5 @@
-//var apiUrl = "http://192.168.0.18:8000"
-var apiUrl = "http://test.frp.rongyaotech.com"
+var apiUrl = "http://192.168.0.18:8000"
+//var apiUrl = "http://test.frp.rongyaotech.com"
 //var apiUrl = "http://39.104.239.208:9111"
 var imgUrl = "http://39.104.239.208"
 var intrevalTime = 5000; //间隔时间 默认10秒
@@ -7,7 +7,7 @@ var createTime = new Date().getTime();
 
 
 
-//var intel = setInterval('getLatestNews()',intrevalTime);
+var intel = setInterval('getLatestNews()',intrevalTime);
 
 
 function getLatestNews(){
@@ -22,6 +22,10 @@ function getLatestNews(){
 		},
 		success:function(res){
 			console.log(res);
+			if(res.content.length>0){
+				sessionStorage.setItem('message',res.content);
+				$('#messageDot').show();
+			}
 
 		}
 	});

@@ -16,6 +16,16 @@
 		window.location.href = 'login.html';
 	}
 	
+	
+	if(memberType=="firstParty"&&sessionStorage.getItem('modifyQFlag')=="true"){
+		layer.msg("正在跳转...",{time:800});
+		setTimeout(function(){
+		 $("#btnMyQuestions").trigger("click");
+		 sessionStorage.setItem('modifyQFlag',false);
+		 layer.closeAll();
+		},500);
+	}
+	
 //	dwr.engine.setOverridePath(apiUrl+"/dwr");
 //	dwr.engine.setActiveReverseAjax(true);
 //	dwr.engine.setNotifyServerOnPageUnload(true);

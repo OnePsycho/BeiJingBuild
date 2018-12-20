@@ -471,9 +471,12 @@ html,
 .newsItem .newsTitle{
 	margin-left: 28px;
 }
-
-
-
+.newsItem .newsTime{
+	position: absolute;
+	top: 0px;
+	right: 80px;
+	color: gray;
+}
 
 
 @media (max-width:1366px) {

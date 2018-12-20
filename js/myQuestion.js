@@ -139,8 +139,13 @@ function getQuestionAnswers(questionId){
 		url:apiUrl+"/client/api/question/findById?id="+questionId,
 		async:true,
 		success:function(res){
-			console.log(res.memberJoinQuestions);
-			questionList.rewardMembers = res.memberJoinQuestions;
+			var participators = [];
+			for(var i=0;i<res.memberJoinQuestions.length;i++){
+				if(res.memberJoinQuestions[i].type == "participator"){
+					participators.push(res.memberJoinQuestions[i]);
+				}
+			}
+			questionList.rewardMembers = participators;
 				if(questionList.rewardMembers.length > 0){
 					layer.open({
 						title: "设置赏金",

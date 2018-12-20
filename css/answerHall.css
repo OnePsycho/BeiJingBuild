@@ -381,6 +381,9 @@ body{
 .answerBox{
 	margin-top: 20px;
 }
+.answerBox .answerHtml img{
+	width: 100%;
+}
 .answerBox .memberItem{
 	color: black;
 	font-weight: bold;

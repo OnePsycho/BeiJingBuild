@@ -90,6 +90,8 @@ var questionVm = new Vue({
 						console.log(res);
 					}
 				});
+			}else{
+				layer.msg("只能查看自己的答案哦",{time:1000})
 			}
 		},
 		//采纳答案

@@ -23,30 +23,33 @@ $(function() {
 			newsList:""
 		},
 		methods:{
-			newsClickHandle:function(newsId,id,type){
-				modifyNewsStatus(newsId);
+			newsClickHandle:function(index,newsId,id,type){
+				modifyNewsStatus(index,newsId);
 				switch (type){
-					case 'questionComplete':
+					case 'questionComplete'://问题结束，赏金分配方案诞生
 						$('#questionsShow').hide();
 						$('#iframeShow').show();
 						sessionStorage.setItem('newsQId',id);
 						$('#contentIframe').attr('src','newsDetails.html');
 						break;
-					case 'questionAbsurd':
+					case 'questionAbsurd'://赏金方案被拒绝
 						$('#questionsShow').hide();
 						$('#iframeShow').show();
 						sessionStorage.setItem('newsQId',id);
 						$('#contentIframe').attr('src','newsDetailsFirst.html');
 						break;
-					case 'questionFinish':
+					case 'questionFinish'://问题发放赏金
 						$('#questionsShow').hide();
 						$('#iframeShow').show();
 						sessionStorage.setItem('newsQId',id);
 						$('#contentIframe').attr('src','newsDetailsFinish.html');
 						break;
-					case 'questionModify':
+					case 'questionModify'://问题被管理员修改
+						window.location.href = "index.html";
+						sessionStorage.setItem('modifyQFlag',true);
 						break;
-					case 'questionPublish':
+					case 'questionPublish'://有新问题发布
+						window.location.href = "index.html";
 						break;
 					default:
 						break;
@@ -248,7 +251,7 @@ $(function() {
 
 
 $('.layui-tab-title').find('li').eq(1).on('click',function(){
-	if(member.weixin==""){
+	if(member.weixin==""||!member.weixin){
 		getWxCode(member.id);
 		$('.bindWeChat').css('display','block');
 	}else{
@@ -273,6 +276,7 @@ function payByWechat(totalFee){
 			totalFee:totalFee
 		},
 		success:function(res){
+			$('#wxPayCode').empty();
 			if(res.status=="200"){
 				var qrcode = new QRCode("wxPayCode", {
 					text: res.data.codeUrl,
@@ -286,11 +290,14 @@ function payByWechat(totalFee){
 				
 				wxInterval = setInterval(function(){
 					getPayResult(res.data.no);
-				},2000);
-				
+				},5000);
 				layer.close(index);
 				layer.msg("请扫码完成微信支付！",{time:1000});
 			}
+		},
+		error:function(){
+			layer.msg("网络错误！请稍后再试",{time:1000});
+			setTimeout(function(){layer.closeAll()},1000);
 		}
 	});
 }
@@ -308,8 +315,13 @@ function payByAli(totalAmount){
 		},
 		success:function(res){
 			if(res.status == "200"){
-				sessionStorage.setItem('aliPay',res.data);
-				window.open('aliPay.html');
+				sessionStorage.setItem('aliPay',res.data.form);
+	            var newWin = window.open('personalCenter.html');
+	            newWin.location.href = 'aliPay.html';
+	            AliInterval = setInterval(function(){
+					getAliPayResult(res.data.no);
+				},5000);
+
 			}
 		}
 	});
@@ -327,7 +339,25 @@ function wxCash(amount,memberId){
 			description:"微信提现描述"
 		},
 		success:function(res){
-			
+			var index = layer.load();
+			switch (res.status){
+				case "200":
+					layer.closeAll();
+					getMemberInfoById(member.id);
+					layer.msg("操作成功！预计1个工作日内到账！",{icon:1,time:1000});
+					break;
+				case "1002":
+					layer.closeAll();
+					layer.msg("账户余额不足！",{icon:5,time:1000});
+				case "1101":
+					layer.closeAll();
+					layer.msg("网络错误！",{icon:5,time:1000});
+				default:
+					break;
+			}
+		},
+		error:function(){
+			layer.closeAll();
 		}
 	});
 }
@@ -406,14 +436,40 @@ function getPayResult(orderNo){
 		url:apiUrl+"/wx/entPay/queryOrder/"+orderNo,
 		async:true,
 		success:function(res){
-			if(res.status=="1001"){
+			if(res.status=="200"){
 				clearInterval(wxInterval);
 				layer.msg("充值成功！",{icon:1,time:1500});
+				getMemberInfoById(member.id);
 				setTimeout(function(){
 					layer.closeAll();
 				},1500)
 			}else if(res,status == "1002"){
 				clearInterval(wxInterval);
+				layer.msg("充值失败！请稍后再试！",{icon:5,time:1500});
+				setTimeout(function(){
+					layer.closeAll();
+				},1500)
+			}
+		}
+	});
+}
+
+//定时器轮询支付宝支付结果
+function getAliPayResult(orderNo){
+	$.ajax({
+		type:"get",
+		url:apiUrl+"/ali/pay/transOrderQuery?outTradeNo="+orderNo,
+		async:true,
+		success:function(res){
+			if(res.status=="200"){
+				clearInterval(AliInterval);
+				layer.msg("充值成功！",{icon:1,time:1500});
+				getMemberInfoById(member.id);
+				setTimeout(function(){
+					layer.closeAll();
+				},1500)
+			}else if(res,status == "1002"){
+				clearInterval(AliInterval);
 				layer.msg("充值失败！请稍后再试！",{icon:5,time:1500});
 				setTimeout(function(){
 					layer.closeAll();
@@ -514,14 +570,14 @@ function getLatestNews(page){
 }
 
 //修改消息已读状态
-function modifyNewsStatus(id){
+function modifyNewsStatus(index,id){
 	$.ajax({
 		type:"post",
 		url:apiUrl+"/client/api/message/update?status=true&order=0&id="+id,
 		async:true,
 		data:{_method:'PUT'},
 		success:function(res){
-			
+			$('.newsItem').eq(index).find('.layui-badge-dot').hide();
 		}
 	});
 }

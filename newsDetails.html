@@ -65,7 +65,7 @@
 				<p>问题：{{questionInfo.title}}</p>
 				<p style="font-weight: bold;">赏金分配</p>
 				<div class="n_reward">
-					<p v-for="item of questionInfo.memberJoinQuestions">{{item.member.tempName}}：{{item.reward}}</p>
+					<p v-for="item of joinMembers">{{item.member.tempName}}：{{item.reward}}</p>
 				</div>
 				<button class="layui-btn" id="btnAgree">同意</button>
 				<button class="layui-btn" id="btnRefused">拒绝</button>
@@ -94,7 +94,8 @@
 			var rewardVm = new Vue({
 				el:'#newsDetailsBox',
 				data:{
-					questionInfo:""
+					questionInfo:"",
+					joinMembers:""
 				}
 			})
 			
@@ -106,6 +107,7 @@
 					url:apiUrl+"/client/api/question/findById?id="+questionId,
 					async:false,
 					success:function(res){
+						var participators = [];
 						rewardVm.questionInfo = res;
 						if(res.status=="agree"||res.status=="absurd"){
 							$('#btnAgree').attr('disabled','true');
@@ -113,6 +115,13 @@
 							$('#btnAgree').css('background','gray');
 							$('#btnRefused').css('background','gray');
 						}
+						
+						for(var i=0;i<res.memberJoinQuestions.length;i++){
+							if(res.memberJoinQuestions[i].type == "participator"){
+								participators.push(res.memberJoinQuestions[i]);
+							}
+						}
+						rewardVm.joinMembers = participators;
 					}
 				});
 			}
