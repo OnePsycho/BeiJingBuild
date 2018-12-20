@@ -86,6 +86,8 @@
 			type: "get",
 			url: apiUrl+"/client/api/question/findUiPage",
 			async: true,
+			crossDomain: true == !(document.all),
+		xhrFields: {withCredentials: true},
 			data: {
 				page: page,
 				size: 4,
