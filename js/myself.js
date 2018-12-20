@@ -23,11 +23,22 @@ $(function() {
 			newsList:""
 		},
 		methods:{
-			newsClickHandle:function(id,type){
+			newsClickHandle:function(id,type,agreeStatus){
 				switch (type){
 					case 'questionComplete':
+					$('#questionsShow').hide();
+					$('#iframeShow').show();
+					sessionStorage.setItem('newsQId',id);
+					$('#contentIframe').attr('src','newsDetails.html');
+					
 						break;
 					case 'questionAgree':
+						if(!agreeStatus){
+							$('#questionsShow').hide();
+							$('#iframeShow').show();
+							sessionStorage.setItem('newsQId',id);
+							$('#contentIframe').attr('src','newsDetailsFirst.html');
+						}
 						break;
 					case 'questionFinish':
 						break;

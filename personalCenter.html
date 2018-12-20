@@ -100,10 +100,11 @@
 									  <a href="">个人中心</a>
 									  <a><cite>消息通知</cite></a>
 									</span>
-									<div class="newsItem" v-for="item of newsList" @click="newsClickHandle(item.id,item.data.dataType)" v-cloak>
+									<div class="newsItem" v-for="item of newsList" @click="newsClickHandle(item.data.questionId,item.data.dataType,item.data.status)" v-cloak>
 										<i class="layui-icon layui-icon-right"></i>
 										<span class="layui-badge-dot" v-if="!item.status"></span>
-										<p class="newsTitle">{{item.description}}</p>
+										<p class="newsTitle">{{item.description}}<span style="margin-left: 100px;color: darkgrey;font-size: 13px;">{{item.createTime}}</span></p>
+										
 									</div>
 									<div class="box pageBox" id="box"></div>
 								</div>

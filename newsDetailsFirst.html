@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="lib/js/layui/css/layui.css" />
+		<link rel="stylesheet" href="css/paging.css" />
+		<link rel="stylesheet" href="css/myQuestion.css" />
+		
+		<link rel="stylesheet" href="css/perfectInfo.css" />
+
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script type="text/javascript" src="lib/js/jquery.js"></script>
+		<script type="text/javascript" src="js/paging.js"></script>
+		<script type="text/javascript" src="lib/js/vue.min.js" ></script>
+	</head>
+	<style>
+		html{
+			overflow: auto !important;
+		}
+		.newsDetailsBox{
+			width: 88%;
+			margin-left: 2%;
+			margin-top: 30px;
+			border-radius: 10px;
+		}
+		.n_title{
+			font-size: 16px;
+			font-weight: bold;
+		}
+		.newsDetailsBox p{
+			margin: 20px 0px;
+			font-size: 16px;
+		}
+		.n_reward{
+			margin-left: 10px;
+		}
+		.layui-btn{
+			width: 130px;
+			height: 38px;
+			margin-top: 30px;
+			background: rgb(139,22,11);
+			border-radius: 50px;
+		}
+		.refusedDialog{
+			padding: 20px 30px;
+			font-size: 16px;
+		}
+		.refusedDialog input{
+			margin-top: 30px;
+		}
+		.refusedDialog button{
+			height: 35px;
+			line-height: 35px;
+		}
+		.rewardDialog{
+			padding: 20px;
+		}
+		.redDot::before{
+			display: none;
+		}
+	</style>
+
+	<body>
+		<span class="layui-breadcrumb" style="margin-left: 20px;">
+		  <a href="">个人中心</a>
+		  <a href="">消息通知</a>
+		  <a><cite>通知详情</cite></a>
+		</span>
+		<div class="newsDetailsBox" id="newsDetailsBox">
+				<div class="n_title">项目经理已拒绝提交  {{questionInfo.title}} 问题的赏金分配方案</div>
+				<hr>
+				<p>问题：{{questionInfo.title}}</p>
+				<p style="font-weight: bold;">赏金分配</p>
+				<div class="n_reward">
+					<p v-for="item of questionInfo.memberJoinQuestions">{{item.member.tempName}}：{{item.reward}}</p>
+				</div>
+				<button class="layui-btn" id="btnRefused">查看拒绝理由</button>
+				<button class="layui-btn" id="btnAgree">重新分配</button>
+		</div>
+		
+		<!--查看拒绝理由弹窗-->
+		<div id="refusedDialog" class="refusedDialog" style="display: none;">
+			<p style="text-align: center;color: gray;">拒绝理由</p>
+			<p v-html="questionInfo.reason"></p>
+		</div>
+		
+		<!--设置赏金弹窗-->
+		<div id="resetRewardDialog" class="rewardDialog" style="display: none;">
+			<p style="font-size: 16px;margin: 20px 14px;">问题总赏金：￥ <span id="questionReward">{{questionInfo.reward}}</span></p>
+			<form class="layui-form" action="" lay-filter="rewardForm">
+			  <div class="layui-form-item" v-for="(item,index) of rewardMembers">
+			    <label class="layui-form-label" @click="showAnswer(index,item.answers,item.member.tempName)">{{item.member.tempName}}</label>
+			    <div class="layui-input-block">
+			     <input type="text" :name="'reward'+item.id" lay-verify="required|number"  placeholder="设置赏金" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  
+			  <div class="answerBox">
+			  		<p class="answerTitle"><span id="answerName"></span>的回答</p>
+					<div class="answerItem" v-for="item of answers">
+			  			<p class="answerTime">{{item.createDate}}</p>
+			  			<div class="answerContent" v-html="item.content"></div>
+			  	</div>
+			  </div>
+			  <div class="layui-form-item" style="margin-top: 40px;">
+			    <div class="layui-input-block" style="margin-left: 10px;">
+			      <button class="layui-btn" lay-submit lay-filter="rewardForm">立即提交</button>
+			      <button class="layui-btn layui-btn-primary" onclick="layer.closeAll()">取消</button>
+			    </div>
+			  </div>
+			</form>
+		</div>
+		
+	</body>
+		<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
+		<script type="text/javascript" src="lib/js/jquery.placeholder.js" ></script>
+		<script type="text/javascript" src="js/myInfo.js" ></script>
+		<script>
+			$("body").parent().css("overflow-y","hidden");
+			$('input, textarea').placeholder({ customClass: 'my-placeholder' });
+			var layer = layui.layer;
+			var answerIndex;
+			
+			layui.use('element', function(){
+			  var element = layui.element;
+			});
+			
+			var questionId = sessionStorage.getItem('newsQId');
+			
+			var rewardVm = new Vue({
+				el:'#newsDetailsBox',
+				data:{
+					questionInfo:"",
+				}
+			})
+			
+			var rewardMemberVm = new Vue({
+				el:'#resetRewardDialog',
+				data:{
+					rewardMembers:"",
+					questionInfo:"",
+					answers:""
+				},
+				methods:{
+					showAnswer:function(index,answers,name){
+						if(answerIndex!=index){
+							$('.answerBox').show();
+							$('#answerName').text(name);
+							$('.answerBox').appendTo($('#rewardDialog').find('.layui-form-item').eq(index));
+							answerIndex = index;
+							rewardMemberVm.answers = answers;
+						}else{
+							$('.answerBox').hide();
+							answerIndex = 9999;
+						}
+					}
+				}
+			})
+			
+			findQuestionById(questionId);
+			
+			function findQuestionById(questionId){
+				$.ajax({
+					type:"get",
+					url:apiUrl+"/client/api/question/findById?id="+questionId,
+					async:false,
+					success:function(res){
+						rewardVm.questionInfo = res;
+						rewardMemberVm.questionInfo = res;
+						rewardMemberVm.rewardMembers = res.memberJoinQuestions;
+					}
+				});
+			}
+			
+			$('#btnAgree').on('click',function(){
+				layer.open({
+					title: false,
+					type: 1,
+					content: $('#resetRewardDialog'),
+					area: ['500px', '450px']
+					});
+			})
+			
+			
+			$('#btnRefused').on('click',function(){
+				layer.open({
+					title: false,
+					type: 1,
+					content: $('#refusedDialog'),
+					area: ['400px', '220px']
+					});
+			});
+			
+			
+			$('#submitReason').on('click',function(){
+				var reason = $('#reasonInput').val();
+				if(reason == ""|| !reason){
+					layer.msg("请务必填写拒绝理由！")
+				}else{
+					$.ajax({
+						type:"post",
+						url:apiUrl+"/client/api/question/agreeQuestion",
+						data:{
+							id:questionId,
+							status:"absurd",
+							reason:reason,
+							_method:'PUT'
+						},
+						async:true,
+						success:function(res){
+							layer.msg("您已拒绝赏金分配！",{icon:1,time:1000});
+							setTimeout(function(){
+								layer.closeAll();
+							},1000);
+							$('#btnRefused').text('已拒绝');
+							$('#btnAgree').attr('disabled','true');
+							$('#btnRefused').attr('disabled','true');
+							$('#btnAgree').css('background','gray');
+							$('#btnRefused').css('background','gray');
+						}
+					});
+				}
+			})
+			
+			layui.use('form', function() {
+				 var form = layui.form;
+			//提交赏金分配方案
+				form.on('submit(rewardForm)', function(data) {
+					var rewardForm = data.field;
+					var ids = [];
+					var reward = [];
+					var totalReward = 0;
+					for (let i in rewardForm) {
+					    ids.push(i.substring(6));
+					    reward.push(rewardForm[i])
+					}
+					
+					for(var i=0;i<reward.length;i++){
+						totalReward += parseInt(reward[i])
+					}
+					
+					if(totalReward>questionReward){
+						layer.msg("赏金总和不能超过问题赏金额度！请重新分配！",{icon:6,time:1000})			
+					}else{
+						for(var i=0;i<ids.length;i++){
+							$.ajax({
+								type:"post",
+								url:apiUrl+"/client/api/memberJoinQuestion/update",
+								async:true,
+								data:{
+									id:ids[i],
+									reward:reward[i],
+									_method:'PUT'
+								},
+								success:function(res){
+									console.log(res);
+								}
+							});
+						}
+						layer.closeAll();
+						layer.msg("方案提交成功！",{icon:1});
+					}
+					return false;
+				});
+			});
+					</script>
+
+</html>
