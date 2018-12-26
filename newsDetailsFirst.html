@@ -9,9 +9,8 @@
 		<link rel="stylesheet" href="css/myQuestion.css" />
 		
 		<link rel="stylesheet" href="css/perfectInfo.css" />
-
-		<script type="text/javascript" src="js/common.js" ></script>
 		<script type="text/javascript" src="lib/js/jquery.js"></script>
+		<script type="text/javascript" src="js/common.js" ></script>
 		<script type="text/javascript" src="js/paging.js"></script>
 		<script type="text/javascript" src="lib/js/vue.min.js" ></script>
 	</head>
@@ -117,7 +116,6 @@
 	</body>
 		<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
 		<script type="text/javascript" src="lib/js/jquery.placeholder.js" ></script>
-		<script type="text/javascript" src="js/myInfo.js" ></script>
 		<script>
 			$("body").parent().css("overflow-y","hidden");
 			$('input, textarea').placeholder({ customClass: 'my-placeholder' });
@@ -243,7 +241,7 @@
 					var ids = [];
 					var reward = [];
 					var totalReward = 0;
-					for (let i in rewardForm) {
+					for (var i in rewardForm) {
 					    ids.push(i.substring(6));
 					    reward.push(rewardForm[i])
 					}

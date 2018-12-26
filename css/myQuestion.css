@@ -43,6 +43,7 @@ body{
 	font-size: 16px;
 	font-weight: bolder;
 	padding: 10px 20px;
+	cursor: pointer;
 }
 .questions-info-reward{
 	margin-left: 20px;
@@ -149,4 +150,10 @@ body{
 }
 .answerContent img{
 	max-width: 100%;
+}
+
+@media (max-width:1440px) {
+	*{
+		font-size: 14px !important;
+	}
 }

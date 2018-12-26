@@ -11,11 +11,25 @@ $(function() {
 		var aliInterval;
 		var wxInterval;
 		var thirdListData=[];
+		var deleteIndex = [];
 		var memberType = JSON.parse(sessionStorage.getItem('member')).type;
 		userTypeAssign(memberType);
 		getMemberInfoById(member.id);
 	}
-
+	
+	$('#logout').on('click',function(){
+		$.ajax({
+			type:"get",
+			url:apiUrl+"/logout",
+			async:true,
+			success:function(res){
+				if(res.status == "200"){
+					window.location.href = "login.html";
+					sessionStorage.clear();
+			}
+			}
+		});
+	})
 
 	var latestNewsVm = new Vue({
 		el:'#questionsShow',
@@ -24,41 +38,49 @@ $(function() {
 		},
 		methods:{
 			newsClickHandle:function(index,newsId,id,type){
-				modifyNewsStatus(index,newsId);
-				switch (type){
-					case 'questionComplete'://问题结束，赏金分配方案诞生
-						$('#questionsShow').hide();
-						$('#iframeShow').show();
-						sessionStorage.setItem('newsQId',id);
-						$('#contentIframe').attr('src','newsDetails.html');
-						break;
-					case 'questionAbsurd'://赏金方案被拒绝
-						$('#questionsShow').hide();
-						$('#iframeShow').show();
-						sessionStorage.setItem('newsQId',id);
-						$('#contentIframe').attr('src','newsDetailsFirst.html');
-						break;
-					case 'questionFinish'://问题发放赏金
-						$('#questionsShow').hide();
-						$('#iframeShow').show();
-						sessionStorage.setItem('newsQId',id);
-						$('#contentIframe').attr('src','newsDetailsFinish.html');
-						break;
-					case 'questionModify'://问题被管理员修改
-						window.location.href = "index.html";
-						sessionStorage.setItem('modifyQFlag',true);
-						break;
-					case 'questionPublish'://有新问题发布
-						window.location.href = "index.html";
-						break;
-					default:
-						break;
+				//点击去掉未读小红点
+				if(modifyNewsStatus(index,newsId)){
+					switch (type){
+						case 'questionComplete'://问题结束，赏金分配方案诞生
+							$('#questionsShow').hide();
+							$('#iframeShow').show();
+							sessionStorage.setItem('newsQId',id);
+							$('#contentIframe').attr('src','newsDetails.html');
+							break;
+						case 'questionAbsurd'://赏金方案被拒绝
+							$('#questionsShow').hide();
+							$('#iframeShow').show();
+							sessionStorage.setItem('newsQId',id);
+							$('#contentIframe').attr('src','newsDetailsFirst.html');
+							break;
+						case 'questionFinish'://问题发放赏金
+							$('#questionsShow').hide();
+							$('#iframeShow').show();
+							sessionStorage.setItem('newsQId',id);
+							$('#contentIframe').attr('src','newsDetailsFinish.html');
+							break;
+						case 'questionModify'://问题被管理员修改
+							window.location.href = "index.html";
+							sessionStorage.setItem('modifyQFlag',true);
+							break;
+						case 'questionPublish'://有新问题发布
+							window.location.href = "index.html";
+							break;
+						default:
+							break;
+					}
+				}else{
+					layer.msg("修改错误");
 				}
+
 			}
 		},
 		updated:function(){
-			layui.element.render('collapse');
+//			layui.element.render('collapse');
 			$('.newsItem').eq(0).css('margin-top','30px');
+			for(var i=0;i<deleteIndex.length;i++){
+				$('.newsItem').eq(deleteIndex[i]).hide();
+			}
 		},
 		mounted:function(){
 		}
@@ -186,7 +208,10 @@ $(function() {
 		title: false,
 		type: 1,
 		content: $('.btnRechargeDialog'),
-		area: ['800px', '510px']
+		area: ['800px', '510px'],
+		end:function(){
+			clearInterval(wxInterval);
+		}
 	});
 	document.getElementById("btnRechargeDialog").reset();
 		
@@ -207,33 +232,46 @@ $(function() {
 	var form = layui.form;
 	//支付宝提现
 	form.on('submit(aliForm)', function(data) {
-		aliCash(data.field.aliAccount,data.field.amount);
+		if(data.field.amount<0.1){
+			layer.msg('最低提现金额为0.1元！');
+		}else{
+			aliCash(data.field.aliAccount,data.field.amount);
+		}
+
 		return false;
 	});
 	
 	//微信提现
 	form.on('submit(wxForm)', function(data) {
-		wxCash(data.field.amount);
+		if(data.field.amount<0.3){
+			layer.msg('最低提现金额为0.3元！');
+		}else{
+			wxCash(data.field.amount);
+		}
 		return false;
 	});
 	
 	//充值接口
 	form.on('submit(reChargeForm)', function(data) {
-		console.log(data.field);
-		switch (paymentType){
-			case "":
-				layer.msg("请选择支付方式！",{icon:1,time:1000});
-				break;
-			case "支付宝充值":
-				payByAli(data.field.amount);
-				break;
-			case "微信支付":
-				payByWechat(data.field.amount);
-				break;
-			default:
-				break;
+		if(data.field.amount<0.1){
+			layer.msg('最低充值金额为0.1元！');
+		}else{
+			switch (paymentType){
+				case "":
+					layer.msg("请选择支付方式！",{icon:1,time:1000});
+					break;
+				case "支付宝充值":
+					payByAli(data.field.amount);
+					break;
+				case "微信支付":
+					payByWechat(data.field.amount);
+					break;
+				default:
+					break;
+			}
 		}
 		return false;
+
 	});
 	
 	$('#inputAliPay').bind('input propertychange', function() {  
@@ -293,6 +331,9 @@ function payByWechat(totalFee){
 				},5000);
 				layer.close(index);
 				layer.msg("请扫码完成微信支付！",{time:1000});
+			}else{
+				layer.msg("二维码获取失败！",{icon:5,time:2000});
+				layer.close(index);
 			}
 		},
 		error:function(){
@@ -480,64 +521,60 @@ function getAliPayResult(orderNo){
 }
 
 
-function findQuestionById(questionId){
-	var result;
-	$.ajax({
-		type:"get",
-		url:apiUrl+"/client/api/question/findById?id="+questionId,
-		async:false,
-		success:function(res){
-			result = res?res:"无内容";
-		}
-	});
-	return result;
-}
+//function findQuestionById(questionId){
+//	var result;
+//	$.ajax({
+//		type:"get",
+//		url:apiUrl+"/client/api/question/findById?id="+questionId,
+//		async:false,
+//		success:function(res){
+////			console.log(res);
+//			result = res?res:"";
+//		}
+//	});
+//	return result;
+//}
 
 //获取最新消息
 function getLatestNews(page){
 	var index = layer.load(2);
+
 	$.ajax({
 		type:"get",
 		url:apiUrl+"/client/api/message/findPage?sort=order%2Cdesc&sort=createTime%2Cdesc",
-		async:true,
+		async:false,
 		data:{
 			page:page,
 			size:10
 		},
 		success:function(res){
 			$('#questionsShow').css('display','block');
-//			var status_false = [];
-//			var status_true = [];;
-//			for(var i=0;i<res.content.length;i++){
-//				if(res.content[i].status){
-//					status_true.push(res.content[i]);
-//				}else{
-//					status_false.push(res.content[i]);
-//				}
-//			}
-//			res.content = status_false.concat(status_true);
 			if(res.content.length > 0){
 				$('#noMessage').hide();
 			for(var i=0;i<res.content.length;i++){
 				var news = res.content[i];
 				news.data = JSON.parse(news.data);
-				var question = findQuestionById(news.data.questionId);
-				question.title = question.title.split('').length > 10 ?question.title.substring(0,10)+"...":question.title;
+//				var question = findQuestionById(news.data.questionId);
+				if(news.data.title){
+					news.data.title = news.data.title.split('').length > 10 ?news.data.title.substring(0,10)+"...":news.data.title;
+				}else{
+					deleteIndex.push(i);
+				}
 				switch (news.data.dataType){
 					case 'questionFinish':
-						news.description = "您回答的"+question.title+" 问题已发布赏金，请您及时查看";
+						news.description = "您回答的<strong> "+news.data.title+"</strong> 问题已发布赏金，请您及时查看";
 						break;
 					case 'questionAgree':
-							news.description = "项目经理已同意您提交的关于"+question.title+" 问题的赏金分配方案";
+							news.description = "项目经理已同意您提交的关于<strong> "+news.data.title+"</strong> 问题的赏金分配方案";
 						break;
 					case 'questionAbsurd':
-							news.description = "项目经理已拒绝您提交的关于"+question.title+" 问题的赏金分配方案(此处有按钮)";
+							news.description = "项目经理已拒绝您提交的关于<strong> "+news.data.title+"</strong> 问题的赏金分配方案";
 						break;
 					case 'questionComplete':
-						news.description = "甲方已提交 "+question.title+" 问题的赏金分配方案，请查看";
+						news.description = "甲方已提交<strong> "+news.data.title+"</strong> 问题的赏金分配方案，请查看";
 						break;
 					case 'questionModify':
-						news.description = "管理员已修改的您的"+question.title+" 问题，请注意查看";
+						news.description = "管理员已修改的您的 <strong> "+news.data.title+"</strong> 问题，请注意查看";
 						break;
 					case 'questionPublish':
 						news.description = "有新问题发布了！";
@@ -557,8 +594,9 @@ function getLatestNews(page){
 					}
 				})
 			}else{
-				$('#noMessage').show()
+				$('#noMessage').show();
 			}
+
 			latestNewsVm.newsList = res.content;
 			layer.close(index);
 				
@@ -571,15 +609,42 @@ function getLatestNews(page){
 
 //修改消息已读状态
 function modifyNewsStatus(index,id){
+	var modifyFinish = false;
 	$.ajax({
 		type:"post",
 		url:apiUrl+"/client/api/message/update?status=true&order=0&id="+id,
-		async:true,
+		async:false,
 		data:{_method:'PUT'},
 		success:function(res){
 			$('.newsItem').eq(index).find('.layui-badge-dot').hide();
+			modifyFinish = true;
 		}
 	});
+	return modifyFinish;
 }
+
+bindKeyEvent($("#inputPayCharge"));  
+bindKeyEvent($("#inputAliPay"));  
+bindKeyEvent($("#inputWxPay"));  
+
+//输入金额格式限制
+function bindKeyEvent(obj){  
+    obj.keyup(function () {  
+        var reg = $(this).val().match(/\d+\.?\d{0,4}/);  
+        var txt = '';  
+        if (reg != null) {  
+            txt = reg[0];  
+        }  
+        $(this).val(txt);  
+    }).change(function () {  
+        $(this).keypress();  
+        var v = $(this).val();  
+        if (/\.$/.test(v))  
+        {  
+            $(this).val(v.substr(0, v.length - 1));  
+        }  
+    });  
+}  
+
 
 });

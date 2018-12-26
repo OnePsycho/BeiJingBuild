@@ -4,15 +4,7 @@ var InterValObj; //timer变量，控制时间
 var count = 60; //间隔函数，1秒执行 
 var curCount; //当前剩余秒数 
 var currentId;//当前注册成功用户ID
-//var apiUrl = "http://39.104.239.208:9111"
-var apiUrl = "http://192.168.0.18:8000"
-//var apiUrl = "http://test.frp.rongyaotech.com"
-var imgUrl = "http://39.104.239.208"
-
-//DWR消息保存
-var dwrArr = [{name:"111"}];
-sessionStorage.setItem('dwr',JSON.stringify(dwrArr));
-
+var str;
 
 layui.use('layer', function(){
   var layer = layui.layer;
@@ -27,12 +19,11 @@ $('#loginBtn').on('click',function(){
 		var index = layer.load();
 		$.ajax({
 			type: "POST",
-			url: apiUrl + reUrl,
+			url: apiUrl + '/admin/login',
 			crossDomain: true == !(document.all),
 			xhrFields: {withCredentials: true},
 			data:{
-				email:username,
-				phoneNum:username,
+				username:username+str,
 				password:psw
 			},
 			success: function(res) {
@@ -101,9 +92,11 @@ function isPhoneNo(username) {
     var phoneCheck = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])[0-9]{8}$/;
     var emailCheck = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
     if(phoneCheck.test(username)){
-    	reUrl = "/client/mobileLogin";
+//  	reUrl = "/client/mobileLogin";
+			str = "m";
     }else if(emailCheck.test(username)){
-    	reUrl = "/client/emailLogin";
+//  	reUrl = "/client/emailLogin";
+			str = "e";
     }
 }
 

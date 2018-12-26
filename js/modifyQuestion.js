@@ -66,6 +66,10 @@ $.ajax({
 				platformDrawingJson[0].platformTypes = platformDrawingJson[0].platformTypes.concat(res.content[i]);
 			}
 		}
+		
+		var platformValue = [];
+		
+		platformValue.push(findTreePlatform(currentQuestionInfo.platformType.id));
 
 		formSelects.data('select_platform', 'local', {
 			arr: platformSchemeJson.concat(platformDrawingJson),
@@ -77,7 +81,7 @@ $.ajax({
 	     	console.log(vals);
 		}, true);
 		
-formSelects.value('select_platform','1000/12/13');
+		formSelects.value('select_platform',platformValue);
 		
 	}
 });
@@ -231,4 +235,35 @@ $('#uploadFile').on('change',function(){
 
 $('.btnUploadFile').on('click',function(){
 	$('#uploadFile').trigger('click');
+})
+
+
+//查找擅长领域初始值
+function findTreePlatform(id,type){
+	var result;
+	$.ajax({
+		type:"get",
+		url:apiUrl+"/client/api/platformType/findTree?id="+id,
+		async:false,
+		success:function(res){
+			if(type=="scheme"){
+				res.unshift(999);
+			}else{
+				res.unshift(1000);
+			}
+			result =  res.join('/');
+		}
+	});
+	return result;
+}
+
+$('#btnResetQuestion').on('click',function(e){
+	e.preventDefault();
+	$('#fileNames').text("");
+	attachments = [];
+	PMInfo = "";
+	document.getElementById('newQuestionForm').reset();
+	formSelects.render();
+	$('#projectName').val(member.memberExt.projectName);
+	
 })

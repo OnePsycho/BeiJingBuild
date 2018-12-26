@@ -67,3 +67,10 @@ input[type="number"]{
 
 .layui-badge-dot{margin: -15px -75px !important;width: 10px;height: 10px;}
 .layui-badge, .layui-badge-dot, .layui-badge-rim{background-color: red !important;}
+
+
+@media (max-width:1440px) {
+	/**{
+		font-size: 14px !important;
+	}*/
+}

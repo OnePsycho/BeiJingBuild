@@ -37,6 +37,9 @@
 					<div class="row">
 						<!--Header部分-->
 						<div class="col-sm-12 bj-header">
+							<div class="header-logo">
+								<img src="img/icon_submit.png" onclick="window.location.href = 'index.html'" />
+							</div>
 							<div class="header-tools">
 								<ul class="layui-nav">
 									<li class="layui-nav-item">
@@ -49,7 +52,7 @@
 												<a href="personalCenter.html">个人中心</a>
 											</dd>
 											<dd>
-												<a href="login.html">退出登录</a>
+												<a href="#" id="logout">退出登录</a>
 											</dd>
 										</dl>
 									</li>
@@ -61,10 +64,8 @@
 							</div>
 						</div>
 						<div class="row bj-main">
-							<div class="row col-left-main">
-
 							<!--左侧栏-->
-							<div class="col-left bj-aside bj-aside-left">
+							<div class="col-xs-2 bj-aside bj-aside-left">
 								<div class="bj-aside-title">人才展示</div>
 								<ul class="nav nav-tabs nav-pills-left">
 									<li role="presentation" class="active">
@@ -93,7 +94,7 @@
 												<div class="slidenav-classify-a">
 													<div class="pretty circle danger" v-for="(personnelTypes,index) of item.sortPersonnelTypes" @click="personnelTypeHandle(personnelTypes.id,1)">
 														<input type="radio" name="radio1">
-														<label :class="'label'+personnelTypes.id" class="chooseLabel"><i class="default"></i> {{personnelTypes.name}}</label>
+														<label :class="'personLabel'+personnelTypes.id" class="chooseLabel"><i class="default"></i> {{personnelTypes.name}}</label>
 													</div>
 
 												</div>
@@ -108,7 +109,7 @@
 								</nav>
 							</div>
 							<!--主内容区域-->
-							<div class="col-main bj-main-box">
+							<div class="col-xs-7 bj-main-box">
 								<!--问题展示区域-->
 								<div class="bj-content questionsShow" id="questionsShow">
 									<div class="row">
@@ -209,11 +210,9 @@
 
 								</div>
 							</div>
-															
-							</div>
 								
 							<!--右侧栏-->
-							<div class="col-right bj-aside bj-aside-right">
+							<div class="col-xs-2 bj-aside bj-aside-right">
 								<div class="bj-aside-title">问题展示</div>
 								<ul class="nav nav-tabs nav-pills-right">
 									<li role="presentation" class="active">
@@ -243,10 +242,18 @@
 													<div class="pretty circle danger" v-for="(third,index) of item.sortPlatformTypes" v-cloak>
 														<input type="radio" name="radio1" @click="platformTypeHandle(third.id,third.sortPlatformTypes)">
 														<label :class="'label'+third.id" class="chooseLabel"><i class="default" ></i> {{third.name}}</label>
+															<div class="pretty circle danger fourthItem" :class="'s'+third.id" v-for="fourth in third.sortPlatformTypes" v-cloak>
+																<input type="radio" name="radio1" @click="platformTypeHandle(fourth.id,fourth.sortPlatformTypes)">
+																<label :class="'label'+fourth.id" class="chooseLabel"><i class="default" ></i> {{fourth.name}}</label>
+																	<div class="pretty circle danger fifthItem" :class="'s'+fourth.id" v-for="fifth in fourth.sortPlatformTypes" v-cloak>
+																		<input type="radio" name="radio1" @click="platformTypeHandle(fifth.id,fifth.sortPlatformTypes)">
+																		<label :class="'label'+fifth.id" class="chooseLabel"><i class="default" ></i> {{fifth.name}}</label>
+																	</div>
+															</div>
 													</div>
 												</div>
 
-												<div class="slidenav-classify-b" id="thirdList" style="display:none;">
+												<!--<div class="slidenav-classify-b" id="thirdList" style="display:none;">
 													<div class="layui-tab layui-tab-card">
 														<ul class="layui-tab-title">
 															<li v-for="item in thirdList" v-cloak @click="thirdClickHandle(item.id,item.sortPlatformTypes)">{{item.name}}</li>
@@ -261,7 +268,7 @@
 															</div>
 														</div>
 													</div>
-												</div>
+												</div>-->
 											</div>
 										</li>
 									</ul>

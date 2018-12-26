@@ -7,10 +7,11 @@ var personnelIds=[];
 var requestUrl;
 var member = JSON.parse(sessionStorage.getItem('member'));
 
-var schemeJson = [{name:"方案",id:999,personnelTypes:[]}];
-var drawingJson = [{name:"施工图",id:1000,personnelTypes:[]}];
-var platformSchemeJson = [{name:"方案",id:999,platformTypes:[]}];
-var platformDrawingJson = [{name:"施工图",id:1000,platformTypes:[]}];
+
+var schemeJson = [{name:"方案",id:999,sortPersonnelTypes:[]}]
+var drawingJson = [{name:"施工图",id:1000,sortPersonnelTypes:[]}]
+var platformSchemeJson = [{name:"方案",id:999,sortPlatformTypes:[]}];
+var platformDrawingJson = [{name:"施工图",id:1000,sortPlatformTypes:[]}];
 
 
 if(!member){window.location.href = "login.html"};
@@ -118,7 +119,8 @@ $('#btnSubmit').on('click', function() {
 				u_phoneNum: submitInfo.u_phoneNum,
 				sex: submitInfo.sex,
 				workTime: submitInfo.workTime,
-				personnelIds:personnelIds
+				personnelIds:personnelIds,
+				code:sessionStorage.getItem('r_code')
 			},
 			success: function(res) {
 				if(member.status != "normal") {
@@ -192,6 +194,7 @@ function uploadProjectInfo(memberId) {
 			role: projectInfo.role,
 			startDate: projectInfo.joinDate.split(',')[0].trim(),
 			endDate: projectInfo.joinDate.split(',')[1].trim()
+
 		},
 		success: function(res) {
 			layer.open({
@@ -220,9 +223,9 @@ var formSelects = layui.formSelects;
 		success:function(res){
 			for(var i=0;i<res.content.length;i++){
 				if(res.content[i].type=="scheme"){
-					schemeJson[0].personnelTypes = schemeJson[0].personnelTypes.concat(res.content[i]);
+					schemeJson[0].sortPersonnelTypes = schemeJson[0].sortPersonnelTypes.concat(res.content[i]);
 				}else{
-					drawingJson[0].personnelTypes = drawingJson[0].personnelTypes.concat(res.content[i]);
+					drawingJson[0].sortPersonnelTypes = drawingJson[0].sortPersonnelTypes.concat(res.content[i]);
 				}
 			}
 			console.log(schemeJson.concat(drawingJson));
@@ -242,9 +245,9 @@ var formSelects = layui.formSelects;
 		success:function(res){
 			for(var i=0;i<res.content.length;i++){
 				if(res.content[i].type=="scheme"){
-					platformSchemeJson[0].platformTypes = platformSchemeJson[0].platformTypes.concat(res.content[i]);
+					platformSchemeJson[0].sortPlatformTypes = platformSchemeJson[0].sortPlatformTypes.concat(res.content[i]);
 				}else{
-					platformDrawingJson[0].platformTypes = platformDrawingJson[0].platformTypes.concat(res.content[i]);
+					platformDrawingJson[0].sortPlatformTypes = platformDrawingJson[0].sortPlatformTypes.concat(res.content[i]);
 				}
 			}
 			
@@ -284,18 +287,6 @@ var formSelects = layui.formSelects;
 		}
      	console.log(personnelIds);
 	}, true);
-	
-	//初始赋值
-	formSelects.value('select_person', ["999/1/12"]);
-
-
-//	var nameArr = [];
-//	var personnelName = member.memberExt.personnelTypes;
-//	for(var i=0;i<personnelName.length;i++){
-//		nameArr.push(findTreePerson(personnelName[i].id));
-//	}
-	
-
 
 
 $('.layui-colla-title').mouseover(function(){
@@ -354,17 +345,4 @@ function deleteProject(id){
 		}, function(){
 		  
 		});
-}
-
-//查找擅长领域初始值
-function findTreePerson(id){
-	$.ajax({
-		type:"get",
-		url:apiUrl+"/client/api/platformType/findTree?id="+id,
-		async:true,
-		success:function(res){
-			console.log(res);
-			return res.split('/');
-		}
-	});
 }

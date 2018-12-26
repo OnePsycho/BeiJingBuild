@@ -50,6 +50,9 @@ body{
 .xm-select-parent .xm-form-select dl{
 	min-width: 80% !important;
 }
+.xm-select-dl,.xm-select-radio{
+	width: 80% !important;
+}
 .invitePMBox{
 	padding: 10px;
 	display: none;

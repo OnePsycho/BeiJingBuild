@@ -12,6 +12,32 @@ var questionList = new Vue({
 		answers:""
 	},
 	methods: {
+		joinQuestionHandle:function(questionId,status){
+				$.ajax({
+					type:"post",
+					url:apiUrl+"/client/api/question/join?questionId="+questionId,
+					async:true,
+					success:function(res){
+						switch (res.status){
+							case "1001":
+								layer.msg("该问题正在审核中！");
+								break;
+							case "1002":
+								layer.msg("该房间参与人数已满！",{icon:5});
+								break;
+							case "200":
+								//认证成功，可以进入房间
+								$('#questionsShow').css('display','none');
+								$('#iframeShow').css('display','block');
+								self.parent.$('#contentIframe').attr('src','answerHall.html');
+								sessionStorage.setItem('questionInfo',JSON.stringify(res.data));
+								break;
+							default:
+								break;
+						}
+					}
+				});
+		},
 		modifyStatus: function(index,questionId, status,reward) {
 			switch(status) {
 				case "normal":
@@ -169,14 +195,14 @@ layui.use('form', function() {
 		var ids = [];
 		var reward = [];
 		var totalReward = 0;
-		for (let i in rewardForm) {
+		for (var i in rewardForm) {
 		    ids.push(i.substring(6));
-		    reward.push(rewardForm[i])
-		}
+		    reward.push(rewardForm[i]);
+		};
 		
 		for(var i=0;i<reward.length;i++){
-			totalReward += parseInt(reward[i])
-		}
+			totalReward += parseInt(reward[i]);
+		};
 		
 		if(totalReward>questionReward){
 			layer.msg("赏金总和不能超过问题赏金额度！请重新分配！",{icon:6,time:1000})			

@@ -16,7 +16,7 @@ body{
 	width: 70%;
 	height: 900px;
 	float: left;
-	min-width: 600px;
+	/*min-width: 600px;*/
 }
 .boxLeft-top{
 	width: 100%;
@@ -95,11 +95,12 @@ body{
 }
 .questionsRight{
 	width: 30%;
+	min-width: 250px;
 	height: 260px;
 	background: rgb(255,255,255);
 	padding: 20px 0px;
 	box-shadow: 0 0 5px 1px #dedede;
-	font-size: 16px;
+	font-size: 14px;
 	line-height: 10px;
 	letter-spacing: 1px;
 	box-sizing: border-box;
@@ -107,9 +108,10 @@ body{
 	margin-left: 5%;
 	padding-left: 3%;
 	border-radius: 6px;
+	overflow: auto;
 }
 .fileItem{
-	width: 40%;
+	width: 42%;
 	float: left;
 	margin: 10px 0px;
 	font-size: 12px;
@@ -166,6 +168,7 @@ body{
 }
 .middle-fp{
 	width: 15%;
+	min-width: 100px;
 	padding-left: 40px;
 	box-sizing: border-box;
 	padding-top: 5px;
@@ -258,6 +261,7 @@ body{
 	-webkit-line-clamp: 5;
 	-webkit-box-orient: vertical;
 	text-align: justify;
+	word-break: break-all;
 }
 .openAll{
 	text-align: center;
@@ -425,4 +429,27 @@ body{
 	margin-top: 3px;
 	margin-left: 5px;
 	text-decoration: underline;
+}
+@media screen and  (max-width:1366px) {
+	*{
+		font-size: 14px !important;
+	}
+	.middle-question{
+		width: 65%;
+	}
+	.respondentItem img{
+		width: 50px;
+		height: 50px;
+	}
+	.middle-admin{
+		right: -20px;
+	}
+	.memberHeaderImg{
+		display: none;
+	}
+}
+@media screen and  (min-width:1366px) {
+	.memberHeaderImg{
+		display: block;
+	}
 }

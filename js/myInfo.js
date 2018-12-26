@@ -7,10 +7,14 @@ var personnelIds=[];
 var requestUrl;
 var member = JSON.parse(sessionStorage.getItem('member'));
 
-var schemeJson = [{name:"方案",id:999,personnelTypes:[]}]
-var drawingJson = [{name:"施工图",id:1000,personnelTypes:[]}]
-var platformSchemeJson = [{name:"方案",id:999,platformTypes:[]}];
-var platformDrawingJson = [{name:"施工图",id:1000,platformTypes:[]}];
+var schemeJson = [{name:"方案",id:999,sortPersonnelTypes:[]}]
+var drawingJson = [{name:"施工图",id:1000,sortPersonnelTypes:[]}]
+var platformSchemeJson = [{name:"方案",id:999,sortPlatformTypes:[]}];
+var platformDrawingJson = [{name:"施工图",id:1000,sortPlatformTypes:[]}];
+
+
+var formSelects = layui.formSelects;
+
 
 
 $('#btnAddCase').on('click', function() {
@@ -167,7 +171,7 @@ function uploadProjectInfo(memberId) {
 		url: apiUrl + "/client/api/projectInfo/add",
 		data: {
 			memberId: memberId,
-			name: projectInfo.name,
+			name: projectInfo.projectName,
 			platformId: projectInfo.platformId.split('/')[projectInfo.platformId.split('/').length-1],
 			ownerName: projectInfo.ownerName,
 			ownerCases: projectInfo.ownerCases,
@@ -198,7 +202,13 @@ function uploadProjectInfo(memberId) {
 }
 
 //擅长领域联动
-var formSelects = layui.formSelects;
+	
+	var nameArr = [];
+	var personnelName = member.memberExt.personnelTypes;
+	for(var i=0;i<personnelName.length;i++){
+		nameArr.push(findTreePerson(personnelName[i].id,personnelName[i].type));
+	}
+
 	$.ajax({
 		type:"get",
 		url:apiUrl+'/client/api/personnelType/findPage',
@@ -206,9 +216,9 @@ var formSelects = layui.formSelects;
 		success:function(res){
 			for(var i=0;i<res.content.length;i++){
 				if(res.content[i].type=="scheme"){
-					schemeJson[0].personnelTypes = schemeJson[0].personnelTypes.concat(res.content[i]);
+					schemeJson[0].sortPersonnelTypes = schemeJson[0].sortPersonnelTypes.concat(res.content[i]);
 				}else{
-					drawingJson[0].personnelTypes = drawingJson[0].personnelTypes.concat(res.content[i]);
+					drawingJson[0].sortPersonnelTypes = drawingJson[0].sortPersonnelTypes.concat(res.content[i]);
 				}
 			}
 			formSelects.data('select_person', 'local', {
@@ -216,6 +226,8 @@ var formSelects = layui.formSelects;
 	            linkage: true,
 	            linkageWidth: 130
    			 });
+			formSelects.value('select_person', nameArr);
+   			 
 		}
 	});
 	
@@ -227,9 +239,9 @@ var formSelects = layui.formSelects;
 		success:function(res){
 			for(var i=0;i<res.content.length;i++){
 				if(res.content[i].type=="scheme"){
-					platformSchemeJson[0].platformTypes = platformSchemeJson[0].platformTypes.concat(res.content[i]);
+					platformSchemeJson[0].sortPlatformTypes = platformSchemeJson[0].sortPlatformTypes.concat(res.content[i]);
 				}else{
-					platformDrawingJson[0].platformTypes = platformDrawingJson[0].platformTypes.concat(res.content[i]);
+					platformDrawingJson[0].sortPlatformTypes = platformDrawingJson[0].sortPlatformTypes.concat(res.content[i]);
 				}
 			}
 			
@@ -238,6 +250,9 @@ var formSelects = layui.formSelects;
 	            linkage: true,
 	            linkageWidth: 130
    			 });
+   			 
+
+   			 
 		}
 	});
 	
@@ -245,7 +260,7 @@ var formSelects = layui.formSelects;
 		keyName: 'name',            //自定义返回数据中name的key, 默认 name
 	    keyVal: 'id',            //自定义返回数据中value的key, 默认 value
 	    keySel: 'name',         //自定义返回数据中selected的key, 默认 selected
-	    keyChildren: 'personnelTypes',    //联动多选自定义children
+	    keyChildren: 'sortPersonnelTypes',    //联动多选自定义children
         success: function(id, url, val, result){
             console.log(result);
         },
@@ -258,7 +273,7 @@ var formSelects = layui.formSelects;
 		keyName: 'name',            //自定义返回数据中name的key, 默认 name
 	    keyVal: 'id',            //自定义返回数据中value的key, 默认 value
 	    keySel: 'name',         //自定义返回数据中selected的key, 默认 selected
-	    keyChildren: 'platformTypes',    //联动多选自定义children
+	    keyChildren: 'sortPlatformTypes',    //联动多选自定义children
         success: function(id, url, val, result){
             console.log(result);
         },
@@ -274,14 +289,9 @@ var formSelects = layui.formSelects;
 			 personnelIds.push(vals[i].value.split('/')[vals[i].value.split('/').length-1]);
 		}
 	}, true);
-//	
-//	var nameArr = [];
-//	var personnelName = member.memberExt.personnelTypes;
-//	for(var i=0;i<personnelName.length;i++){
-//		nameArr.push(findTreePerson(personnelName[i].id));
-//	}
+
 	
-	formSelects.value('select_person', [{name: "11/22/33",value: "4/5/6"}])
+
 
 //修改项目经验数据源
 var projectDatas = new Vue({
@@ -353,14 +363,21 @@ function deleteProject(id){
 }
 
 //查找擅长领域初始值
-function findTreePerson(id){
+function findTreePerson(id,type){
+	var result;
 	$.ajax({
 		type:"get",
-		url:apiUrl+"/client/api/platformType/findTree?id="+id,
-		async:true,
+		url:apiUrl+"/client/api/personnelType/findTree?id="+id,
+		async:false,
 		success:function(res){
-			console.log(res);
-			return res.split('/');
+			console.log(type);
+			if(type=="scheme"){
+				res.unshift(999);
+			}else{
+				res.unshift(1000);
+			}
+			result =  res.join('/');
 		}
 	});
+	return result;
 }

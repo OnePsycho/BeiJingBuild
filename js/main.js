@@ -16,15 +16,19 @@
 		window.location.href = 'login.html';
 	}
 	
-	
 	if(memberType=="firstParty"&&sessionStorage.getItem('modifyQFlag')=="true"){
 		layer.msg("正在跳转...",{time:800});
-		setTimeout(function(){
-		 $("#btnMyQuestions").trigger("click");
+		$('#personShow').css('display', 'none');
+		$('#questionsShow').css('display', 'none');
+		$('#iframeShow').css('display', 'block');
+		$('#contentIframe').attr('src', 'myQuestions.html');
 		 sessionStorage.setItem('modifyQFlag',false);
 		 layer.closeAll();
-		},500);
 	}
+	
+	$('.slidenav-content').hide();
+	
+	console.log($('#personnelList').scrollTop());
 	
 //	dwr.engine.setOverridePath(apiUrl+"/dwr");
 //	dwr.engine.setActiveReverseAjax(true);
@@ -318,8 +322,8 @@
 			personnelTypeHandle: function(id,page) {
 				var that = this;
 				var index = layer.load();
-				$('.label'+id).css('color','rgb(139,22,11)').css('font-weight','bolder');
-				$('.chooseLabel').not($('.label'+id)).css('color','rgb(179,179,179)')
+				$('.personLabel'+id).css('color','rgb(139,22,11)').css('font-weight','bolder');
+				$('.chooseLabel').not($('.personLabel'+id)).css('color','rgb(179,179,179)')
 				$('#personShow').css('display', 'block');
 				$('#questionsShow').css('display', 'none');
 				$('#iframeShow').css('display', 'none');
@@ -350,12 +354,20 @@
 							if(res.content[i].memberExt.flags){
 								res.content[i].memberExt.flags = res.content[i].memberExt.flags.split(',');
 							}
+							//判断擅长领域的长度
+							var personnels = res.content[i].personnelTree.length > 3 ? res.content[i].personnelTree.slice(0,3):res.content[i].personnelTree;
 
-							for(var j = 0; j < res.content[i].personnelTree.length; j++) {
-								res.content[i].personnelTree[j] = res.content[i].personnelTree[j].join('-');
+							for(var j = 0; j < personnels.length; j++) {
+								personnels[j] = personnels[j].join('-');
 							}
+							
+							res.content[i].personnelTree = personnels;
 						}
 						freeDesginerList.freeDesginerList = res.content;
+						layer.close(index);
+					},
+					error:function(){
+						layer.msg("数据获取失败，请检查网络连接！");
 						layer.close(index);
 					}
 				});
@@ -384,8 +396,19 @@
 		methods: {
 			//问题展示点击事件
 			platformTypeHandle: function(id,data) {
-				$('.label'+id).css('color','rgb(139,22,11)').css('font-weight','bolder');
-				$('.chooseLabel').not($('.label'+id)).css('color','rgb(179,179,179)')
+				if($('.label'+id).hasClass('s-active')){
+					$('.s'+id).hide();
+					$('.label'+id).addClass('s-negative');
+					$('.label'+id).removeClass('s-active');
+					$('.sidenav-menu').find('input[type=radio]').attr('checked',false);
+				}else{
+					$('.s'+id).show();
+					$('.label'+id).addClass('s-active');
+					$('.label'+id).removeClass('s-negative');
+					$('.chooseLabel').not($('.label'+id)).removeClass('s-active');
+					$('.chooseLabel').not($('.label'+id)).addClass('s-negative');
+
+				
 				$('#personShow').css('display', 'none');
 				$('#questionsShow').css('display', 'block');
 				$('#iframeShow').css('display', 'none');
@@ -396,10 +419,9 @@
 				}else{
 					$('#thirdList').css('display','block');
 				}
-				this.$nextTick(function(){
-//					$('#thirdList').find('li').eq(0).addClass('layui-this');
-				})
 					getQuestionDatasByType(1, id);
+				}
+					
 			},
 			//问题展示点击事件
 			thirdClickHandle: function(id,data) {

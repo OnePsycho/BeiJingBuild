@@ -22,9 +22,9 @@
 				<span class="question-type">施工图</span>
 			</div>
 			
-		<div id="myQuestionContainer">
-			<div class="questionsItem" v-for="(item,index) of myList">
-				<div class="questions-name" :title="item.title">
+		<div id="myQuestionContainer" v-cloak>
+			<div class="questionsItem" v-for="(item,index) of myList" v-cloak>
+				<div class="questions-name" :title="item.title" @click="joinQuestionHandle(item.id,item.status)">
 					问题：{{item.miniTitle}}
 				</div>
 				<div class="questions-info">

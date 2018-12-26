@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html>
 
 	<head>
@@ -7,11 +7,13 @@
 		<link rel="stylesheet" href="lib/js/layui/css/layui.css" />
 		<link rel="stylesheet" href="css/paging.css" />
 		<link rel="stylesheet" href="css/perfectInfo.css" />
+		<link rel="stylesheet" href="css/main.css" />
 		<link rel="stylesheet" href="lib/formSelect/formSelects-v4.css" />
-		<script type="text/javascript" src="js/common.js" ></script>
 		<script type="text/javascript" src="lib/js/jquery.js"></script>
+		<script type="text/javascript" src="js/common.js" ></script>
 		<script type="text/javascript" src="js/paging.js"></script>
 		<script type="text/javascript" src="lib/js/vue.min.js" ></script>
+
 	</head>
 	<style>
 		html{
@@ -26,6 +28,29 @@
 		.infoBox-right{
 			padding-right: 0;
 		}
+		/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
+		::-webkit-scrollbar  
+		{  
+		    width: 10px;  /*滚动条宽度*/
+		    height: 16px;  /*滚动条高度*/
+		}  
+		  
+		/*定义滚动条轨道 内阴影+圆角*/  
+		::-webkit-scrollbar-track  
+		{  
+		    -webkit-box-shadow: inset 0 0 0px rgba(0,0,0,0.3);  
+		    border-radius: 10px;  /*滚动条的背景区域的圆角*/
+		    background-color: rgba(255,255,255,0);/*滚动条的背景颜色*/  
+		}  
+		  
+		/*定义滑块 内阴影+圆角*/  
+		::-webkit-scrollbar-thumb  
+		{  
+		    border-radius: 10px;  /*滚动条的圆角*/
+		    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+		    background-color: rgba(193,193,193,.6);  /*滚动条的背景颜色*/
+		}  
+
 	</style>
 
 	<body>
@@ -47,7 +72,7 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">手机号码</label>
 								<div class="layui-input-block">
-									<input type="text" name="u_phoneNum" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+									<input type="number" name="u_phoneNum" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
 								</div>
 							</div>
 							<div class="layui-form-item">
@@ -60,14 +85,14 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">从业年限</label>
 								<div class="layui-input-block">
-									<input type="text" name="workTime" lay-verify="required" placeholder="请输入从业年限" autocomplete="off" class="layui-input">
+									<input type="number" name="workTime" lay-verify="required" placeholder="请输入从业年限" autocomplete="off" class="layui-input">
 								</div>
 							</div>
 							<div class="layui-form-item">
 								<label class="layui-form-label">项目经验</label>
 								<span class="btnAddCase" id="btnAddCase">新增</span>
 								<div class="layui-collapse" lay-accordion id="projectDatas" lay-filter="demo" style="min-height: 180px;">
-									<div class="layui-colla-item" v-for="(item,index) in projectData">
+									<div class="layui-colla-item" v-for="(item,index) in projectData" v-cloak>
 										<h2 class="layui-colla-title">{{item.name}}<span class="case-delete" @click="deleteProject(item.id)">删除</span></h2>
 										<div class="layui-colla-content">
 											<div class="case-item">
@@ -181,13 +206,13 @@
 
 		</div>
 		
-				<!--新增项目经验弹窗-->
+		<!--新增项目经验弹窗-->
 		<div class="addCaseBox" style="display: none;">
 			<form class="layui-form" action="" id="addCaseForm">
 			  <div class="layui-form-item">
 			    <label class="layui-form-label">项目名称</label>
 			    <div class="layui-input-block">
-			      <input type="text" name="name" required  lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input">
+			      <input type="text" name="projectName" required  lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input">
 			    </div>
 			  </div>
 			    <div class="layui-form-item">
@@ -268,6 +293,7 @@
 		<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
 		<script type="text/javascript" src="lib/js/jquery.placeholder.js" ></script>
 		<script type="text/javascript" src="lib/formSelect/formSelects-v4.js" ></script>
+		<script type="text/javascript" src="lib/js/browser.min.js" ></script>
 		<script type="text/javascript" src="js/myInfo.js" ></script>
 		<script>
 			$("body").parent().css("overflow-y","hidden");

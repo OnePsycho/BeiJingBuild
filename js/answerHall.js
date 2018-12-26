@@ -44,6 +44,10 @@ if(member.type == "freeDesigner" && (isManagerId!=member.id)){
 }else if(member.type == "freeDesigner" && (isManagerId==member.id)){
 	$('#inviteDesignerTop').hide();
 	$('#inviteDesignerBottom').hide();
+}else if(member.type == "firstParty"&&questionInfo.status!="normal"){
+	$('#inviteDesignerTop').hide();
+	$('#inviteDesignerBottom').hide();
+	$('#btnAccept').hide();
 }
 
 	$('#iframeShow',window.parent.document).css("background","rgba(0,0,0,0)");
@@ -59,8 +63,11 @@ var questionVm = new Vue({
 		answerList:""
 	},
 	methods:{
-		downLoadFile:function(path){
-			
+		downLoadFile:function(fileId){
+			window.location.href = apiUrl + '/client/api/question/download?fileId=' + fileId;
+		},
+		downLoadAll:function(questionId){
+			window.location.href = apiUrl + '/client/api/question/downloads?questionId=' + questionId;
 		},
 		//查看答案
 		showAnswer:function(id,memberId){
@@ -214,16 +221,18 @@ $('#inviteFDTop').on('click',function(){
 		title: false,
 		type: 1,
 		content: $('#inviteFDDialog'),
-		area: ['500px', '450px']
+		area: ['500px', '470px']
 	});
+	document.getElementById('inviteDesignerForm').reset();
 })
 $('#inviteFDBottom').on('click',function(){
 	layer.open({
 		title: false,
 		type: 1,
 		content: $('#inviteFDDialog'),
-		area: ['500px', '450px']
+		area: ['500px', '470px']
 	});
+	document.getElementById('inviteDesignerForm').reset();
 })
 
 //邀请设计师部分
@@ -264,19 +273,22 @@ layui.use('form', function() {
 		    					sucMember.push(currentMember);
 		    				}else if(res.status == "1002"){
 		    					errorMember.push(currentMember);
+		    				}else if(res.status == "1003"){
+		    					errorMember.push(currentMember);
 		    				}
+		    				
+		    				layer.closeAll();
+							layer.msg(sucMember.join(',')+"邀请成功，"+errorMember.join(',')+"邀请失败，"+invitedMember.join(',')+"已被邀请过！",{icon:1});
 		    			},
 		    			error:function(err){
 		    				console.log(err);
 		    			}
 		    		});
-		    		
 		    	}else{
 		    		layer.msg("请输入正确的账号格式！",{icon:5})
 		    	}
 		    }
-				layer.closeAll();
-				layer.msg(sucMember.join(',')+"邀请成功，"+errorMember.join(',')+" 未注册，邀请失败，"+invitedMember.join(',')+"已被邀请过！",{icon:1});
+				
 			return false;
 		  });
 		  

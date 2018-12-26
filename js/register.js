@@ -8,6 +8,7 @@ var InterValObj; //timer变量，控制时间
 var count = 60; //间隔函数，1秒执行 
 var curCount; //当前剩余秒数 
 var currentId;//当前注册成功用户ID
+
 layui.use('layer', function(){
   var layer = layui.layer;
 });  
@@ -148,6 +149,8 @@ $('#btnGetEmailCode').on('click', function() {
 		$.ajax({
 			type: "GET",
 			url: apiUrl + "/client/api/member/exists?email=" + emailAddress,
+			crossDomain: true == !(document.all),
+			xhrFields: {withCredentials: true},
 			success: function(res) {
 				if(res) {
 					layer.msg("该账号已注册！");
@@ -201,6 +204,8 @@ $('#btnGetPhoneCode').on('click', function() {
 		$.ajax({
 			type: "GET",
 			url: apiUrl + "/client/api/member/exists?phoneNum=" + phone,
+			crossDomain: true == !(document.all),
+			xhrFields: {withCredentials: true},
 			success: function(res) {
 				if(res) {
 					layer.msg("该账号已注册！");
@@ -278,6 +283,8 @@ $('#btnRegisterByEmail').on('click', function() {
 		$.ajax({
 			type: "POST",
 			url: apiUrl + "/client/api/member/add",
+			crossDomain: true == !(document.all),
+			xhrFields: {withCredentials: true},
 			data: {
 				email: emailAddress,
 				code: code,
@@ -287,7 +294,8 @@ $('#btnRegisterByEmail').on('click', function() {
 			success: function(res) {
 				if(res.status == 200) {
 					layer.msg("注册成功！");
-					sessionStorage.setItem('member',JSON.stringify(res.data));
+					sessionStorage.setItem('p_member',JSON.stringify(res.data.member));
+					sessionStorage.setItem('r_code',JSON.stringify(res.data.code));
 					$('#registerBox').css('display','none');
 					$('.hasAccount').css('display','none');
 					$('#sucBox').css('display','block');
@@ -318,6 +326,8 @@ $('#btnRegisterByPhone').on('click', function() {
 		$.ajax({
 			type: "POST",
 			url: apiUrl + "/client/api/member/add",
+			crossDomain: true == !(document.all),
+			xhrFields: {withCredentials: true},
 			data: {
 				phoneNum: phoneNum,
 				code: code,
@@ -327,7 +337,8 @@ $('#btnRegisterByPhone').on('click', function() {
 			success: function(res) {
 				if(res.status == 200) {
 					layer.msg("注册成功！");
-					sessionStorage.setItem('member',JSON.stringify(res.data));
+					sessionStorage.setItem('p_member',JSON.stringify(res.data.member));
+					sessionStorage.setItem('r_code',JSON.stringify(res.data.code));
 					$('.hasAccount').css('display','none');
 					$('#registerBox').css('display','none');
 					$('#sucBox').css('display','block');
@@ -344,7 +355,7 @@ $('#btnRegisterByPhone').on('click', function() {
 //根据身份跳转完善个人信息
 $('#btnPerfectInfo').on('click',function(){
 	
-	var memberInfo = sessionStorage.getItem('member');
+	var memberInfo = sessionStorage.getItem('p_member');
 	var type =	JSON.parse(memberInfo).type;
 	switch (type){
 		case "firstParty":

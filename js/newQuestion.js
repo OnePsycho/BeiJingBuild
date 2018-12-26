@@ -3,12 +3,12 @@ var editContent;
 var platformSchemeJson = [{
 	name: "方案",
 	id: 999,
-	platformTypes: []
+	sortPlatformTypes: []
 }];
 var platformDrawingJson = [{
 	name: "施工图",
 	id: 1000,
-	platformTypes: []
+	sortPlatformTypes: []
 }];
 var formSelects = layui.formSelects;
 var licenceUrl = {
@@ -41,6 +41,29 @@ layui.use('layedit', function() {
 	});
 });
 
+formSelects.config('select_platform', {
+	keyName: 'name', //自定义返回数据中name的key, 默认 name
+	keyVal: 'id', //自定义返回数据中value的key, 默认 value
+	keySel: 'name', //自定义返回数据中selected的key, 默认 selected
+	keyChildren: 'sortPlatformTypes', //联动多选自定义children
+
+	success: function(id, url, val, result) {
+		console.log(result);
+
+	},	
+	error: function(id, url, val, err) {
+		console.log("err回调: " + url);
+	},
+	beforeSuccess: function(id, url, searchVal, result){  //success之前的回调, 干嘛呢? 处理数据的, 如果后台不想修改数据, 你也不想修改源码, 那就用这种方式处理下数据结构吧
+        return result;  //必须return一个结果, 这个结果要符合对应的数据结构
+    }
+	},false);
+
+	 formSelects.on('select_platform', function(id, vals, val, isAdd, isDisabled){
+	 	console.log(vals);
+	}, true);
+
+
 //项目分类联动
 $.ajax({
 	type: "get",
@@ -49,9 +72,9 @@ $.ajax({
 	success: function(res) {
 		for(var i = 0; i < res.content.length; i++) {
 			if(res.content[i].type == "scheme") {
-				platformSchemeJson[0].platformTypes = platformSchemeJson[0].platformTypes.concat(res.content[i]);
+				platformSchemeJson[0].sortPlatformTypes = platformSchemeJson[0].sortPlatformTypes.concat(res.content[i]);
 			} else {
-				platformDrawingJson[0].platformTypes = platformDrawingJson[0].platformTypes.concat(res.content[i]);
+				platformDrawingJson[0].sortPlatformTypes = platformDrawingJson[0].sortPlatformTypes.concat(res.content[i]);
 			}
 		}
 
@@ -63,18 +86,6 @@ $.ajax({
 	}
 });
 
-formSelects.config('select_platform', {
-	keyName: 'name', //自定义返回数据中name的key, 默认 name
-	keyVal: 'id', //自定义返回数据中value的key, 默认 value
-	keySel: 'name', //自定义返回数据中selected的key, 默认 selected
-	keyChildren: 'platformTypes', //联动多选自定义children
-	success: function(id, url, val, result) {
-		console.log(result);
-	},
-	error: function(id, url, val, err) {
-		console.log("err回调: " + url);
-	}
-});
 
 $('#invitePM').on('click', function() {
 	layer.open({
@@ -109,7 +120,6 @@ layui.use('upload', function() {
 			//如果上传失败
 			if(res.code > 0) {
 				return layer.msg('上传失败');
-				
 			}
 			//上传成功
 			console.log(res);
@@ -210,6 +220,7 @@ layui.use('form', function() {
 		  	PMInfo = submitInfo;
 		  	console.log(PMInfo);
 		  	$('#invitePM').text("已邀请").css('background','gray');
+		  	$('#invitePM').attr('disabled',true);
 		  	layer.msg("邀请成功",{icon:1});
 		  	layer.closeAll();
 		  }
@@ -240,4 +251,16 @@ $('#uploadFile').on('change',function(){
 
 $('.btnUploadFile').on('click',function(){
 	$('#uploadFile').trigger('click');
+})
+
+$('#btnResetQuestion').on('click',function(e){
+	e.preventDefault();
+	$('#fileNames').text("");
+	attachments = [];
+	$('#invitePM').text("邀请项目经理").css('background','rgb(139,22,11)');
+	$('#invitePM').attr('disabled',false);
+	PMInfo = "";
+	document.getElementById('newQuestionForm').reset();
+	$('#projectName').val(member.memberExt.projectName);
+	
 })

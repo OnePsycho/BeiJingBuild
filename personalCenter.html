@@ -51,7 +51,7 @@
 												<a href="index.html">返回首页</a>
 											</dd>
 											<dd>
-												<a href="login.html">退出登录</a>
+												<a href="#" id="logout">退出登录</a>
 											</dd>
 										</dl>
 									</li>
@@ -103,7 +103,7 @@
 									<div class="newsItem" v-for="(item,index) of newsList" v-if="newsList.length > 0" @click="newsClickHandle(index,item.id,item.data.questionId,item.data.dataType)" v-cloak>
 										<i class="layui-icon layui-icon-right"></i>
 										<span class="layui-badge-dot" v-if="!item.status"></span>
-										<p class="newsTitle">{{item.description}}<span class="newsTime">{{item.createTime}}</span></p>
+										<p class="newsTitle" v-html="item.description"><span class="newsTime">{{item.createTime}}</span></p>
 									</div>
 									<p style="margin: 20px;" id="noMessage">暂无消息通知</p>
 									<div class="box pageBox" id="box"></div>
@@ -203,7 +203,7 @@
 						  <div class="layui-form-item">
 						    <label class="layui-form-label">充值金额</label>
 						    <div class="layui-input-block">
-						      <input type="text" name="amount" id="inputWxPay"  lay-verify="required"  placeholder="请输入充值金额" autocomplete="off" class="layui-input">
+						      <input type="text" name="amount" id="inputPayCharge"   lay-verify="required"  placeholder="请输入充值金额" autocomplete="off" class="layui-input">
 						    </div>
 						  </div>
 						  <div class="layui-form-item">
@@ -270,6 +270,7 @@
 			layui.use('element', function(){
 			  var element = layui.element;
 			});
+
 		})
 	</script>
 </html>
