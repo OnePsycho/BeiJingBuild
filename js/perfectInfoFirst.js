@@ -1,12 +1,14 @@
 var licenceUrl = {'businessLicence':""};
 var member = JSON.parse(sessionStorage.getItem('member'));
 var submitData;
+var attachments;
+var fileResult;
 layui.use('upload', function(){
   var upload = layui.upload;
   //普通图片上传
   var uploadInst = upload.render({
     elem: '#licenseImg'
-    ,url: apiUrl+'/client/api/file/upload'
+    ,url: apiUrl+'/client/api/file/ieUpload'
     ,accept: 'file' //允许上传的文件类型
     ,exts: 'jpg|png'//允许上传的后缀
     ,size: 4096 //最大允许上传的文件大小
@@ -81,6 +83,7 @@ $('#btnSubmit').on('click',function(){
 				u_email: submitInfo.u_email,
 				u_name: submitInfo.u_name,
 				u_phoneNum: submitInfo.u_phoneNum,
+				code:sessionStorage.getItem('r_code')
 			},
 			success: function(res) {
 					if(member.status!="normal"){
@@ -122,3 +125,46 @@ $.ajax({
 			});
 		}
 });
+
+$('#uploadFile').on('change',function(e){
+	e.preventDefault();
+	var b = new Base64();
+		$('#fileUpload').ajaxSubmit({
+	        url:apiUrl+'/client/api/file/ieUpload',
+	        dataType:'text',
+			type:'post',
+			data:{memberId:member.id},
+	    success:function(res){
+	        	var result = getLatestFile(member.id);
+	        	console.log(result);
+        		fileNames = result[0].name;
+        		licenceUrl.businessLicence = result[0].path
+//					attachments = b.encode(JSON.stringify(result[0]));
+				$('#fileNames').text(" 已上传 "+fileNames);
+		    },
+		    error:function(e){
+			    console.log(e);
+		    }
+	    });
+})
+
+
+$('.btnUploadFile').on('click',function(){
+	$('#uploadFile').trigger('click');
+})
+
+function getLatestFile(memberId){
+	jQuery.support.cors = true; 
+	$.ajax({
+		type:"get",
+		url:apiUrl+"/client/api/file/uploadResult?memberId="+memberId,
+		async:false,
+		success:function(res){
+			fileResult = res.data;
+		},
+		error:function(res){
+			console.log(res);
+		}
+	});	
+	return fileResult;
+}

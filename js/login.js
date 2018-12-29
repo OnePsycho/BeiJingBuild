@@ -28,12 +28,14 @@ $('#loginBtn').on('click',function(){
 			},
 			success: function(res) {
 				layer.close(index);
-				console.log(res);
+					console.log(res);
+				
 				if(res.status == "200") {
 					sessionStorage.setItem('member',JSON.stringify(res.data));
 					if(!res.data.memberExt){
 						layer.msg("登录成功！请完善个人信息！",{icon: 1});
-						perfectAction(res.data.type);
+						sessionStorage.setItem('r_code',res.data.code);
+						perfectAction(res.data.member.type);
 					}else{
 						layer.msg('登录成功！',{icon:1,time:1000});
 						setTimeout(function(){
@@ -46,11 +48,13 @@ $('#loginBtn').on('click',function(){
 					//未通过审核 重新完善信息
 //					layer.msg("账号未通过管理员审核！",{icon: 5});
 					layer.open({
-					  content: '账号未通过管理员审核！请完善个人信息！',
+					  content: '账号未通过管理员审核！请重新填写个人信息！',
 					  icon:5,
 					  yes: function(index, layero){
-						  perfectAction(res.data.type);
-						  sessionStorage.setItem('member',JSON.stringify(res.data));
+						  perfectAction(res.data.member.type);
+						  sessionStorage.setItem('member',JSON.stringify(res.data.member));
+						  sessionStorage.setItem('r_code',res.data.code);
+						  
 					    layer.close(index); //如果设定了yes回调，需进行手工关闭
 					  }
 					});  
@@ -61,8 +65,8 @@ $('#loginBtn').on('click',function(){
 						  content: '账号正在审核中！请先完善您的个人信息！',
 						  icon:5,
 						  yes: function(index, layero){
-							  perfectAction(res.data.type);
-							  sessionStorage.setItem('member',JSON.stringify(res.data));
+							  perfectAction(res.data.member.type);
+							  sessionStorage.setItem('member',JSON.stringify(res.data.member));
 						    layer.close(index); //如果设定了yes回调，需进行手工关闭
 						  }
 						});  

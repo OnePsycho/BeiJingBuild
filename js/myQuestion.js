@@ -48,19 +48,24 @@ var questionList = new Vue({
 					getQuestionAnswers(questionId);
 					break;
 				case "complete":
-					$.ajax({
-						type: "post",
-						url: apiUrl + "/client/api/question/deleteById",
-						async: true,
-						data: {
-							id: questionId,
-							_method: "DELETE"
-						},
-						success: function(res) {
-							layer.msg("删除成功！",{icon:1});
-							getMyQuestions(1,currentType);
-						}
-					});
+					layer.confirm('确认删除？', {
+						  btn: ['确认','取消'] //按钮
+						}, function(){
+						  $.ajax({
+							type: "post",
+							url: apiUrl + "/client/api/question/deleteById",
+							async: true,
+							data: {
+								id: questionId,
+								_method: "DELETE"
+							},
+							success: function(res) {
+								layer.msg("删除成功！",{icon:1});
+								getMyQuestions(1,currentType);
+							}
+						});
+						});
+					
 					break;
 				case "checkPending":
 					sessionStorage.setItem('currentQuestionId',questionId)

@@ -91,3 +91,12 @@ body{
 	top: 0;
 	left: 0;
 }
+
+.ieUpload{
+	position: absolute;
+	left: 120px;
+	top: 58%;
+}
+.ieUpload button{
+	background: rgb(139,22,11) !important;
+}

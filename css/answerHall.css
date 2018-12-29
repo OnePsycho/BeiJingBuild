@@ -189,7 +189,7 @@ body{
 	margin-top: 5px;
 }
 .middle-question{
-	width: 70%;
+	width: 68%;
 	border-radius: 200px;
 	background: #fff;
 	box-shadow: 0 0 5px 1px #dedede;
@@ -423,14 +423,24 @@ body{
 	cursor: pointer;
 }
 
-
 .answerContainer a{
 	font-weight: 400;
 	margin-top: 3px;
 	margin-left: 5px;
 	text-decoration: underline;
 }
-@media screen and  (max-width:1366px) {
+
+.ieUpload{
+	position: absolute;
+	left: 130px;
+	top: 50%;
+}
+.ieUpload button{
+	background: rgb(139,22,11) !important;
+}
+
+
+@media screen and  (max-width:900px) {
 	*{
 		font-size: 14px !important;
 	}
@@ -446,10 +456,5 @@ body{
 	}
 	.memberHeaderImg{
 		display: none;
-	}
-}
-@media screen and  (min-width:1366px) {
-	.memberHeaderImg{
-		display: block;
 	}
 }

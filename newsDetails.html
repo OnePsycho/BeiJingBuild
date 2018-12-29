@@ -5,6 +5,7 @@
 		<meta charset="UTF-8">
 		<title></title>
 		<link rel="stylesheet" href="lib/js/layui/css/layui.css" />
+		<link rel="stylesheet" href="lib/js/layui/css/modules/layer/default/layer.css" />
 		<link rel="stylesheet" href="css/paging.css" />
 		<link rel="stylesheet" href="css/perfectInfo.css" />
 		<script type="text/javascript" src="lib/js/jquery.js"></script>
@@ -17,10 +18,14 @@
 			overflow: auto !important;
 		}
 		.newsDetailsBox{
-			width: 88%;
+			width: 92%;
 			margin-left: 2%;
 			margin-top: 30px;
 			border-radius: 10px;
+			padding: 50px 40px;
+			box-sizing: border-box;
+			background: #fff;
+			box-shadow: 0 0 5px 1px #DEDEDE;
 		}
 		.n_title{
 			font-size: 16px;
@@ -29,6 +34,9 @@
 		.newsDetailsBox p{
 			margin: 20px 0px;
 			font-size: 16px;
+		}
+		.answerItem img{
+			width: 100%;
 		}
 		.n_reward{
 			margin-left: 10px;
@@ -59,7 +67,7 @@
 		  <a href="">消息通知</a>
 		  <a><cite>通知详情</cite></a>
 		</span>
-		<div class="newsDetailsBox" id="newsDetailsBox">
+		<div class="newsDetailsBox" id="newsDetailsBox" v-cloak>
 				<div class="n_title">甲方已提交  {{questionInfo.title}} 问题的赏金分配方案</div>
 				<hr>
 				<p>问题：{{questionInfo.title}}</p>
@@ -78,12 +86,17 @@
 			<button class="layui-btn" style="background: gray;color: white;">取消</button>
 		</div>
 	</body>
-		<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
+
 		<script type="text/javascript" src="lib/js/jquery.placeholder.js" ></script>
+		<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
+		<script type="text/javascript" src="lib/js/layui/lay/modules/layer.js" ></script>
+		
 		<script>
+			var layer = layui.layer;
+			
 			$("body").parent().css("overflow-y","hidden");
 			$('input, textarea').placeholder({ customClass: 'my-placeholder' });
-			var layer = layui.layer;
+
 			layui.use('element', function(){
 			  var element = layui.element;
 			});

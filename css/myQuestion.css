@@ -152,7 +152,7 @@ body{
 	max-width: 100%;
 }
 
-@media (max-width:1440px) {
+@media (max-width:860px) {
 	*{
 		font-size: 14px !important;
 	}

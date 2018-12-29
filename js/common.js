@@ -6,10 +6,37 @@ var intrevalTime = 5000; //间隔时间 默认10秒
 var createTime = new Date().getTime();
 var intel = setInterval('getLatestNews()',intrevalTime);
 
+
+
+function getNewsCount(){
+	if(!sessionStorage.getItem('newsCount')){
+			$.ajax({
+				type:"get",
+				url:apiUrl+"/client/api/message/countByEntity",
+				async:false,
+				data:{
+					status:false
+				},
+				success:function(res){
+					sessionStorage.setItem('newsCount',res);
+					if(res!=0){
+						$('#messageDot').show();
+						$('#messageDot').text(res);
+					}
+				}
+			});
+	}else if(sessionStorage.getItem('newsCount')!=0){
+		$('#messageDot').show();
+		$('#messageDot').text(sessionStorage.getItem('newsCount'));
+	}
+		
+}
+
+
 function getLatestNews(){
 	$.ajax({
 		type:"get",
-		url:apiUrl+"/client/api/message/findPage",
+		url:apiUrl+"/client/api/message/newMessage",
 		crossDomain: true == !(document.all),
 		xhrFields: {withCredentials: true},
 		async:true,
@@ -18,8 +45,11 @@ function getLatestNews(){
 		},
 		success:function(res){
 			if(res&&res.content.length>0){
+				var count = sessionStorage.getItem('newsCount');
 				sessionStorage.setItem('message',res.content);
+				sessionStorage.setItem('newsCount',count+res.content.length)
 				$('#messageDot').show();
+				$('#messageDot').text(count+res.content.length);
 			}
 
 		}

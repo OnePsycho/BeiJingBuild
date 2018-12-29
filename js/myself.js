@@ -15,6 +15,7 @@ $(function() {
 		var memberType = JSON.parse(sessionStorage.getItem('member')).type;
 		userTypeAssign(memberType);
 		getMemberInfoById(member.id);
+		getNewsCount();//获取未读消息数量
 	}
 	
 	$('#logout').on('click',function(){
@@ -232,8 +233,8 @@ $(function() {
 	var form = layui.form;
 	//支付宝提现
 	form.on('submit(aliForm)', function(data) {
-		if(data.field.amount<0.1){
-			layer.msg('最低提现金额为0.1元！');
+		if(data.field.amount<1){
+			layer.msg('最低提现金额为1元！');
 		}else{
 			aliCash(data.field.aliAccount,data.field.amount);
 		}
@@ -243,8 +244,8 @@ $(function() {
 	
 	//微信提现
 	form.on('submit(wxForm)', function(data) {
-		if(data.field.amount<0.3){
-			layer.msg('最低提现金额为0.3元！');
+		if(data.field.amount<1){
+			layer.msg('最低提现金额为1元！');
 		}else{
 			wxCash(data.field.amount);
 		}
@@ -399,6 +400,7 @@ function wxCash(amount,memberId){
 		},
 		error:function(){
 			layer.closeAll();
+			layer.msg("网络错误！",{icon:5,time:1000});
 		}
 	});
 }
@@ -428,6 +430,9 @@ function aliCash(account,amount){
 				default:
 					break;
 			}
+		},
+		error:function(){
+			layer.msg("网络错误！",{icon:5,time:1000});
 		}
 	});
 }
@@ -616,6 +621,9 @@ function modifyNewsStatus(index,id){
 		async:false,
 		data:{_method:'PUT'},
 		success:function(res){
+			var count = sessionStorage.getItem('newsCount');
+			sessionStorage.setItem('newsCount',--count);
+			$('#messageDot').text(count);
 			$('.newsItem').eq(index).find('.layui-badge-dot').hide();
 			modifyFinish = true;
 		}

@@ -8,9 +8,15 @@
 		<link rel="stylesheet" href="lib/formSelect/formSelects-v4.css" />
 		<link rel="stylesheet" href="css/newQuestion.css" />
 		<script type="text/javascript" src="lib/js/jquery.js" ></script>
+		<script type="text/javascript" src="lib/js/jquery.base64.js" ></script>
+		<script type="text/javascript" src="js/jquery.form.min.js" ></script>
 		<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
 		<script type="text/javascript" src="js/common.js" ></script>
 	</head>
+		<style>
+			.placeholder { color: #aaa; }
+			#input-type-password { border: 5px solid lime; }
+		</style>
 	<body>
 		<div class="formContainer">
 		<form class="layui-form" action="#" id="newQuestionForm">
@@ -49,9 +55,11 @@
 		  <div class="layui-form-item">
 		    <label class="layui-form-label">附件</label>
 		    <div class="layui-input-block">
-				<input id="uploadFile" type="file"  multiple="multiple"  name="fileTrans" ref="file" value="" style="opacity: 0;height: 40px;width: 130px;" />
-		    	 <button type="button" class="layui-btn invitePM btnUploadFile" >上传附件</button>
-		    	 <span id="fileNames"></span>
+		    	<!--<form id="fileUpload2" name="fileUpload2"  method="post" enctype="multipart/form-data">
+					<input id="uploadFile" type="file"  multiple="multiple"  name="fileTrans" ref="file" value="" style="opacity: 0;height: 40px;width: 130px;" />
+			    	 <button type="button" class="layui-btn invitePM btnUploadFile" >上传附件</button>
+			    	 <span id="fileNames"></span>
+		    	 </form>-->
 		    </div>
 		  </div>
 		 
@@ -81,6 +89,13 @@
 		  </div>
 		</form>
 	</div>
+	
+	    <form id="fileUpload" name="fileUpload" action="" class="ieUpload"  method="post" enctype="multipart/form-data">
+			<input id="uploadFile" type="file"  multiple="multiple"  name="files" ref="file" value="" style="opacity: 0;height: 40px;width: 130px;" />
+	    	 <button type="button" class="layui-btn invitePM btnUploadFile" >上传附件</button>
+	    	 <span id="fileNames">(浏览器IE9以下的用户请上传打包后的压缩文件，仅支持单文件上传)</span>
+    	 </form>
+	
 	<!--邀请项目经理弹窗-->
 		<div class="invitePMBox">
 			<form class="layui-form" action="" id="invitePMForm" lay-filter="invitePMBox">
@@ -90,7 +105,7 @@
 			      <input type="text" name="company" required  lay-verify="required" placeholder="请输入公司名称" autocomplete="off" class="layui-input">
 			    </div>
 			  </div>
-			    <div class="layui-form-item licenseUpload">
+			    <!--<div class="layui-form-item licenseUpload">
 		   		<label class="layui-form-label">公司营业执照</label>
 			    <div class="layui-upload">
 				  <div class="layui-upload-list">
@@ -99,7 +114,7 @@
 				  </div>
 				  <button type="button" class="layui-btn" id="licenseImg"><i class="layui-icon">&#xe67c;</i>上传图片</button>
 				</div> 
-			  </div>
+			  </div>-->
 			  <div class="layui-form-item">
 			    <label class="layui-form-label">公司地址</label>
 			    <div class="layui-input-block">
@@ -142,4 +157,8 @@
 	</body>
 	<script type="text/javascript" src="lib/formSelect/formSelects-v4.js" ></script>
 	<script type="text/javascript" src="js/newQuestion.js" ></script>
+	<script type="text/javascript" src="lib/js/jquery.placeholder.js" ></script>
+	<script>
+//		$('input').placeholder({ customClass: 'my-placeholder' });
+	</script>
 </html>

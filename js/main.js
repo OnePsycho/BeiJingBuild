@@ -11,6 +11,7 @@
 		var myQuestionList=[];
 		var memberType = JSON.parse(sessionStorage.getItem('member')).type;
 		userTypeAssign(memberType);
+		getNewsCount();//获取用户未读消息数量
 
 	} else {
 		window.location.href = 'login.html';
@@ -27,22 +28,6 @@
 	}
 	
 	$('.slidenav-content').hide();
-	
-	console.log($('#personnelList').scrollTop());
-	
-//	dwr.engine.setOverridePath(apiUrl+"/dwr");
-//	dwr.engine.setActiveReverseAjax(true);
-//	dwr.engine.setNotifyServerOnPageUnload(true);
-//	
-//	MsgChannel.connect(member.id, function(res) {
-//  	console.log(res);
-//  });
-//
-//	function showMessage(msg) {
-//		dwrMessage.push(msg);
-//		sessionStorage.setItem('dwr',JSON.stringify(dwrMessage));
-//	}
-//	
 	
 	var questionList = new Vue({
 		el: "#questionsShow",
@@ -114,7 +99,6 @@
 					slideSpeed: 600, // 缓动速度。单位毫秒 
 					totalPages: res.totalPages, //总页数
 					callback: function(curPage) { // 回调函数 
-						console.log(curPage);
 						if(curPage != page) {
 							getQuestionDatas(curPage);
 						}
@@ -321,6 +305,7 @@
 			//人才展示点击事件
 			personnelTypeHandle: function(id,page) {
 				var that = this;
+				console.log(this);
 				var index = layer.load();
 				$('.personLabel'+id).css('color','rgb(139,22,11)').css('font-weight','bolder');
 				$('.chooseLabel').not($('.personLabel'+id)).css('color','rgb(179,179,179)')
@@ -346,7 +331,6 @@
 								if(curPage != page) {
 								that.personnelTypeHandle(id,curPage)
 								}
-
 							}
 						})
 						for(var i = 0; i < res.content.length; i++) {
@@ -380,7 +364,6 @@
 //				$('.slidenav-classify-a').addClass('sdsdds');
 			}
 			})
-
 		}
 	})
 
@@ -395,13 +378,15 @@
 		},
 		methods: {
 			//问题展示点击事件
-			platformTypeHandle: function(id,data) {
+			platformTypeHandle: function(id,data,e) {
+//				e.preventDefault();
 				if($('.label'+id).hasClass('s-active')){
 					$('.s'+id).hide();
 					$('.label'+id).addClass('s-negative');
 					$('.label'+id).removeClass('s-active');
 					$('.sidenav-menu').find('input[type=radio]').attr('checked',false);
 				}else{
+					console.log(this);
 					$('.s'+id).show();
 					$('.label'+id).addClass('s-active');
 					$('.label'+id).removeClass('s-negative');
@@ -552,6 +537,7 @@
 			}
 		}
 	}
+
 
 
 function IEVersion() {

@@ -44,6 +44,8 @@ if(member.type == "freeDesigner" && (isManagerId!=member.id)){
 }else if(member.type == "freeDesigner" && (isManagerId==member.id)){
 	$('#inviteDesignerTop').hide();
 	$('#inviteDesignerBottom').hide();
+	$('#managerName').text("我").css('font-weight','bold').css('color','rgb(139,22,11)');
+	$('#btnAccept').hide();
 }else if(member.type == "firstParty"&&questionInfo.status!="normal"){
 	$('#inviteDesignerTop').hide();
 	$('#inviteDesignerBottom').hide();
@@ -71,7 +73,7 @@ var questionVm = new Vue({
 		},
 		//查看答案
 		showAnswer:function(id,memberId){
-			if((member.type == "freeDesigner"&&memberId==member.id)||member.type=="firstParty"){
+			if((member.type == "freeDesigner"&&memberId==member.id)||member.type=="firstParty"||(member.type == "freeDesigner" && (isManagerId==member.id))){
 				$.ajax({
 					type:"get",
 					url:apiUrl+"/client/api/answer/findPage?memberJoinQuestionId="+id,
@@ -216,6 +218,7 @@ function countDownTime(res) {
 	});
 }
 
+//邀请设计师弹框
 $('#inviteFDTop').on('click',function(){
 	layer.open({
 		title: false,
@@ -254,18 +257,13 @@ layui.use('form', function() {
 		    invitedList = unique(invitedList);
 		    console.log(invitedList);
 		    for(var i=0;i<invitedList.length;i++){
-		    	var formData = new FormData();
 		    	var currentMember = invitedList[i];
-		    	formData.append('emailOrPhoneNum',invitedList[i]);
-		    	formData.append('questionId',questionInfo.id);
 		    	if(isPhoneAvailable(invitedList[i]) || isEmailAvailable(invitedList[i])){
+		    		jQuery.support.cors = true; 
 		    		$.ajax({
 		    			type:"post",
-		    			url:apiUrl+"/client/api/invite/add",
-		    			contentType: false,  
-		        		processData: false,
+		    			url:apiUrl+"/client/api/invite/add?emailOrPhoneNum="+invitedList[i]+"&questionId="+questionInfo.id,
 		        		async:false,
-		    			data:formData,
 		    			success:function(res){
 		    				if(res.status=="1001"){
 		    					invitedMember.push(currentMember);
@@ -302,23 +300,26 @@ layui.use('form', function() {
 		}else{
 			submitData.content = content;
 			submitData.attachments = attachments;
-			var formData = new FormData();
-			formData.append("content", content);
-			formData.append("memberJoinQuestionId", memberJoinQuestionId);
-			if(attachments.length > 0){
-				for (var index = 0; index < attachments.length; index++) {
-					formData.append("attachments", attachments[index]);
-				}
-			}else{
-				formData.append("attachments", attachments);
-			}
+//			var formData = new FormData();
+//			formData.append("content", content);
+//			formData.append("memberJoinQuestionId", memberJoinQuestionId);
+//			if(attachments.length > 0){
+//				for (var index = 0; index < attachments.length; index++) {
+//					formData.append("attachments", attachments[index]);
+//				}
+//			}else{
+//				formData.append("attachments", attachments);
+//			}
 	
 			$.ajax({
 				type:"post",
 				url:apiUrl+"/client/api/answer/add",
-				contentType: false,  
-	   			processData: false,
-	   			data:formData,
+	   			traditional: true,
+	   			data:{
+	   				content:content,
+	   				memberJoinQuestionId:memberJoinQuestionId,
+	   				atts:attachments
+	   			},
 	   			success:function(res){
 	   				layer.closeAll();
 	   				layer.msg("提交成功！",{icon:1,time:1000})
@@ -372,6 +373,7 @@ function unique(arr){
 
 	//弹出提交答案按钮
 	$('#btnSubmitAnswer').on('click',function(){
+		$('#fileNames').empty();
 		layer.open({
 			title: '提交答案',
 			type: 1,
@@ -413,21 +415,46 @@ function unique(arr){
 
 
 
-$('#uploadFile').on('change',function(){
-	fileNames = [];
-	console.log($('#uploadFile')[0].files);
-	attachments = $('#uploadFile')[0].files;
-	$('#fileNames').empty();
-	$('#fileNames').append('<p style="font-weight:bold">已选择文件：'+attachments.length+' 个</p>')
-	for(var i=0;i<attachments.length;i++){
-		fileNames.push(attachments[i].name);
-		$('#fileNames').append('<p>'+attachments[i].name+'</p>')
-	}
-//	$('#fileNames').text("已上传 "+fileNames.join(' , ')+"  "+fileNames.length+"个文件");
-	
+$('#uploadFile').on('change',function(e){
+	e.preventDefault();
+	var b = new Base64();
+		$('#fileUpload').ajaxSubmit({
+	        url:apiUrl+'/client/api/file/ieUpload',
+	        dataType:'text',
+			type:'post',
+			data:{memberId:member.id},
+	        success:function(res){
+	        	var result = getLatestFile(member.id);
+	        	console.log(result);
+        		fileNames = [];
+				for(var i=0;i<result.length;i++){
+					fileNames.push(result[i].name);
+					attachments.push(b.encode(JSON.stringify(result[i])));
+					console.log(JSON.stringify(result[i]), b.encode(JSON.stringify(result[i])));
+				}
+				$('#fileNames').text("已上传 "+fileNames.join(' , ')+"  "+fileNames.length+"个文件");
+		    },
+		    error:function(e){
+			    console.log(e);
+		    }
+	    });
 })
+
 
 $('.btnUploadFile').on('click',function(){
 	$('#uploadFile').trigger('click');
 })
 
+function getLatestFile(memberId){
+	var result;
+	$.ajax({
+		type:"get",
+		url:apiUrl+"/client/api/file/uploadResult?memberId="+memberId,
+		async:false,
+		success:function(res){
+			console.log(res);
+			result = res.data;
+		}
+	});	
+	return result;
+}

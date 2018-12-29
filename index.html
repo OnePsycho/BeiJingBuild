@@ -57,7 +57,7 @@
 										</dl>
 									</li>
 									<li class="layui-nav-item">
-										<a href="personalCenter.html"><img src="img/icon_news.png" class="layui-nav-img">消息通知<span class="layui-badge-dot" id="messageDot" style="display: none;"></span></a>
+										<a href="personalCenter.html"><img src="img/icon_news.png" class="layui-nav-img">消息通知<span class="layui-badge" id="messageDot" style="display: none;">9</span></a>
 									</li>
 
 								</ul>
@@ -86,17 +86,16 @@
 												<span class="sidenav-dropdown-icon show" data-sidenav-dropdown-icon>
 												<i class="glyphicon glyphicon-menu-up"></i>
 											</span>
-												<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
+											<span class="sidenav-dropdown-icon" data-sidenav-dropdown-icon>
 												<i class="glyphicon glyphicon-menu-down"></i>
 											</span>
 											</a>
 											<div class="slidenav-content" data-sidenav-dropdown>
 												<div class="slidenav-classify-a">
-													<div class="pretty circle danger" v-for="(personnelTypes,index) of item.sortPersonnelTypes" @click="personnelTypeHandle(personnelTypes.id,1)">
+													<div class="pretty circle danger" v-for="(personnelTypes,index) of item.sortPersonnelTypes"  @click="personnelTypeHandle(personnelTypes.id,1)">
 														<input type="radio" name="radio1">
 														<label :class="'personLabel'+personnelTypes.id" class="chooseLabel"><i class="default"></i> {{personnelTypes.name}}</label>
 													</div>
-
 												</div>
 											</div>
 										</li>
@@ -240,14 +239,14 @@
 											<div class="slidenav-content" data-sidenav-dropdown v-cloak>
 												<div class="slidenav-classify-a">
 													<div class="pretty circle danger" v-for="(third,index) of item.sortPlatformTypes" v-cloak>
-														<input type="radio" name="radio1" @click="platformTypeHandle(third.id,third.sortPlatformTypes)">
-														<label :class="'label'+third.id" class="chooseLabel"><i class="default" ></i> {{third.name}}</label>
+														<input type="radio" name="radio1" >
+														<label :class="'label'+third.id" class="chooseLabel" @click="platformTypeHandle(third.id,third.sortPlatformTypes)"><i class="default" ></i> {{third.name}}</label>
 															<div class="pretty circle danger fourthItem" :class="'s'+third.id" v-for="fourth in third.sortPlatformTypes" v-cloak>
-																<input type="radio" name="radio1" @click="platformTypeHandle(fourth.id,fourth.sortPlatformTypes)">
-																<label :class="'label'+fourth.id" class="chooseLabel"><i class="default" ></i> {{fourth.name}}</label>
+																<input type="radio" name="radio1" >
+																<label :class="'label'+fourth.id" class="chooseLabel" @click="platformTypeHandle(fourth.id,fourth.sortPlatformTypes)"><i class="default" ></i> {{fourth.name}}</label>
 																	<div class="pretty circle danger fifthItem" :class="'s'+fourth.id" v-for="fifth in fourth.sortPlatformTypes" v-cloak>
-																		<input type="radio" name="radio1" @click="platformTypeHandle(fifth.id,fifth.sortPlatformTypes)">
-																		<label :class="'label'+fifth.id" class="chooseLabel"><i class="default" ></i> {{fifth.name}}</label>
+																		<input type="radio" name="radio1" >
+																		<label :class="'label'+fifth.id" class="chooseLabel" @click="platformTypeHandle(fifth.id,fifth.sortPlatformTypes)"><i class="default" ></i> {{fifth.name}}</label>
 																	</div>
 															</div>
 													</div>

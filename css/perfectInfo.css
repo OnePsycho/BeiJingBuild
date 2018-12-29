@@ -118,6 +118,7 @@
 .firstParty{
 	width: 30%;
 	margin-left: 35%;
+	position: relative;
 }
 
 .firstParty .infoBox{
@@ -165,4 +166,12 @@
 	left:13px;
 	top:7px;
 	color:red;
+}
+.ieUpload{
+	position: absolute;
+	left: 70px;
+	top: 20%;
+}
+.ieUpload button{
+	background: rgb(139,22,11) !important;
 }

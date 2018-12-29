@@ -2,21 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script type="text/javascript" src="lib/js/jquery.js" ></script>
-    <script type="text/javascript" src="lib/gwm.js" ></script>
+    <script>
+
+    </script>
+    <!--<script src="https://cdn.bootcss.com/jquery/1.7.1/jquery.min.js"></script>-->
+    <!--<script src="https://cdn.bootcss.com/jquery/1.4.1/jquery.min.js"></script>-->
     <title>Document</title>
 </head>
 
 	
 <body>
-	<a href="http://39.104.239.208/beijing/upload/783105d34f3b4c69a9cdf134c6bea379.jpg" download="http://39.104.239.208/beijing/upload/783105d34f3b4c69a9cdf134c6bea379.jpg" >下载1</a>
+
+ <form id="fileUpload" target="showZip" name="fileUpload" action="http://192.168.0.18:8000/client/api/file/ieUpload" class="ieUpload"  method="post" enctype="multipart/form-data">
+			<input id="uploadFile" type="file"  multiple="multiple"  name="files" ref="file" value="" />
+			<input type="submit" />
+    	 </form>
+    	 
+    	 <iframe name="showZip" id="iframeShow" frameborder="0" width="100%" height="100%"  sandbox='allow-scripts allow-same-origin'></iframe>
 </body>
-<script type="text/javascript" src="lib/download.js" ></script>
-<script>				 
-	gwm.creation({
-		txt:"asdasdds"
-	});
+<script type="text/javascript" src="js/jquery.form.min.js" ></script>
+<!--<script type="text/javascript" src="lib/ajaxfileupload.js" ></script>-->
+<script>
+    	
+	setTimeout(function(){
+		console.log(window.name);
+	},5000)
 </script>
 </html>

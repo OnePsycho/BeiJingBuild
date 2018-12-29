@@ -9,6 +9,8 @@
 		<link rel="stylesheet" href="css/answerHall.css" />
 		<link rel="stylesheet" href="lib/js/layui/css/modules/layer/default/layer.css" />
 		<script type="text/javascript" src="lib/js/jquery.js" ></script>
+		<script type="text/javascript" src="js/jquery.form.min.js" ></script>
+		<script type="text/javascript" src="lib/js/jquery.base64.js" ></script>
 		<script type="text/javascript" src="js/common.js" ></script>
 		<script type="text/javascript" src="lib/js/layui/layui.js" ></script>
 		<script type="text/javascript" src="lib/js/vue.min.js" ></script>
@@ -80,7 +82,7 @@
 						</div>
 						<div class="respondentItem">
 							<img src="img/header.jpg" class="layui-nav-img" />
-							<p>项目经理</p>
+							<p id="managerName">项目经理</p>
 						</div>
 					</div>
 					<div class="middle-question middle-common">
@@ -211,11 +213,11 @@
 				  </div>
 				  <div class="layui-form-item">
 				    <label class="layui-form-label">上传图纸</label>
-				    <div class="layui-input-block">
+				    <!--<div class="layui-input-block">
 						<input id="uploadFile" type="file"  multiple="multiple"  name="fileTrans" ref="file" value="" style="opacity: 0;height: 40px;width: 130px;" />
 				    	 <button type="button" class="layui-btn invitePM btnUploadFile" >上传图纸或者附件</button>
 				    	 <div id="fileNames"></div>
-				    </div>
+				    </div>-->
 				  </div>
 				  <div class="layui-form-item" style="margin-top: 40px;">
 				    <div class="layui-input-block" style="margin-left: 0px;">
@@ -224,8 +226,14 @@
 				    </div>
 				  </div>
 				</form>
+				
+				<form id="fileUpload" name="fileUpload" action="" class="ieUpload"  method="post" enctype="multipart/form-data">
+					<input id="uploadFile" type="file"  multiple="multiple"  name="files" ref="file" value="" style="opacity: 0;height: 40px;width: 130px;" />
+			    	 <button type="button" class="layui-btn invitePM btnUploadFile" >上传附件或图纸</button>
+			    	 <span id="fileNames">(浏览器IE9以下的用户请上传打包后的压缩文件，仅支持单文件上传)</span>
+		    	 </form>
 			</div>
-			
+
 			
 			<div id="detailsDialog" class="inviteFDDialog answerDialog" v-html="questionData.content">
 				

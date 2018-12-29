@@ -65,8 +65,10 @@ input[type="number"]{
 }  
 
 
-.layui-badge-dot{margin: -15px -75px !important;width: 10px;height: 10px;}
-.layui-badge, .layui-badge-dot, .layui-badge-rim{background-color: red !important;}
+.layui-badge, .layui-badge-dot, .layui-badge-rim{background-color: rgb(139,22,11) !important;}
+.layui-nav .layui-badge, .layui-nav .layui-badge-dot{
+	margin: -15px 4px 0 !important;
+}
 
 
 @media (max-width:1440px) {

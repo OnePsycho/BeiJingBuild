@@ -15,7 +15,7 @@ var licenceUrl = {
 	'businessLicence': ""
 };
 var PMInfo="";
-var attachments;
+var attachments=[];
 var fileNames=[];
 $('#projectName').val(member.memberExt.projectName);
 $('.formContainer').find('input[name=projectName]').attr("readonly", true);
@@ -154,25 +154,34 @@ layui.use('form', function() {
 		if(PMInfo==""){
 			layer.msg("请先邀请项目经理！")
 		}else{
-			var formData = new FormData();
-			formData.append("content", submitInfo.description);
-			formData.append("publishDate", submitInfo.joinDate.split(',')[0]);
-			formData.append("finishDate", submitInfo.joinDate.split(',')[1]);
-			formData.append("platformId", submitInfo.platformId.split('/')[submitInfo.platformId.split('/').length-1]);
-			formData.append("projectName", submitInfo.projectName);
-			formData.append("reward", submitInfo.reward);
-			formData.append("title", submitInfo.title);
-			formData.append("notice", submitInfo.notice);
-			for (var index = 0; index < submitInfo.attachments.length; index++) {
-				formData.append("attachments", submitInfo.attachments[index]);
-			}
+//			var formData = new FormData();
+//			formData.append("content", submitInfo.description);
+//			formData.append("publishDate", submitInfo.joinDate.split(',')[0]);
+//			formData.append("finishDate", submitInfo.joinDate.split(',')[1]);
+//			formData.append("platformId", submitInfo.platformId.split('/')[submitInfo.platformId.split('/').length-1]);
+//			formData.append("projectName", submitInfo.projectName);
+//			formData.append("reward", submitInfo.reward);
+//			formData.append("title", submitInfo.title);
+//			formData.append("notice", submitInfo.notice);
+//			for (var index = 0; index < submitInfo.attachments.length; index++) {
+//				formData.append("atts", submitInfo.attachments[index]);
+//			}
 			$.ajax({
 				type:"post",
-				contentType: false,  
-		        processData: false,
 				url:apiUrl+"/client/api/question/add",
 				async:true,
-				data:formData,
+				traditional: true,
+				data:{
+					content:submitInfo.description,
+					publishDate:submitInfo.joinDate.split(',')[0],
+					finishDate:submitInfo.joinDate.split(',')[1],
+					platformId:submitInfo.platformId.split('/')[submitInfo.platformId.split('/').length-1],
+					projectName:submitInfo.projectName,
+					reward:submitInfo.reward,
+					title:submitInfo.title,
+					notice:submitInfo.notice,
+					atts:submitInfo.attachments
+				},
 				success:function(res){
 					layer.msg("发布成功！",{icon:1,time:1000});
 					var questionId = res.id;
@@ -183,7 +192,7 @@ layui.use('form', function() {
 						data:{
 							questionId:questionId,
 							address:PMInfo.address,
-							businessLicence:PMInfo.businessLicence,
+//							businessLicence:PMInfo.businessLicence,
 							company:PMInfo.company,
 							projectName:PMInfo.projectName,
 							u_email:PMInfo.u_email,
@@ -214,8 +223,6 @@ layui.use('form', function() {
 		var submitInfo = $.extend(submitData, licenceUrl);
 		  if(!submitData){
 		  	//验证不通过
-		  }else if(submitInfo.businessLicence==""||!submitInfo.businessLicence){
-		  	layer.msg("请上传营业执照噢！")
 		  }else{
 		  	PMInfo = submitInfo;
 		  	console.log(PMInfo);
@@ -239,14 +246,30 @@ layui.use('laydate', function() {
 	});
 });
 
-$('#uploadFile').on('change',function(){
-	fileNames = [];
-	console.log($('#uploadFile')[0].files);
-	attachments = $('#uploadFile')[0].files;
-	for(var i=0;i<attachments.length;i++){
-		fileNames.push(attachments[i].name);
-	}
-	$('#fileNames').text("已上传 "+fileNames.join(' , ')+"  "+fileNames.length+"个文件");
+$('#uploadFile').on('change',function(e){
+	e.preventDefault();
+	var b = new Base64();
+	var base = new 
+		$('#fileUpload').ajaxSubmit({
+	        url:apiUrl+'/client/api/file/ieUpload',
+	        dataType:'text',
+			type:'post',
+			data:{memberId:member.id},
+	        success:function(res){
+	        	var result = getLatestFile(member.id);
+	        	console.log(result);
+        		fileNames = [];
+				for(var i=0;i<result.length;i++){
+					fileNames.push(result[i].name);
+					attachments.push(b.encode(JSON.stringify(result[i])));
+					console.log(JSON.stringify(result[i]), b.encode(JSON.stringify(result[i])));
+				}
+				$('#fileNames').text("已上传 "+fileNames.join(' , ')+"  "+fileNames.length+"个文件");
+		    },
+		    error:function(e){
+			    console.log(e);
+		    }
+	    });
 })
 
 $('.btnUploadFile').on('click',function(){
@@ -264,3 +287,17 @@ $('#btnResetQuestion').on('click',function(e){
 	$('#projectName').val(member.memberExt.projectName);
 	
 })
+
+function getLatestFile(memberId){
+	var result;
+	$.ajax({
+		type:"get",
+		url:apiUrl+"/client/api/file/uploadResult?memberId="+memberId,
+		async:false,
+		success:function(res){
+			console.log(res);
+			result = res.data;
+		}
+	});	
+	return result;
+}
