@@ -31,12 +31,13 @@ $('#loginBtn').on('click',function(){
 					console.log(res);
 				
 				if(res.status == "200") {
-					sessionStorage.setItem('member',JSON.stringify(res.data));
 					if(!res.data.memberExt){
 						layer.msg("登录成功！请完善个人信息！",{icon: 1});
+						sessionStorage.setItem('member',JSON.stringify(res.data.member));
 						sessionStorage.setItem('r_code',res.data.code);
 						perfectAction(res.data.member.type);
 					}else{
+						sessionStorage.setItem('member',JSON.stringify(res.data));
 						layer.msg('登录成功！',{icon:1,time:1000});
 						setTimeout(function(){
 						 window.location.href = 'index.html';
