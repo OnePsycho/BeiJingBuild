@@ -107,10 +107,7 @@ $('#btnSubmit').on('click',function(){
 //获取微信二维码
 $.ajax({
 	type:"get",
-	url:apiUrl+"/wx/assist/qrcode",
-	data:{
-		memberId:member.id
-	},
+	url:apiUrl+"/wx/assist/qrcode?memberId=" + member.id
 	async:true,
 	success:function(res){
 		$('.qrCodeText').css('display','block');
