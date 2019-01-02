@@ -456,10 +456,7 @@ function getMemberInfoById(id){
 function getWxCode(id){
 		$.ajax({
 			type: "get",
-			url: apiUrl + "/wx/assist/qrcode",
-			data: {
-				memberId: id
-			},
+			url: apiUrl + "/wx/assist/qrcode?memberId=" + id,
 			success: function(res) {
 				var qrcode = new QRCode("erCode", {
 					text: res.url,
