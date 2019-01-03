@@ -201,43 +201,39 @@ $('#btnGetPhoneCode').on('click', function() {
 	if(!phoneFlag) {
 		layer.msg("请输入正确的手机号码！");
 	} else {
-			$('.phoneTitle').css('margin', '-48px');
+		$.ajax({
+			type: "GET",
+			url: apiUrl + "/client/api/member/exists?phoneNum=" + phone,
+			crossDomain: true == !(document.all),
+			xhrFields: {withCredentials: true},
+			success: function(res) {
+				if(res) {
+					layer.msg("该账号已注册！");
+				} else {
+					$.ajax({
+						type: "get",
+						crossDomain: true,
+						url: apiUrl + "/client/api/assist/getCodeByPhoneNum",
+						data: {
+							phoneNum: phone,
+							template:"register"
+						},
+						success: function(res) {
+							if(res.status == 200) {
+								$('.phoneTitle').css('margin', '-48px');
 								$("#btnGetPhoneCode").attr("disabled", "true");
 								$("#btnGetPhoneCode").html(curCount + "秒后重新获取");
 								InterValObj = window.setInterval(SetRemainTimesPhone, 1000); //启动计时器，1秒执行一次 
-//		$.ajax({
-//			type: "GET",
-//			url: apiUrl + "/client/api/member/exists?phoneNum=" + phone,
-//			crossDomain: true == !(document.all),
-//			xhrFields: {withCredentials: true},
-//			success: function(res) {
-//				if(res) {
-//					layer.msg("该账号已注册！");
-//				} else {
-//					$.ajax({
-//						type: "get",
-//						crossDomain: true,
-//						url: apiUrl + "/client/api/assist/getCodeByPhoneNum",
-//						data: {
-//							phoneNum: phone,
-//							template:"register"
-//						},
-//						success: function(res) {
-//							if(res.status == 200) {
-//								$('.phoneTitle').css('margin', '-48px');
-//								$("#btnGetPhoneCode").attr("disabled", "true");
-//								$("#btnGetPhoneCode").html(curCount + "秒后重新获取");
-//								InterValObj = window.setInterval(SetRemainTimesPhone, 1000); //启动计时器，1秒执行一次 
-//							} else if(res.status == 403) {
-//								layer.msg("请求频繁，请稍后再试！");
-//							} else {
-//								layer.msg("请求错误！");
-//							}
-//						}
-//					});
-//				}
-//			}
-//		})
+							} else if(res.status == 403) {
+								layer.msg("请求频繁，请稍后再试！");
+							} else {
+								layer.msg("请求错误！");
+							}
+						}
+					});
+				}
+			}
+		})
 	}
 })
 
