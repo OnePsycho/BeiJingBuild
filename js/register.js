@@ -164,7 +164,11 @@ $('#btnGetEmailCode').on('click', function() {
 						},
 						success: function(res) {
 							if(res.status == 200) {
-								$('.phoneTitle').css('margin', '-48px');
+								if (window.ActiveXObject || "ActiveXObject" in window){
+										$('.phoneTitle').css('margin', '-90px');
+									}else{
+										$('.phoneTitle').css('margin', '-48px');
+									}
 								$("#btnGetEmailCode").attr("disabled", "true");
 								$("#btnGetEmailCode").html(curCount + "秒后重新获取");
 								InterValObj = window.setInterval(SetRemainTimesEmail, 1000); //启动计时器，1秒执行一次 
@@ -196,6 +200,7 @@ $('#phoneNum').bind("input propertychange", function(event) {
 
 //手机获取验证码
 $('#btnGetPhoneCode').on('click', function() {
+
 	var phone = $('#phoneNum').val().trim();
 	curCount = count;
 	if(!phoneFlag) {
@@ -220,10 +225,14 @@ $('#btnGetPhoneCode').on('click', function() {
 						},
 						success: function(res) {
 							if(res.status == 200) {
-								$('.phoneTitle').css('margin', '-48px');
-								$("#btnGetPhoneCode").attr("disabled", "true");
-								$("#btnGetPhoneCode").html(curCount + "秒后重新获取");
-								InterValObj = window.setInterval(SetRemainTimesPhone, 1000); //启动计时器，1秒执行一次 
+									if (window.ActiveXObject || "ActiveXObject" in window){
+										$('.phoneTitle').css('margin', '-90px');
+									}else{
+										$('.phoneTitle').css('margin', '-48px');
+									}
+									$("#btnGetPhoneCode").attr("disabled", true);
+									$("#btnGetPhoneCode").html(curCount + "秒后重新获取");
+									InterValObj = window.setInterval(SetRemainTimesPhone, 1000); //启动计时器，1秒执行一次 
 							} else if(res.status == 403) {
 								layer.msg("请求频繁，请稍后再试！");
 							} else {
@@ -234,7 +243,7 @@ $('#btnGetPhoneCode').on('click', function() {
 				}
 			}
 		})
-	}
+}
 })
 
 //邮箱timer处理函数 
@@ -245,7 +254,6 @@ function SetRemainTimesEmail() {
 		$("#btnGetEmailCode").removeAttr("disabled"); //启用按钮 
 		$("#btnGetEmailCode").html("重新发送");
 	} else {
-		$('.phoneTitle').css('margin', '-48px');
 		curCount--;
 		$("#btnGetEmailCode").html(curCount + "秒后重新获取");
 
@@ -260,7 +268,6 @@ function SetRemainTimesPhone() {
 		$("#btnGetPhoneCode").removeAttr("disabled"); //启用按钮 
 		$("#btnGetPhoneCode").html("重新发送");
 	} else {
-		$('.phoneTitle').css('margin', '-48px');
 		curCount--;
 		$("#btnGetPhoneCode").html(curCount + "秒后重新获取");
 
@@ -295,6 +302,7 @@ $('#btnRegisterByEmail').on('click', function() {
 				if(res.status == 200) {
 					layer.msg("注册成功！");
 					sessionStorage.setItem('p_member',JSON.stringify(res.data.member));
+					sessionStorage.setItem('member',JSON.stringify(res.data.member));
 					sessionStorage.setItem('r_code',JSON.stringify(res.data.code));
 					$('#registerBox').css('display','none');
 					$('.hasAccount').css('display','none');
@@ -338,6 +346,7 @@ $('#btnRegisterByPhone').on('click', function() {
 				if(res.status == 200) {
 					layer.msg("注册成功！");
 					sessionStorage.setItem('p_member',JSON.stringify(res.data.member));
+					sessionStorage.setItem('member',JSON.stringify(res.data.member));
 					sessionStorage.setItem('r_code',JSON.stringify(res.data.code));
 					$('.hasAccount').css('display','none');
 					$('#registerBox').css('display','none');

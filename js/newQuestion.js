@@ -20,7 +20,6 @@ var fileNames=[];
 $('#projectName').val(member.memberExt.projectName);
 $('.formContainer').find('input[name=projectName]').attr("readonly", true);
 
-
 //富文本编辑器
 layui.use('layedit', function() {
 	var layedit = layui.layedit;

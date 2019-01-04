@@ -1,5 +1,5 @@
 var licenceUrl = {'businessLicence':""};
-var member = JSON.parse(sessionStorage.getItem('member'));
+var member = JSON.parse(sessionStorage.getItem('p_member'));
 var submitData;
 var attachments;
 var fileResult;
