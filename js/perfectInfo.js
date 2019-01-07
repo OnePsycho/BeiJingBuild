@@ -155,10 +155,7 @@ $('#btnSubmit').on('click', function() {
 //获取微信二维码
 $.ajax({
 	type: "get",
-	url: apiUrl + "/wx/assist/qrcode",
-	data: {
-		memberId: member.id
-	},
+	url: apiUrl + "/wx/assist/qrcode?memberId=" + member.id,
 	async: true,
 	success: function(res) {
 		$('.qrCodeText').css('display', 'block');
@@ -263,14 +260,14 @@ var formSelects = layui.formSelects;
 		keyName: 'name',            //自定义返回数据中name的key, 默认 name
 	    keyVal: 'id',            //自定义返回数据中value的key, 默认 value
 	    keySel: 'name',         //自定义返回数据中selected的key, 默认 selected
-	    keyChildren: 'personnelTypes'    //联动多选自定义children
+	    keyChildren: 'sortPersonnelTypes'    //联动多选自定义children
     });
     
 	formSelects.config('select_platform', {
 		keyName: 'name',            //自定义返回数据中name的key, 默认 name
 	    keyVal: 'id',            //自定义返回数据中value的key, 默认 value
 	    keySel: 'name',         //自定义返回数据中selected的key, 默认 selected
-	    keyChildren: 'platformTypes',    //联动多选自定义children
+	    keyChildren: 'sortPlatformTypes',    //联动多选自定义children
         success: function(id, url, val, result){
             console.log(result);
         },

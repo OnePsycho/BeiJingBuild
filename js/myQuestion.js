@@ -231,13 +231,6 @@ layui.use('form', function() {
 			layer.msg("方案提交成功！",{icon:1});
 			completeQuestion(currentId);
 		}
-		
-		
-
-		
-		
-		
 		return false;
-		
 	});
 });

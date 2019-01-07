@@ -1,4 +1,6 @@
-
+html,body{
+	overflow-y: hidden;
+}
 .input-group{
 	float: left;
 	width: 100%;
