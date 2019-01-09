@@ -391,9 +391,11 @@ function wxCash(amount,memberId){
 				case "1002":
 					layer.closeAll();
 					layer.msg("账户余额不足！",{icon:5,time:1000});
+					break;
 				case "1101":
 					layer.closeAll();
-					layer.msg("网络错误！",{icon:5,time:1000});
+					layer.msg("网络错误,提现失败！",{icon:5,time:1000});
+					break;
 				default:
 					break;
 			}
@@ -427,6 +429,7 @@ function aliCash(account,amount){
 				case "1002":
 					layer.closeAll();
 					layer.msg("账户余额不足！",{icon:5,time:1000});
+					break;
 				default:
 					break;
 			}
