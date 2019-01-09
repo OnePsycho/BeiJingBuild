@@ -484,17 +484,17 @@ function getPayResult(orderNo){
 		success:function(res){
 			if(res.status=="200"){
 				clearInterval(wxInterval);
-				layer.msg("充值成功！",{icon:1,time:1500});
+				layer.msg("充值成功！",{icon:1,time:1000});
 				getMemberInfoById(member.id);
 				setTimeout(function(){
 					layer.closeAll();
-				},1500)
+				},1000)
 			}else if(res,status == "1002"){
 				clearInterval(wxInterval);
-				layer.msg("充值失败！请稍后再试！",{icon:5,time:1500});
+				layer.msg("充值失败！请稍后再试！",{icon:5,time:1000});
 				setTimeout(function(){
 					layer.closeAll();
-				},1500)
+				},1000)
 			}
 		}
 	});
@@ -509,36 +509,21 @@ function getAliPayResult(orderNo){
 		success:function(res){
 			if(res.status=="200"){
 				clearInterval(AliInterval);
-				layer.msg("充值成功！",{icon:1,time:1500});
+				layer.msg("充值成功！",{icon:1,time:1000});
 				getMemberInfoById(member.id);
 				setTimeout(function(){
 					layer.closeAll();
-				},1500)
+				},1000)
 			}else if(res,status == "1002"){
 				clearInterval(AliInterval);
-				layer.msg("充值失败！请稍后再试！",{icon:5,time:1500});
+				layer.msg("充值失败！请稍后再试！",{icon:5,time:1000});
 				setTimeout(function(){
 					layer.closeAll();
-				},1500)
+				},1000)
 			}
 		}
 	});
 }
-
-
-//function findQuestionById(questionId){
-//	var result;
-//	$.ajax({
-//		type:"get",
-//		url:apiUrl+"/client/api/question/findById?id="+questionId,
-//		async:false,
-//		success:function(res){
-////			console.log(res);
-//			result = res?res:"";
-//		}
-//	});
-//	return result;
-//}
 
 //获取最新消息
 function getLatestNews(page){
