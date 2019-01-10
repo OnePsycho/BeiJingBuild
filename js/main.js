@@ -306,10 +306,17 @@
 			personnelTypeHandle: function(id,page) {
 				event.stopPropagation();	//阻止事件冒泡
 				var that = this;
-				console.log(this);
 				var index = layer.load();
-				$('.personLabel'+id).css('color','rgb(139,22,11)').css('font-weight','bolder');
-				$('.chooseLabel').not($('.personLabel'+id)).css('color','rgb(179,179,179)')
+				if($('.personLabel'+id).hasClass('s-active')){
+					$('.personLabel'+id).addClass('s-negative');
+					$('.personLabel'+id).removeClass('s-active');
+					$('.sidenav-menu').find('input[type=radio]').attr('checked',false);
+				}else{
+					$('.personLabel'+id).addClass('s-active');
+					$('.personLabel'+id).removeClass('s-negative');
+					$('.chooseLabel').not($('.personLabel'+id)).removeClass('s-active');
+					$('.chooseLabel').not($('.personLabel'+id)).addClass('s-negative');
+
 				$('#personShow').css('display', 'block');
 				$('#questionsShow').css('display', 'none');
 				$('#iframeShow').css('display', 'none');
@@ -357,6 +364,8 @@
 					}
 				});
 			}
+				}
+				
 		},
 		mounted:function(){
 			this.$nextTick(function(){

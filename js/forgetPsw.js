@@ -119,8 +119,8 @@ $('#emailAddress').bind("input propertychange", function(event) {
 	}
 });
 
-//邮箱获取验证码
-$('#btnGetEmailCode').on('click', function() {
+//获取邮箱验证码
+function getEmailCodeFn(){
 	curCount = count;
 	var emailAddress = $('#emailAddress').val().trim();
 	if(!emailFlag) {
@@ -140,8 +140,12 @@ $('#btnGetEmailCode').on('click', function() {
 						},
 						success: function(res) {
 							if(res.status == 200) {
-								$('.phoneTitle').css('margin', '-48px');
-								$("#btnGetEmailCode").attr("disabled", "true");
+								if (window.ActiveXObject || "ActiveXObject" in window){
+										$('.phoneTitle').css('margin', '-90px');
+									}else{
+										$('.phoneTitle').css('margin', '-48px');
+									}
+								$("#btnGetEmailCode").attr('onclick','null');
 								$("#btnGetEmailCode").html(curCount + "秒后重新获取");
 								InterValObj = window.setInterval(SetRemainTimesEmail, 1000); //启动计时器，1秒执行一次 
 							} else if(res.status == 403) {
@@ -159,7 +163,7 @@ $('#btnGetEmailCode').on('click', function() {
 		});
 
 	}
-})
+}
 //手机号码正则验证
 $('#phoneNum').bind("input propertychange", function(event) {
 	var phoneNum = $('#phoneNum').val().trim();
@@ -174,7 +178,7 @@ $('#phoneNum').bind("input propertychange", function(event) {
 });
 
 //手机获取验证码
-$('#btnGetPhoneCode').on('click', function() {
+function getPhoneCodeFn(){
 	var phone = $('#phoneNum').val().trim();
 	curCount = count;
 	if(!phoneFlag) {
@@ -191,12 +195,16 @@ $('#btnGetPhoneCode').on('click', function() {
 						url: apiUrl + "/client/api/assist/getCodeByPhoneNum",
 						data: {
 							phoneNum: phone,
-							template:"register"
+							template:"forgetPassword"
 						},
 						success: function(res) {
 							if(res.status == 200) {
-								$('.phoneTitle').css('margin', '-48px');
-								$("#btnGetPhoneCode").attr("disabled", "true");
+								if (window.ActiveXObject || "ActiveXObject" in window){
+										$('.phoneTitle').css('margin', '-90px');
+									}else{
+										$('.phoneTitle').css('margin', '-48px');
+									}
+								$("#btnGetPhoneCode").attr("onclick", "null");
 								$("#btnGetPhoneCode").html(curCount + "秒后重新获取");
 								InterValObj = window.setInterval(SetRemainTimesPhone, 1000); //启动计时器，1秒执行一次 
 							} else if(res.status == 403) {
@@ -213,17 +221,16 @@ $('#btnGetPhoneCode').on('click', function() {
 			}
 		})
 	}
-})
+}
 
 //邮箱timer处理函数 
 function SetRemainTimesEmail() {
 	if(curCount == 0) {
 		$('.phoneTitle').css('margin', '-32px');
 		window.clearInterval(InterValObj); //停止计时器 
-		$("#btnGetEmailCode").removeAttr("disabled"); //启用按钮 
+		$("#btnGetEmailCode").attr('onclick','getEmailCodeFn()');
 		$("#btnGetEmailCode").html("重新发送");
 	} else {
-		$('.phoneTitle').css('margin', '-48px');
 		curCount--;
 		$("#btnGetEmailCode").html(curCount + "秒后重新获取");
 
@@ -235,10 +242,9 @@ function SetRemainTimesPhone() {
 	if(curCount == 0) {
 		$('.phoneTitle').css('margin', '-32px');
 		window.clearInterval(InterValObj); //停止计时器 
-		$("#btnGetPhoneCode").removeAttr("disabled"); //启用按钮 
+		$("#btnGetPhoneCode").attr('onclick','getPhoneCodeFn()');
 		$("#btnGetPhoneCode").html("重新发送");
 	} else {
-		$('.phoneTitle').css('margin', '-48px');
 		curCount--;
 		$("#btnGetPhoneCode").html(curCount + "秒后重新获取");
 

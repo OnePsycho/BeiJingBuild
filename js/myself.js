@@ -290,6 +290,7 @@ $(function() {
 
 
 $('.layui-tab-title').find('li').eq(1).on('click',function(){
+	$('#erCode').empty();
 	if(member.weixin==""||!member.weixin){
 		getWxCode(member.id);
 		$('.bindWeChat').css('display','block');
