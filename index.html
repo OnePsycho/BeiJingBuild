@@ -238,15 +238,15 @@
 											</a>
 											<div class="slidenav-content" data-sidenav-dropdown v-cloak>
 												<div class="slidenav-classify-a">
-													<div class="pretty circle danger" v-for="(third,index) of item.sortPlatformTypes" v-cloak>
+													<div class="pretty circle danger" v-for="(third,index) of item.sortPlatformTypes" @click="platformTypeHandle(third.id,third.sortPlatformTypes)" v-cloak>
 														<input type="radio" name="radio1" >
-														<label :class="'label'+third.id" class="chooseLabel" @click="platformTypeHandle(third.id,third.sortPlatformTypes)"><i class="default" ></i> {{third.name}}</label>
-															<div class="pretty circle danger fourthItem" :class="'s'+third.id" v-for="fourth in third.sortPlatformTypes" v-cloak>
+														<label :class="'label'+third.id" class="chooseLabel" ><i class="default" ></i> {{third.name}}</label>
+															<div class="pretty circle danger fourthItem" :class="'s'+third.id" v-for="fourth in third.sortPlatformTypes"  @click="platformTypeHandle(fourth.id,fourth.sortPlatformTypes)" v-cloak>
 																<input type="radio" name="radio1" >
-																<label :class="'label'+fourth.id" class="chooseLabel" @click="platformTypeHandle(fourth.id,fourth.sortPlatformTypes)"><i class="default" ></i> {{fourth.name}}</label>
-																	<div class="pretty circle danger fifthItem" :class="'s'+fourth.id" v-for="fifth in fourth.sortPlatformTypes" v-cloak>
+																<label :class="'label'+fourth.id" class="chooseLabel"><i class="default" ></i> {{fourth.name}}</label>
+																	<div class="pretty circle danger fifthItem" :class="'s'+fourth.id" v-for="fifth in fourth.sortPlatformTypes" @click="platformTypeHandle(fifth.id,fifth.sortPlatformTypes)" v-cloak>
 																		<input type="radio" name="radio1" >
-																		<label :class="'label'+fifth.id" class="chooseLabel" @click="platformTypeHandle(fifth.id,fifth.sortPlatformTypes)"><i class="default" ></i> {{fifth.name}}</label>
+																		<label :class="'label'+fifth.id" class="chooseLabel" ><i class="default" ></i> {{fifth.name}}</label>
 																	</div>
 															</div>
 													</div>

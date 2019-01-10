@@ -304,6 +304,7 @@
 		methods: {
 			//人才展示点击事件
 			personnelTypeHandle: function(id,page) {
+				event.stopPropagation();	//阻止事件冒泡
 				var that = this;
 				console.log(this);
 				var index = layer.load();
@@ -379,14 +380,13 @@
 		methods: {
 			//问题展示点击事件
 			platformTypeHandle: function(id,data,e) {
-//				e.preventDefault();
+				event.stopPropagation();								
 				if($('.label'+id).hasClass('s-active')){
 					$('.s'+id).hide();
 					$('.label'+id).addClass('s-negative');
 					$('.label'+id).removeClass('s-active');
 					$('.sidenav-menu').find('input[type=radio]').attr('checked',false);
 				}else{
-					console.log(this);
 					$('.s'+id).show();
 					$('.label'+id).addClass('s-active');
 					$('.label'+id).removeClass('s-negative');

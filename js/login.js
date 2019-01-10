@@ -116,7 +116,6 @@ $('#phoneNum').bind("input propertychange", function(event) {
 	}
 });
 
-
 function perfectAction(type){
 		switch (type){
 					case "firstParty":
@@ -133,9 +132,12 @@ function perfectAction(type){
 				}
 }
 
+////手机获取验证码
+//$('#btnGetPhoneCode').on('click', function() {
+//	
+//})
 
-//手机获取验证码
-$('#btnGetPhoneCode').on('click', function() {
+function getCodeFn(){
 	var phone = $('#phoneNum').val().trim();
 	curCount = count;
 	if(!phoneFlag) {
@@ -155,12 +157,17 @@ $('#btnGetPhoneCode').on('click', function() {
 						url: apiUrl + "/client/api/assist/getLoginCode",
 						data: {
 							phoneNum: phone,
-							template:"register"
+							template:"login"
 						},
 						success: function(res) {
 							if(res.status == 200) {
-								$('.phoneTitle').css('margin', '-48px');
-								$("#btnGetPhoneCode").attr("disabled", "true");
+								if (window.ActiveXObject || "ActiveXObject" in window){
+										$('.phoneTitle').css('margin', '-90px');
+									}else{
+										$('.phoneTitle').css('margin', '-48px');
+									}
+								$("#btnGetPhoneCode").attr("onclick", "null");
+//								$("#btnGetPhoneCode").onclick = "";
 								$("#btnGetPhoneCode").html(curCount + "秒后重新获取");
 								InterValObj = window.setInterval(SetRemainTimesPhone, 1000); //启动计时器，1秒执行一次 
 							} else if(res.status == 403) {
@@ -174,7 +181,7 @@ $('#btnGetPhoneCode').on('click', function() {
 			}
 		})
 	}
-})
+}
 
 
 //手机timer处理函数 
@@ -182,10 +189,10 @@ function SetRemainTimesPhone() {
 	if(curCount == 0) {
 		$('.phoneTitle').css('margin', '-32px');
 		window.clearInterval(InterValObj); //停止计时器 
-		$("#btnGetPhoneCode").removeAttr("disabled"); //启用按钮 
+		$("#btnGetPhoneCode").attr("onclick", "getCodeFn()");
 		$("#btnGetPhoneCode").html("重新发送");
 	} else {
-		$('.phoneTitle').css('margin', '-48px');
+//		$('.phoneTitle').css('margin', '-48px');
 		curCount--;
 		$("#btnGetPhoneCode").html(curCount + "秒后重新获取");
 
@@ -202,22 +209,24 @@ $('#loginBtnByCode').on('click',function(){
 		var index = layer.load();
 		$.ajax({
 			type: "POST",
-			url: apiUrl + '/client/mobileLogin',
+			url: apiUrl+'/admin/login',
 			crossDomain: true == !(document.all),
 			xhrFields: {withCredentials: true},
 			data:{
-				phoneNum:phoneNum,
-				code:code
+				username:phoneNum+'c',
+				password:code
 			},
 			success: function(res) {
 				layer.close(index);
-				console.log(res);
+					console.log(res);
 				if(res.status == "200") {
-					sessionStorage.setItem('member',JSON.stringify(res.data));
 					if(!res.data.memberExt){
 						layer.msg("登录成功！请完善个人信息！",{icon: 1});
-						perfectAction(res.data.type);
+						sessionStorage.setItem('member',JSON.stringify(res.data.member));
+						sessionStorage.setItem('r_code',res.data.code);
+						perfectAction(res.data.member.type);
 					}else{
+						sessionStorage.setItem('member',JSON.stringify(res.data));
 						layer.msg('登录成功！',{icon:1,time:1000});
 						setTimeout(function(){
 						 window.location.href = 'index.html';
@@ -229,11 +238,13 @@ $('#loginBtnByCode').on('click',function(){
 					//未通过审核 重新完善信息
 //					layer.msg("账号未通过管理员审核！",{icon: 5});
 					layer.open({
-					  content: '账号未通过管理员审核！请完善个人信息！',
+					  content: '账号未通过管理员审核！请重新填写个人信息！',
 					  icon:5,
 					  yes: function(index, layero){
-						  perfectAction(res.data.type);
-						  sessionStorage.setItem('member',JSON.stringify(res.data));
+						  perfectAction(res.data.member.type);
+						  sessionStorage.setItem('member',JSON.stringify(res.data.member));
+						  sessionStorage.setItem('r_code',res.data.code);
+						  
 					    layer.close(index); //如果设定了yes回调，需进行手工关闭
 					  }
 					});  
@@ -244,8 +255,8 @@ $('#loginBtnByCode').on('click',function(){
 						  content: '账号正在审核中！请先完善您的个人信息！',
 						  icon:5,
 						  yes: function(index, layero){
-							  perfectAction(res.data.type);
-							  sessionStorage.setItem('member',JSON.stringify(res.data));
+							  perfectAction(res.data.member.type);
+							  sessionStorage.setItem('member',JSON.stringify(res.data.member));
 						    layer.close(index); //如果设定了yes回调，需进行手工关闭
 						  }
 						});  

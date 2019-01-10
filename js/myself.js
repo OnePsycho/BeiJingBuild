@@ -378,7 +378,7 @@ function wxCash(amount,memberId){
 		data:{
 			amount:amount,
 			memberId:member.id,
-			description:"微信提现描述"
+			description:"答题系统提现"
 		},
 		success:function(res){
 			var index = layer.load();
@@ -424,15 +424,15 @@ function aliCash(account,amount){
 				case "200":
 					layer.closeAll();
 					getMemberInfoById(member.id);
-					layer.msg("操作成功！预计1个工作日内到账！",{icon:1,time:1000});
+					layer.msg("操作成功！预计1个工作日内到账！",{icon:1,time:1500});
 					break;
 				case "1002":
 					layer.closeAll();
-					layer.msg("账户余额不足！",{icon:5,time:1000});
+					layer.msg("账户余额不足！",{icon:5,time:1500});
 					break;
 				case "1101":
 					layer.closeAll();
-					layer.msg("提现失败，请检查账号是否正确！",{icon:5,time:1000});
+					layer.msg("提现失败，请检查账号是否正确！",{icon:5,time:1500});
 					break;
 				default:
 					break;
@@ -611,9 +611,11 @@ function modifyNewsStatus(index,id){
 		data:{_method:'PUT'},
 		success:function(res){
 			var count = sessionStorage.getItem('newsCount');
-			sessionStorage.setItem('newsCount',--count);
-			$('#messageDot').text(count);
-			$('.newsItem').eq(index).find('.layui-badge-dot').hide();
+			if(count>0){
+				sessionStorage.setItem('newsCount',--count);
+				$('#messageDot').text(count);
+				$('.newsItem').eq(index).find('.layui-badge-dot').hide();
+			}
 			modifyFinish = true;
 		}
 	});
