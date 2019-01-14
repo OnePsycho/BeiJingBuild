@@ -308,9 +308,10 @@
 				var that = this;
 				var index = layer.load();
 				if($('.personLabel'+id).hasClass('s-active')){
-					$('.personLabel'+id).addClass('s-negative');
-					$('.personLabel'+id).removeClass('s-active');
-					$('.sidenav-menu').find('input[type=radio]').attr('checked',false);
+//					$('.personLabel'+id).addClass('s-negative');
+//					$('.personLabel'+id).removeClass('s-active');
+//					$('.sidenav-menu').find('input[type=radio]').attr('checked',false);
+					layer.close(index);
 				}else{
 					$('.personLabel'+id).addClass('s-active');
 					$('.personLabel'+id).removeClass('s-negative');

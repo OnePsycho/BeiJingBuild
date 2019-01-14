@@ -217,7 +217,7 @@ body,html{
 .menu-buttons {
 	width: 90%;
 	position: absolute;
-	bottom: 50px;
+	margin-top: 150px;
 }
 
 .menu-button {

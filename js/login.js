@@ -68,6 +68,7 @@ $('#loginBtn').on('click',function(){
 						  yes: function(index, layero){
 							  perfectAction(res.data.member.type);
 							  sessionStorage.setItem('member',JSON.stringify(res.data.member));
+							  sessionStorage.setItem('r_code',res.data.code);
 						    layer.close(index); //如果设定了yes回调，需进行手工关闭
 						  }
 						});  

@@ -202,6 +202,7 @@ $(function() {
 			area: ['600px', '400px']
 			});
 		document.getElementById("btnCashBoxForm").reset();
+		document.getElementById("wxCashBox").reset();
 	})
 	
 	$('#btnRecharge').on('click',function(){

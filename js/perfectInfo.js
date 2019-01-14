@@ -41,7 +41,7 @@ var projectDatas = new Vue({
 })
 
 //账号回显不可修改
-if(member.phoneNum != "") {
+if(member.phoneNum) {
 	$('input[name=u_phoneNum]').attr("readonly", true);
 } else {
 	$('input[name=u_email]').attr("readonly", true);
