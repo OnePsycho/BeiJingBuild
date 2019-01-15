@@ -161,7 +161,7 @@
 						  <p>* 支付宝将收取您 <span id="chargeValue" style="color: rgb(139,22,11);">0</span> (0.6%)的手续费</p>
 						  <div class="layui-form-item" style="margin-left: 50px;margin-top: 30px;">
 						    <div class="layui-input-block">
-						      <button class="layui-btn" lay-submit lay-filter="aliForm">确定</button>
+						      <button class="layui-btn" lay-submit lay-filter="aliForm" id="aliSubmitCash">确定</button>
 						      <button type="reset" class="layui-btn" onclick="layer.closeAll()">取消</button>
 						    </div>
 						  </div>
@@ -189,7 +189,7 @@
 						  <!--<p>微信会收取0.06%的手续费</p>-->
 						  <div class="layui-form-item" style="margin-left: 50px;margin-top: 30px;">
 						    <div class="layui-input-block">
-						      <button class="layui-btn" lay-submit lay-filter="wxForm">确定</button>
+						      <button class="layui-btn" lay-submit lay-filter="wxForm" id="wxSubmitCash">确定</button>
 						      <button type="reset" class="layui-btn" onclick="layer.closeAll()">取消</button>
 						    </div>
 						  </div>
@@ -229,7 +229,7 @@
 						  </div>
 						  <div class="layui-form-item" style="margin-left: 50px;margin-top: 30px;">
 						    <div class="layui-input-block">
-						      <button class="layui-btn" lay-submit lay-filter="reChargeForm">确定</button>
+						      <button class="layui-btn" lay-submit lay-filter="reChargeForm" id="submitRecharge">确定</button>
 						      <button type="reset" class="layui-btn" onclick="layer.closeAll()">取消</button>
 						    </div>
 						  </div>

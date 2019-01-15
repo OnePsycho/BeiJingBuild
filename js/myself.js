@@ -237,7 +237,9 @@ $(function() {
 		if(data.field.amount<1){
 			layer.msg('最低提现金额为1元！');
 		}else{
+			$('#aliSubmitCash').attr('disabled','disabled');
 			aliCash(data.field.aliAccount,data.field.amount);
+			$('#aliSubmitCash').removeAttr('disabled');
 		}
 
 		return false;
@@ -248,7 +250,9 @@ $(function() {
 		if(data.field.amount<1){
 			layer.msg('最低提现金额为1元！');
 		}else{
+			$('#wxSubmitCash').attr('disabled','disabled');
 			wxCash(data.field.amount);
+			$('#wxSubmitCash').removeAttr('disabled');
 		}
 		return false;
 	});
@@ -263,10 +267,14 @@ $(function() {
 					layer.msg("请选择支付方式！",{icon:1,time:1000});
 					break;
 				case "支付宝充值":
+					$('#submitRecharge').attr('disabled','disabled');
 					payByAli(data.field.amount);
+					$('#submitRecharge').removeAttr('disabled');
 					break;
 				case "微信支付":
+					$('#submitRecharge').attr('disabled','disabled');
 					payByWechat(data.field.amount);
+					$('#submitRecharge').removeAttr('disabled');
 					break;
 				default:
 					break;

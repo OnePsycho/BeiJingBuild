@@ -153,18 +153,7 @@ layui.use('form', function() {
 		if(PMInfo==""){
 			layer.msg("请先邀请项目经理！")
 		}else{
-//			var formData = new FormData();
-//			formData.append("content", submitInfo.description);
-//			formData.append("publishDate", submitInfo.joinDate.split(',')[0]);
-//			formData.append("finishDate", submitInfo.joinDate.split(',')[1]);
-//			formData.append("platformId", submitInfo.platformId.split('/')[submitInfo.platformId.split('/').length-1]);
-//			formData.append("projectName", submitInfo.projectName);
-//			formData.append("reward", submitInfo.reward);
-//			formData.append("title", submitInfo.title);
-//			formData.append("notice", submitInfo.notice);
-//			for (var index = 0; index < submitInfo.attachments.length; index++) {
-//				formData.append("atts", submitInfo.attachments[index]);
-//			}
+			$('#btnSubmitQuestion').attr('disabled',true);
 			$.ajax({
 				type:"post",
 				url:apiUrl+"/client/api/question/add",
@@ -210,6 +199,7 @@ layui.use('form', function() {
 				},
 				error:function(res){
 					layer.msg("发布失败！",{icon:5});
+					$('#btnSubmitQuestion').removeAttr('disabled');
 				}
 			});
 		}
