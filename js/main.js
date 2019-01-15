@@ -271,7 +271,8 @@
 					url:apiUrl+"/client/api/question/findMyPage",
 					async:true,
 					data:{
-						sort:'id,desc'
+						sort:'id,desc',
+						status:'normal'
 					},
 					success:function(res){
 						console.log(res.content);

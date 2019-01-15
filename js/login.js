@@ -73,6 +73,8 @@ $('#loginBtn').on('click',function(){
 						  }
 						});  
 					}
+				}else if(res.status == "1002") {
+					layer.msg("账号已被禁用！请联系管理员！",{icon: 5});
 				} else {
 					layer.close(index);
 					layer.msg("登录失败！",{icon: 5,time:1000});

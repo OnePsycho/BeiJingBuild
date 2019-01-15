@@ -278,13 +278,13 @@ $(function() {
 	
 	$('#inputAliPay').bind('input propertychange', function() {  
 		var a = $('#inputAliPay').val();
-		var b = (a*0.0006).toFixed(2);
+		var b = (a*0.006).toFixed(2);
 		$('#chargeValue').text(b);
 	});
 
 	$('#inputWxPay').bind('input propertychange', function() {  
 		var a = $('#inputWxPay').val();
-		var b = (a*0.0006).toFixed(2);
+		var b = (a*0.006).toFixed(2);
 		$('#chargeValueWx').text(b);
 	});
 });
@@ -613,9 +613,13 @@ function modifyNewsStatus(index,id){
 		data:{_method:'PUT'},
 		success:function(res){
 			var count = sessionStorage.getItem('newsCount');
-			if(count>0){
+			if(count>1){
 				sessionStorage.setItem('newsCount',--count);
 				$('#messageDot').text(count);
+				$('.newsItem').eq(index).find('.layui-badge-dot').hide();
+			}else if(count == 1){
+				sessionStorage.setItem('newsCount',--count);
+				$('#messageDot').hide();
 				$('.newsItem').eq(index).find('.layui-badge-dot').hide();
 			}
 			modifyFinish = true;

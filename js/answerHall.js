@@ -276,7 +276,7 @@ layui.use('form', function() {
 		    				}
 		    				
 		    				layer.closeAll();
-							layer.msg(sucMember.join(',')+"邀请成功，"+errorMember.join(',')+"邀请失败，"+invitedMember.join(',')+"已被邀请过！",{icon:1});
+							layer.msg("邀请完成！ "+sucMember.join(',')+"邀请成功",{icon:1});
 		    			},
 		    			error:function(err){
 		    				console.log(err);

@@ -206,7 +206,7 @@ layui.use('form', function() {
 		};
 		
 		for(var i=0;i<reward.length;i++){
-			totalReward += parseInt(reward[i]);
+			totalReward += parseFloat(reward[i]);
 		};
 		
 		if(totalReward>questionReward){

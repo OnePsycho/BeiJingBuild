@@ -8,10 +8,6 @@ var InterValObj; //timer变量，控制时间
 var count = 60; //间隔函数，1秒执行 
 var curCount; //当前剩余秒数 
 var currentId;//当前注册成功用户ID
-//var apiUrl = "http://192.168.0.18:8000"
-//var apiUrl = "http://test.frp.rongyaotech.com"
-var imgUrl = "http://39.104.239.208"
-var apiUrl = "http://39.104.239.208:9111"
 layui.use('layer', function(){
   var layer = layui.layer;
 });  

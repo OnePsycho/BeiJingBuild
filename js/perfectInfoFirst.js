@@ -1,7 +1,8 @@
 var licenceUrl = {'businessLicence':""};
-var member = JSON.parse(sessionStorage.getItem('p_member'));
+var member = JSON.parse(sessionStorage.getItem('member'));
 var submitData;
 var attachments;
+var requestUrl;
 var fileResult;
 layui.use('upload', function(){
   var upload = layui.upload;
@@ -61,10 +62,13 @@ layui.use('form', function(){
 $('#btnSubmit').on('click',function(){
 	$('#btnSubmitFirst').trigger('click');
     var submitInfo = $.extend(submitData,licenceUrl);
-    console.log(submitInfo);
-    if(!submitData){
-//  	layer.msg("请先填写完整！");
-    }else if(!submitInfo.check){
+    if(member.memberExt){
+    	requestUrl = "/client/api/memberExt/update?_method=put";
+    }else{
+    	requestUrl = "/client/api/memberExt/add";
+    }
+    if(!submitData){}
+    else if(!submitInfo.check){
     	layer.msg("请先确认项目为合同后项目噢！")
     }else if(submitInfo.businessLicence==""||!submitInfo.businessLicence){
     	layer.msg("请上传营业执照噢！")
@@ -73,7 +77,7 @@ $('#btnSubmit').on('click',function(){
     	$.ajax({
 			type: "POST",
 			async:true,
-			url: apiUrl + "/client/api/memberExt/add",
+			url: apiUrl + requestUrl,
 			data: {
 				memberId:member.id,
 				address: submitInfo.address,
@@ -93,6 +97,8 @@ $('#btnSubmit').on('click',function(){
 					},1000);
 				}else if(member.status=="normal"){
 					layer.msg("提交成功！",{icon:1});
+					member.memberExt = res;
+					sessionStorage.setItem('member',JSON.stringify(member));
 					setTimeout(function(){
 					 window.location.href = 'index.html';
 					},1000);

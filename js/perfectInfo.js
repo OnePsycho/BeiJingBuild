@@ -136,6 +136,8 @@ $('#btnSubmit').on('click', function() {
 					layer.msg("提交成功！", {
 						icon: 1
 					});
+					member.memberExt = res;
+					sessionStorage.setItem('member',JSON.stringify(member));
 					setTimeout(function() {
 						window.location.href = 'index.html';
 					}, 1000);
